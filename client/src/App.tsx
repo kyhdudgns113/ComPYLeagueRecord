@@ -1,19 +1,20 @@
-import {BrowserRouter} from 'react-router-dom'
-import {Provider} from 'react-redux'
-
-import {store} from '@redux'
+import {Route, Routes} from 'react-router-dom'
 
 import {Template} from './template'
+
+import * as P from './pages'
 
 import './base/styles/App.css'
 
 function App() {
   return (
-    <BrowserRouter>
-      <Provider store={store}>
-        <Template />
-      </Provider>
-    </BrowserRouter>
+    <Routes>
+      <Route path="/" element={<P.RedirectHomePage />} />
+
+      <Route path="/main/*" element={<Template />}>
+        <Route index element={<P.IntroPage />} />
+      </Route>
+    </Routes>
   )
 }
 
