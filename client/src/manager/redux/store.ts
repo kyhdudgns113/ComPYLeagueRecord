@@ -6,6 +6,7 @@ import * as Slices from './slices'
 export const store = configureStore({
   reducer: {
     base: Slices.BaseSlice.reducer,
+    record: Slices.RecordSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
