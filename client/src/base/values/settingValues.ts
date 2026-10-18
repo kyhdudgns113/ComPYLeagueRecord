@@ -1,0 +1,1 @@
+export const SETTING_ORDER_CNT = 5

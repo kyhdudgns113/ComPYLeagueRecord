@@ -1,0 +1,32 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "allowSyntheticDefaultImports": true,
+    "target": "ES2023",
+    "sourceMap": true,
+    "rootDir": "./",
+    "outDir": "./dist",
+    "incremental": true,
+    "skipLibCheck": true,
+    "strictNullChecks": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false,
+    "strictBindCallApply": false,
+    "noFallthroughCasesInSwitch": false,
+
+    "paths": {
+      "@commonType": [ "./src/base/types/CommonTypes" ],
+      "@dtoType": [ "./src/base/types/DtoTypes" ],
+      "@httpType": [ "./src/base/types/HTTPTypes" ],
+
+      "@objectTye": [ "./src/base/types/ObjectTypes" ],
+      "@secret": [ "./src/base/secret" ],
+      "@util": [ "./src/base/utils" ],
+      "@value": [ "./src/base/values" ]
+    }
+  }
+}

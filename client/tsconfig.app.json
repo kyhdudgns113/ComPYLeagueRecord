@@ -1,0 +1,46 @@
+{
+  "compilerOptions": {
+    "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.app.tsbuildinfo",
+    "target": "es2023",
+    "lib": [ "ES2023", "DOM" ],
+    "module": "esnext",
+    "types": [ "vite/client" ],
+    "allowArbitraryExtensions": true,
+    "skipLibCheck": true,
+
+    /* Bundler mode */
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "verbatimModuleSyntax": true,
+    "moduleDetection": "force",
+    "noEmit": true,
+    "jsx": "react-jsx",
+
+    /* Linting */
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "erasableSyntaxOnly": true,
+    "noFallthroughCasesInSwitch": true,
+
+    /* Should copy in vite.config.ts*/
+    "paths": {
+      "@styles/*": [ "./src/base/styles/*" ],
+
+      "@commonType": [ "./src/base/types/CommonTypes" ],
+      "@component": [ "./src/base/components" ],
+      "@context": [ "./src/manager/contexts" ],
+      "@fetch": [ "./src/base/fetch" ],
+
+      "@httpType": [ "./src/base/types/HTTPTypes" ],
+      "@localType": [ "./src/base/types/LocalTypes" ],
+      "@objectType": [ "./src/base/types/ObjectTypes" ],
+
+      "@prop": [ "./src/base/types/props" ],
+      "@redux": [ "./src/manager/redux" ],
+      "@secret": [ "./src/base/secret" ],
+      "@util": [ "./src/base/utils" ],
+      "@value": [ "./src/base/values" ]
+    }
+  },
+  "include": [ "src" ]
+}
