@@ -7,11 +7,14 @@ import {store} from '@redux'
 import App from './App.tsx'
 
 import './base/styles/index.css'
+import {URLProvider} from './manager/context/index.ts'
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>
     <Provider store={store}>
-      <App />
+      <URLProvider>
+        <App />
+      </URLProvider>
     </Provider>
   </BrowserRouter>
 )

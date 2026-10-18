@@ -5,7 +5,7 @@ import * as CT from '@commonType'
 
 export const useBaseStates = () => useAppSelector(state => state.base)
 
-export const useBaseMeActions = () => {
+export const useBaseActions = () => {
   const dispatch = useAppDispatch()
 
   return {
