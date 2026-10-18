@@ -13,6 +13,14 @@ function App() {
 
       <Route path="/main/*" element={<Template />}>
         <Route index element={<P.IntroPage />} />
+
+        <Route path="setting/*">
+          <Route index element={<P.SettingPage />} />
+        </Route>
+
+        <Route path="pitchRecord/*">
+          <Route index element={<P.PitchRecordPage />} />
+        </Route>
       </Route>
     </Routes>
   )

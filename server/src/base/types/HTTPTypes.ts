@@ -5,6 +5,7 @@ export type HTTP_AddBatter = {
   batterHand: CT.Type_BatterHand
   batterNum: number
   hasPressureSkill: boolean
+  leagueNum: number
   name: string
   teamName: CT.Type_Team
 }
@@ -22,6 +23,7 @@ export type HTTP_AddLeague = {
 }
 
 export type HTTP_AddPitcher = {
+  leagueNum: number
   name: string
   pitcherHand: CT.Type_PitcherHand
   pitcherType: CT.Type_Pitcher

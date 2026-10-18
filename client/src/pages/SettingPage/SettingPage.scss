@@ -1,0 +1,26 @@
+.Template {
+  .SettingPage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    width: 100%;
+
+    .Title_Page {
+      font-size: 24px;
+      font-weight: 700;
+
+      margin-top: 24px;
+    }
+
+    .Body_Page {
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+
+      height: fit-content;
+      width: fit-content;
+    }
+  }
+}

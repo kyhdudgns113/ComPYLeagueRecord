@@ -1,0 +1,80 @@
+.SettingPage {
+  .LeaguePart {
+    // border-color: #000000;
+    // border-radius: 16px;
+    // border-style: solid;
+    // border-width: 2px;
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+
+    transition: box-shadow 0.2s ease;
+
+    width: fit-content;
+
+    .Title_Part {
+      font-size: 20px;
+      font-weight: 700;
+
+      padding-bottom: 4px;
+      padding-top: 4px;
+
+      text-align: center;
+      user-select: none;
+      width: 200px;
+    }
+    
+    .Table_Part {
+      border-collapse: collapse;
+      border-color: #000000;
+      border-style: solid;
+      border-width: 4px;
+
+      thead {
+        border-color: #000000;
+        border-style: solid;
+        border-bottom-width: 4px;
+        border-left-width: 0px;
+        border-right-width: 0px;
+        border-top-width: 0px;
+
+        th {
+          border-color: #000000;
+          border-style: solid;  
+          border-bottom-width: 4px;
+          border-left-width: 0px;
+          border-right-width: 1px;
+          border-top-width: 0px;
+
+          &.th-number {
+            width: 40px;
+          }
+          &.th-createdAt {
+            width: 100px;
+          }
+          &.th-description {
+            width: 200px;
+          }
+        }
+      }
+
+      tbody {
+
+        tr {
+          td {
+            border-color: #000000;
+            border-style: solid;
+            border-bottom-width: 4px;
+            border-left-width: 0px;
+            border-right-width: 1px;
+            border-top-width: 0px;
+
+            text-align: center;
+          }
+        }
+      }
+    }
+  }
+}
