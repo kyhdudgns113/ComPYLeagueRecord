@@ -1,0 +1,21 @@
+@use '../../base/styles/values.scss' as v;
+
+.Template {
+  .Lefter {
+    background-color: v.$SAKURA_BG_30;
+
+    border-color: v.$SAKURA_BORDER;
+    border-style: solid;
+    border-width: 4px;
+
+    left: 0;
+
+    min-height: 400px;
+
+    position: absolute;
+
+    top: 0;
+
+    width: 200px;
+  }
+}
