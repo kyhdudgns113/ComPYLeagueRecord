@@ -1,7 +1,7 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import * as P from './parts'
+import * as U from './units'
 
 import './SettingPage.scss'
 
@@ -15,9 +15,9 @@ export const SettingPage: FC<SettingPageProps> = ({...props}) => {
 
       {/* 2. 몸통 */}
       <div className={`Body_Page`}>
-        <P.LeaguePart />
-        <P.TeamPart />
-        <P.PlayerPart />
+        <U.LeagueUnit />
+        <U.TeamUnit />
+        <U.PlayerUnit />
       </div>
     </div>
   )
