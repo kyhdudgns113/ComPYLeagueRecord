@@ -1,7 +1,7 @@
-import {useCallback} from 'react'
+import {useCallback, useEffect, useState} from 'react'
 import {useNavigate} from 'react-router-dom'
 
-import {useLeagueNum} from '@redux'
+import {useLeagueNumSetting} from '@redux'
 
 import type {FC} from 'react'
 import type {ButtonCommonProps} from '@prop'
@@ -16,8 +16,9 @@ type TeamButtonProps = ButtonCommonProps & {
 }
 
 export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
-  const leagueNum = useLeagueNum()
+  const [isSelected, setIsSelected] = useState<boolean>(false)
 
+  const leagueNumSetting = useLeagueNumSetting()
   const navigate = useNavigate()
 
   const onClickButton = useCallback(
@@ -28,8 +29,12 @@ export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
     [navigate]
   )
 
+  useEffect(() => {
+    setIsSelected(false)
+  }, [leagueNumSetting, teamIdx])
+
   return (
-    <button className={`TeamButton`} onClick={onClickButton(leagueNum, teamIdx)} {...props}>
+    <button className={`TeamButton ${isSelected ? '_selected' : ''}`} onClick={onClickButton(leagueNumSetting, teamIdx)} {...props}>
       {V.TEAM_NAME[teamIdx]}
     </button>
   )

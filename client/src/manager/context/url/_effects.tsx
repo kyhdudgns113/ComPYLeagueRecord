@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useEffectEvent} from 'react'
 import {useLocation} from 'react-router-dom'
 
-import {useBaseActions, useRecordActions, useSettingActions} from '@redux'
+import {useBaseActions, useSettingActions} from '@redux'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -10,8 +10,8 @@ import type {FC, PropsWithChildren} from 'react'
  * - 초기화할 상태들을 놓치는 일을 방지하고자함
  */
 type ResetStatesType = {
-  leagueNum: boolean
-  teamIdx: boolean
+  leagueNumSetting: boolean
+  teamIdxSetting: boolean
 }
 
 // prettier-ignore
@@ -23,25 +23,24 @@ export const useURLEffectsContext = () => useContext(URLEffectsContext)
 
 export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   const {clearLefterTab, setLefterPitchRecord, setLefterSetting} = useBaseActions()
-  const {clearLeagueNum, setLeagueNum} = useRecordActions()
-  const {setTeamIdx, clearTeamIdx} = useSettingActions()
+  const {clearLeagueNumSetting, clearTeamIdxSetting, setLeagueNumSetting, setTeamIdxSetting} = useSettingActions()
   const location = useLocation()
 
   const resetStates = useEffectEvent((arg: ResetStatesType) => {
     /**
      * 초기화 해줘야 할 값을 놓치는 일을 방지하고자함
      */
-    if (arg.leagueNum) {
-      clearLeagueNum()
+    if (arg.leagueNumSetting) {
+      clearLeagueNumSetting()
     }
-    if (arg.teamIdx) {
-      clearTeamIdx()
+    if (arg.teamIdxSetting) {
+      clearTeamIdxSetting()
     }
   })
 
   const processPitchRecord = useEffectEvent(() => {
     setLefterPitchRecord()
-    resetStates({leagueNum: true, teamIdx: true})
+    resetStates({leagueNumSetting: true, teamIdxSetting: true})
   })
 
   const processSetting = useEffectEvent((splitArr: string[]) => {
@@ -49,27 +48,27 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
     if (splitArr.length > 1) {
       const leagueNum = parseInt(splitArr[1])
       if (!isNaN(leagueNum)) {
-        setLeagueNum(leagueNum)
+        setLeagueNumSetting(leagueNum)
 
         if (splitArr.length > 2) {
           const teamIdx = parseInt(splitArr[2])
           if (!isNaN(teamIdx)) {
-            setTeamIdx(teamIdx)
+            setTeamIdxSetting(teamIdx)
           } // ::
           else {
-            resetStates({leagueNum: false, teamIdx: true})
+            resetStates({leagueNumSetting: false, teamIdxSetting: true})
           }
         } // ::
         else {
-          resetStates({leagueNum: false, teamIdx: true})
+          resetStates({leagueNumSetting: false, teamIdxSetting: true})
         }
       } // ::
       else {
-        resetStates({leagueNum: true, teamIdx: true})
+        resetStates({leagueNumSetting: true, teamIdxSetting: true})
       }
     } // ::
     else {
-      resetStates({leagueNum: true, teamIdx: true})
+      resetStates({leagueNumSetting: true, teamIdxSetting: true})
     }
   })
 
@@ -90,13 +89,13 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           break
         default:
           clearLefterTab()
-          resetStates({leagueNum: true, teamIdx: true})
+          resetStates({leagueNumSetting: true, teamIdxSetting: true})
           break
       }
     } // ::
     else {
       clearLefterTab()
-      resetStates({leagueNum: true, teamIdx: true})
+      resetStates({leagueNumSetting: true, teamIdxSetting: true})
     }
   }, [location])
 

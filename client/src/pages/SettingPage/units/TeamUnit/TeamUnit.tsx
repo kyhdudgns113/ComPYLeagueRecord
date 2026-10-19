@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react'
 
-import {useLeagueNum} from '@redux'
+import {useLeagueNumSetting} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -15,19 +15,19 @@ type TeamUnitProps = DivCommonProps
 export const TeamUnit: FC<TeamUnitProps> = ({...props}) => {
   const [isHidden, setIsHidden] = useState<boolean>(true)
 
-  const leagueNum = useLeagueNum()
+  const leagueNumSetting = useLeagueNumSetting()
 
   const halfLen = Math.floor(V.TEAM_IDX_ARR.length / 2)
 
   useEffect(() => {
-    setIsHidden(leagueNum === null || leagueNum === undefined)
-  }, [leagueNum])
+    setIsHidden(leagueNumSetting === null || leagueNumSetting === undefined)
+  }, [leagueNumSetting])
 
   return (
     <div className={`TeamUnit`} {...props}>
       <div hidden={isHidden}>
         {/* 1. 타이틀 */}
-        <p className={`Title_Unit`}>{`[리그 ${leagueNum}] 팀 선택`}</p>
+        <p className={`Title_Unit`}>{`[리그 ${leagueNumSetting}] 팀 선택`}</p>
 
         {/* 2. 팀 행 1 */}
         <div className={`TeamRow_Unit row_1`}>
