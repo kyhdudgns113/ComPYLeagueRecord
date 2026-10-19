@@ -6,6 +6,7 @@ export type ButtonCommonProps = CommonProps<HTMLButtonElement>
 export type DivCommonProps = CommonProps<HTMLDivElement>
 export type ImageCommonProps = CommonProps<HTMLImageElement>
 export type InputCommonProps = CommonProps<HTMLInputElement>
+export type ModalCommonProps = CommonProps<HTMLDivElement>
 export type OptionCommonProps = CommonProps<HTMLOptionElement>
 export type ParagraphCommonProps = CommonProps<HTMLParagraphElement>
 export type SelectCommonProps = CommonProps<HTMLSelectElement>

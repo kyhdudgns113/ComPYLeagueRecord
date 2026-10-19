@@ -9,9 +9,8 @@ export const useCopyMeActions = () => {
   return {
     switchCopyMe: () => dispatch(copyMeSlice.actions.switchCopyMe()),
     setCountCopyMe: (count: number) => dispatch(copyMeSlice.actions.setCountCopyMe(count)),
-    setArgsCopyMe: (count: number, name: string) => dispatch(copyMeSlice.actions.setArgsCopyMe({count, name}))
+    setArgsCopyMe: (count: number, name: string) => dispatch(copyMeSlice.actions.setArgsCopyMe({count, name})),
   }
 }
 
-export const useCopyMeCount = () => useAppSelector(state => state.copyMe.count)
-
+// export const useCopyMeCount = () => useAppSelector(state => state.copyMe.count)
