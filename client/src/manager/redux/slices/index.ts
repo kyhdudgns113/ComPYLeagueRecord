@@ -1,4 +1,6 @@
 export * from './Base'
+export * from './Batter'
 export * from './Modal'
+export * from './Pitcher'
 export * from './Record'
 export * from './Setting'

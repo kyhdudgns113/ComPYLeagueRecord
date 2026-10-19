@@ -6,17 +6,12 @@ import * as Slices from './slices'
 export const store = configureStore({
   reducer: {
     base: Slices.BaseSlice.reducer,
+    batter: Slices.BatterSlice.reducer,
     modal: Slices.ModalSlice.reducer,
+    pitcher: Slices.PitcherSlice.reducer,
     record: Slices.RecordSlice.reducer,
     setting: Slices.SettingSlice.reducer,
   },
-  middleware: getDefaultMiddleware =>
-    getDefaultMiddleware({
-      serializableCheck: {
-        ignoredActions: ['file/setFile', 'comment/setCommentReplyArr'],
-        ignoredPaths: ['file', 'comment'],
-      },
-    }),
 })
 
 export type AppState = ReturnType<typeof store.getState>

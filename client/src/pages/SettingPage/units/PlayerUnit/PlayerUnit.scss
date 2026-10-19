@@ -1,18 +1,25 @@
 .SettingPage {
   .PlayerUnit {
-    border-color: #000000;
-    border-radius: 16px;
-    border-style: solid;
-    border-width: 2px;
 
     height: 400px;
 
     transition: box-shadow 0.2s ease;
 
-    width: fit-content;
+    min-width: 400px;
 
-    &:hover {
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    .Container_Unit {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 24px;
+      justify-content: center;
+
+      &.hidden {
+        display: none;
+      }
+
+
     }
+
   }
 }
