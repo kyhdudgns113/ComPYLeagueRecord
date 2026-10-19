@@ -5,9 +5,9 @@ import {SettingService} from './Setting.service'
 export class SettingController {
   constructor(private readonly settingService: SettingService) {}
 
-  @Get('/copyGet/:testArg')
-  async copyGet(@Param('testArg') testArg: any) {
-    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.copyMeGet(testArg)
+  @Get('/getLeagueArr')
+  async getLeagueArr() {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.getLeagueArr()
     return {ok, body, gkdErrMsg, statusCode}
   }
 }
