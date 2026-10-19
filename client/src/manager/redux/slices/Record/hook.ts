@@ -22,3 +22,4 @@ export const useRecordActions = () => {
 }
 
 export const useLeagueNum = () => useAppSelector(state => state.record.leagueNum)
+export const useLeagueArr = () => useAppSelector(state => state.record.leagueArr)
