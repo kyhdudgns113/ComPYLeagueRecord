@@ -1,4 +1,5 @@
 export * from './alertErrors'
+export * from './convert'
 export * from './localStorageP'
 export * from './readWriteObjectP'
 export * from './writeJwtFromServer'

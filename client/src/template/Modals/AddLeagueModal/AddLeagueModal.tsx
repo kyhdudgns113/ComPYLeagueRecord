@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
+import {useSettingCallbacksContext} from '@context'
 import {useLeagueArr, useModalActions} from '@redux'
 
 import type {FC} from 'react'
@@ -13,28 +14,41 @@ type AddLeagueModalProps = ModalCommonProps
 export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
   const leagueArr = useLeagueArr()
   const {closeModal} = useModalActions()
+  const {addLeague} = useSettingCallbacksContext()
 
   const [description, setDescription] = useState<string>('')
 
   const newLeagueNum = leagueArr.length + 1
 
-  const _submit = useCallback((newLeagueNum: number) => {
-    //
-  }, [])
+  const _submit = useCallback(
+    (description: string, newLeagueNum: number) => {
+      addLeague(description, newLeagueNum).then(res => {
+        if (res.isSuccess) {
+          closeModal()
+        } // ::
+        else {
+          if (res.errMsg) {
+            alert(`[AddLeagueModal] ${res.errMsg}`)
+          }
+        }
+      })
+    },
+    [addLeague, closeModal]
+  )
 
   const onClickSubmit = useCallback(
-    (newLeagueNum: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    (description: string, newLeagueNum: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
-      _submit(newLeagueNum)
+      _submit(description, newLeagueNum)
     },
     [_submit]
   )
 
   const onKeyDownModal = useCallback(
-    (newLeagueNum: number) => (e: React.KeyboardEvent<HTMLDivElement>) => {
+    (description: string, newLeagueNum: number) => (e: React.KeyboardEvent<HTMLDivElement>) => {
       switch (e.key) {
         case 'Enter':
-          _submit(newLeagueNum)
+          _submit(description, newLeagueNum)
           break
         case 'Escape':
           closeModal()
@@ -45,7 +59,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
   )
 
   return (
-    <Modal className={`AddLeagueModal`} onClose={closeModal} onKeyDown={onKeyDownModal(newLeagueNum)} {...props}>
+    <Modal className={`AddLeagueModal`} onClose={closeModal} onKeyDown={onKeyDownModal(description, newLeagueNum)} {...props}>
       {/* 1. 타이틀 */}
       <p className={`Title_Modal`}>{`리그 ${leagueArr.length + 1} 추가`}</p>
 
@@ -64,7 +78,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
 
       {/* 3. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(newLeagueNum)}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(description, newLeagueNum)}>
           추가
         </button>
         <button className={`Button_Modal`} onClick={closeModal}>

@@ -28,7 +28,7 @@
 
       "@commonType": [ "./src/base/types/CommonTypes" ],
       "@component": [ "./src/base/components" ],
-      "@context": [ "./src/manager/contexts" ],
+      "@context": [ "./src/manager/context" ],
       "@fetch": [ "./src/base/fetch" ],
 
       "@httpType": [ "./src/base/types/HTTPTypes" ],

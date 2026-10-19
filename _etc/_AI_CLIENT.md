@@ -19,7 +19,7 @@ client/src
 │   ├── utils               # alert, localStorage. alias: @util
 │   └── values              # 상수. alias: @value
 ├── manager
-│   ├── context             # API 콜백 + useEffect. alias 의도는 @context
+│   ├── context             # API 콜백 + useEffect. alias: @context
 │   └── redux               # 전역 상태. alias: @redux
 ├── pages                   # 페이지. 라우트 단위
 └── template                # Header / Lefter / Footer / Modals / Outlet
@@ -39,14 +39,13 @@ client/src
 | `@objectType` | `src/base/types/ObjectTypes` |
 | `@prop` | `src/base/types/props` |
 | `@component` | `src/base/components` |
+| `@context` | `src/manager/context` |
 | `@fetch` | `src/base/fetch` |
 | `@util` | `src/base/utils` |
 | `@value` | `src/base/values` |
 | `@secret` | `src/base/secret` |
 | `@redux` | `src/manager/redux` |
 | `@styles/*` | `src/base/styles/*` |
-
-주의: tsconfig의 `@context` 는 `src/manager/contexts`(복수)를 가리키지만 실제 폴더는 `src/manager/context` 이다. 지금은 상대경로/`manager/context` 를 쓰고, alias를 쓸 거면 경로를 먼저 고친다.
 
 타입 import 는 `import type` 을 쓴다 (`verbatimModuleSyntax`).
 

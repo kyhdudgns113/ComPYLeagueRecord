@@ -14,7 +14,7 @@ export default defineConfig({
     alias: {
       '@commonType': path.resolve(root, 'src/base/types/CommonTypes'),
       '@component': path.resolve(root, 'src/base/components'),
-      '@context': path.resolve(root, 'src/manager/contexts'),
+      '@context': path.resolve(root, 'src/manager/context'),
 
       '@fetch': path.resolve(root, 'src/base/fetch'),
       '@httpType': path.resolve(root, 'src/base/types/HTTPTypes'),
