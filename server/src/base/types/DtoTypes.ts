@@ -1,4 +1,5 @@
-import * as CT from './CommonTypes'
+import * as CT from '@commonType'
+import * as OT from '@objectTye'
 
 export type DTO_CreateBatter = {
   batterClass: CT.Type_BatterClass
@@ -35,10 +36,15 @@ export type DTO_ReadGameInfoArr = {
   SPName?: string
 }
 
-export type DTO_UpdatebatterArr = {
+export type DTO_UpdateBatterArr = {
   batterOIdArr: string[]
   batterClass: CT.Type_BatterClass
   teamName: CT.Type_Team
+}
+
+export type DTO_UpdateLeagueInfo = {
+  leagueNum: number
+  league: OT.LeagueInfoType
 }
 
 export type DTO_UpdatePitcherArr = {
