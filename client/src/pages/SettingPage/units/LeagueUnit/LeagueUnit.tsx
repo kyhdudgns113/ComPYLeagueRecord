@@ -1,3 +1,6 @@
+import {useCallback} from 'react'
+import {useNavigate} from 'react-router-dom'
+
 import {useRecordStates} from '@redux'
 
 import type {FC} from 'react'
@@ -12,6 +15,16 @@ type LeagueUnitProps = DivCommonProps
 export const LeagueUnit: FC<LeagueUnitProps> = ({...props}) => {
   const {leagueArr} = useRecordStates()
 
+  const navigate = useNavigate()
+
+  const onClickTHNumber = useCallback(
+    (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      navigate('/main/setting')
+    },
+    [navigate]
+  )
+
   return (
     <div className={`LeagueUnit`} {...props}>
       {/* 1. 타이틀 */}
@@ -21,7 +34,9 @@ export const LeagueUnit: FC<LeagueUnitProps> = ({...props}) => {
       <table className={`Table_Unit`}>
         <thead>
           <tr>
-            <th className={`th-number`}>번호</th>
+            <th className={`th-number`} onClick={onClickTHNumber}>
+              번호
+            </th>
             <th className={`th-createdAt`}>날짜</th>
             <th className={`th-description`}>설명</th>
           </tr>

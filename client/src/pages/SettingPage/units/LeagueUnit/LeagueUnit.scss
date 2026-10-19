@@ -50,7 +50,12 @@
           border-top-width: 0px;
 
           &.th-number {
+            cursor: pointer;
             width: 40px;
+
+            &:hover {
+              background-color: #d0d0d0;
+            }
           }
           &.th-createdAt {
             width: 100px;
