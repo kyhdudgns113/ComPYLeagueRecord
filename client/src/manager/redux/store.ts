@@ -8,6 +8,7 @@ export const store = configureStore({
     base: Slices.BaseSlice.reducer,
     modal: Slices.ModalSlice.reducer,
     record: Slices.RecordSlice.reducer,
+    setting: Slices.SettingSlice.reducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

@@ -16,6 +16,10 @@ function App() {
 
         <Route path="setting/*">
           <Route index element={<P.SettingPage />} />
+          <Route path=":leagueNum/*">
+            <Route index element={<P.SettingPage />} />
+            <Route path=":teamIdx" element={<P.SettingPage />} />
+          </Route>
         </Route>
 
         <Route path="pitchRecord/*">

@@ -1,3 +1,6 @@
+import {useCallback} from 'react'
+import {useNavigate} from 'react-router-dom'
+
 import type {FC} from 'react'
 import type {TableRowCommonProps} from '@prop'
 
@@ -12,9 +15,21 @@ type LeagueRowProps = TableRowCommonProps & {
 }
 
 export const LeagueRow: FC<LeagueRowProps> = ({league, ...props}) => {
+  const navigate = useNavigate()
+
+  const onClickNumber = useCallback(
+    (leagueNum: number) => (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      navigate(`/main/setting/${leagueNum}`)
+    },
+    [navigate]
+  )
+
   return (
     <tr className={`LeagueRow`} {...props}>
-      <td className={`td-number`}>{league.leagueNum}</td>
+      <td className={`td-number`} onClick={onClickNumber(league.leagueNum)}>
+        {league.leagueNum}
+      </td>
       <td className={`td-createdAt`}>{U.convertDateNum(league.createdAtNum)}</td>
       <td className={`td-description`}>{league.description}</td>
     </tr>

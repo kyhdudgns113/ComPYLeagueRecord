@@ -11,6 +11,7 @@
     height: fit-content;
 
     transition: box-shadow 0.2s ease;
+    user-select: none;
 
     width: fit-content;
 
@@ -62,6 +63,13 @@
 
       tbody {
         tr {
+
+          &.AddLeagueRow {
+            td {
+              padding-bottom: 4px;
+              padding-top: 4px;
+            }
+          }
           
           td {
             border-color: #000000;
@@ -71,10 +79,18 @@
             border-right-width: 1px;
             border-top-width: 0px;
             
-            padding-bottom: 6px;
-            padding-top: 6px;
+            // padding-bottom: 2px;
+            // padding-top: 2px;
 
             text-align: center;
+
+            &.td-number {
+              cursor: pointer;
+
+              &:hover {
+                background-color: #d0d0d0;
+              }
+            }
           }
         }
       }
