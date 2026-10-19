@@ -1,18 +1,39 @@
 .SettingPage {
-  .TeamPart {
-    border-color: #000000;
-    border-radius: 16px;
-    border-style: solid;
-    border-width: 2px;
+  .TeamUnit {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    height: fit-content;
 
-    height: 400px;
+    &[hidden] {
+      display: none;
+    }
 
     transition: box-shadow 0.2s ease;
 
-    width: fit-content;
+    width: 400px;
 
-    &:hover {
-      box-shadow: 0 0 8px 0 rgba(0, 0, 0, 0.2);
+    .Title_Unit {
+      font-size: 20px;
+      font-weight: 700;
+
+      padding-bottom: 4px;
+      padding-top: 4px;
+
+      text-align: center;
+      user-select: none;
+    }
+
+    .TeamRow_Unit {
+      align-items: center;
+
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+
+      justify-content: center;
+
+      margin-top: 16px;
     }
   }
 }
