@@ -1,14 +1,47 @@
 import {Injectable} from '@nestjs/common'
 import {InjectModel} from '@nestjs/mongoose'
-import {LeagueInfo} from './leagueInfoDB.entity'
+import {GameInfo, LeagueInfo} from './leagueInfoDB.entity'
 import {Model} from 'mongoose'
 
 import * as DTO from '@dtoType'
 import * as OT from '@objectTye'
 
+const toGameInfoType = (game: GameInfo): OT.GameInfoType => {
+  return {
+    enemyTeam: game.enemyTeam,
+    gameNum: game.gameNum,
+    leagueNum: game.leagueNum,
+    SPName: game.SPName,
+  }
+}
+
 @Injectable()
 export class LeagueInfoDBService {
-  constructor(@InjectModel(LeagueInfo.name) private leagueInfoDBModel: Model<LeagueInfo>) {}
+  constructor(
+    @InjectModel(GameInfo.name) private gameInfoDBModel: Model<GameInfo>,
+    @InjectModel(LeagueInfo.name) private leagueInfoDBModel: Model<LeagueInfo>
+  ) {}
+
+  async createGameInfo(where: string, dto: DTO.DTO_CreateGameInfo) {
+    where = where + '/createGameInfo'
+
+    const {enemyTeam, gameNum, leagueNum, SPName} = dto
+
+    try {
+      if (gameNum < 1 || gameNum > 144) {
+        throw {gkdErrMsg: `[${where}] gameNum 은 1~144 이어야 합니다. gameNum: ${gameNum}`, statusCode: 400}
+      }
+
+      const newGame = new this.gameInfoDBModel({enemyTeam, gameNum, leagueNum, SPName})
+      await newGame.save()
+
+      return {game: toGameInfoType(newGame)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 
   async createLeagueInfo(where: string, dto: DTO.DTO_CreateLeagueInfo) {
     where = where + '/createLeagueInfo'
@@ -18,6 +51,39 @@ export class LeagueInfoDBService {
     try {
       const newLeague = new this.leagueInfoDBModel({description, leagueNum})
       await newLeague.save()
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readGameInfoArr(where: string, dto: DTO.DTO_ReadGameInfoArr) {
+    where = where + '/readGameInfoArr'
+
+    try {
+      const filter: any = {}
+      if (dto.leagueNum !== undefined) {
+        filter.leagueNum = dto.leagueNum
+      }
+      if (dto.gameNum !== undefined) {
+        filter.gameNum = dto.gameNum
+      }
+      if (dto.enemyTeam) {
+        filter.enemyTeam = dto.enemyTeam
+      }
+      if (dto.SPName) {
+        filter.SPName = dto.SPName
+      }
+
+      const gameArrDB = await this.gameInfoDBModel.find(filter).sort({gameNum: 1})
+
+      if (!gameArrDB) {
+        return {gameArr: []}
+      }
+
+      const gameArr = gameArrDB.map(game => toGameInfoType(game))
+      return {gameArr}
       // ::
     } catch (errObj) {
       // ::

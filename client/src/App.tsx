@@ -24,6 +24,10 @@ function App() {
 
         <Route path="pitchRecord/*">
           <Route index element={<P.PitchRecordPage />} />
+          <Route path=":leagueNum/*">
+            <Route index element={<P.PitchRecordPage />} />
+            <Route path=":gameNum" element={<P.PitchRecordPage />} />
+          </Route>
         </Route>
       </Route>
     </Routes>

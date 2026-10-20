@@ -8,6 +8,7 @@ import * as S from '@secret'
   imports: [
     // ::
     M.DatabaseModule,
+    M.RecordModule,
     M.SettingModule,
 
     MongooseModule.forRoot(S.mongoDBUrl),

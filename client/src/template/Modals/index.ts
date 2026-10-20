@@ -1,4 +1,5 @@
 export * from './AddBatterModal'
+export * from './AddGameModal'
 export * from './AddLeagueModal'
 export * from './AddPitcherModal'
 export * from './ModifyBatterModal'

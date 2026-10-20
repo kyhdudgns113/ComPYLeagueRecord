@@ -1,4 +1,11 @@
+import * as OT from '@objectType'
+
 const pad2 = (value: number) => String(value).padStart(2, '0')
+
+/** `직구` + `5` → `직5`, `슬라이더` + `H1` → `슬H` */
+export const convertPitchMark = (pitch: OT.PitchType) => {
+  return `${pitch.ball[0]}${pitch.location}`.slice(0, 2)
+}
 
 /** `createdAtNum` 등 Date.valueOf() → `[26.10.19] 18:18:40` */
 export const convertDateNum = (dateNum: number) => {

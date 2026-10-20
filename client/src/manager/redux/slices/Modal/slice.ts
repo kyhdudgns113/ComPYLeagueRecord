@@ -44,6 +44,10 @@ export const ModalSlice = createSlice({
       clearModalExtras(state)
       state.addBatter_BatterClass = action.payload
     },
+    openAddGameModal: state => {
+      state.modalType = 'AddGame'
+      clearModalExtras(state)
+    },
     openAddLeagueModal: state => {
       state.modalType = 'AddLeague'
       clearModalExtras(state)

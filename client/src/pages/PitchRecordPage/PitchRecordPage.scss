@@ -1,0 +1,23 @@
+
+
+.Template {
+  .PitchRecordPage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+    width: 100%;
+
+    .Body_Page {
+      display: flex;
+      flex-direction: row;
+      gap: 4px;
+
+      height: fit-content;
+
+      margin-left: 150px;
+      width: fit-content;
+    }
+  }
+}

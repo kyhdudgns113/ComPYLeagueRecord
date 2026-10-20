@@ -2,14 +2,21 @@ import {createSlice} from '@reduxjs/toolkit'
 
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
+import * as LT from '@localType'
 import * as OT from '@objectType'
 
 interface RecordState {
+  gameArr: OT.GameInfoType[]
+  gameNum: LT.GameNumType
   leagueArr: OT.LeagueInfoType[]
+  leagueNum: LT.LeagueNumType
 }
 
 const initialState: RecordState = {
+  gameArr: [],
+  gameNum: null,
   leagueArr: [],
+  leagueNum: null,
 }
 
 export const RecordSlice = createSlice({
@@ -31,8 +38,17 @@ export const RecordSlice = createSlice({
       }
     },
 
+    setGameArr: (state, action: PayloadAction<OT.GameInfoType[]>) => {
+      state.gameArr = action.payload
+    },
+    setGameNum: (state, action: PayloadAction<LT.GameNumType>) => {
+      state.gameNum = action.payload
+    },
     setLeagueArr: (state, action: PayloadAction<OT.LeagueInfoType[]>) => {
       state.leagueArr = action.payload
+    },
+    setLeagueNum: (state, action: PayloadAction<LT.LeagueNumType>) => {
+      state.leagueNum = action.payload
     },
   },
 })
