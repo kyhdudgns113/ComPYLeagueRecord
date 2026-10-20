@@ -98,6 +98,7 @@ export class RecordService {
             batterOId: batter?.batterOId || '',
             gameNum,
             hasPressure: batter?.hasPressureSkill || false,
+            isStealFail: false,
             leagueNum,
             order,
             pitchArr: [],

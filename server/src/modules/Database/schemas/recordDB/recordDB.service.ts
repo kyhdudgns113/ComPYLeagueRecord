@@ -7,6 +7,8 @@ import * as DTO from '@dtoType'
 import * as OT from '@objectTye'
 
 const toRecordElementType = (record: OT.RecordElementType): OT.RecordElementType => {
+  const isLegacyStealFail = (record.result as string | null) === '도루실패'
+
   return {
     batterClass: record.batterClass,
     batterHand: record.batterHand,
@@ -14,11 +16,12 @@ const toRecordElementType = (record: OT.RecordElementType): OT.RecordElementType
     batterOId: record.batterOId || '',
     gameNum: record.gameNum,
     hasPressure: record.hasPressure,
+    isStealFail: record.isStealFail || isLegacyStealFail,
     leagueNum: record.leagueNum,
     order: record.order,
     pitchArr: record.pitchArr || [],
     pitcherName: record.pitcherName,
-    result: record.result ?? null,
+    result: isLegacyStealFail ? null : record.result ?? null,
     rotation: record.rotation,
   }
 }

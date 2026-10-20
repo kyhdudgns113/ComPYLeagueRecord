@@ -35,6 +35,6 @@ export type Type_Pitcher = '선발' | '중계' | '마무리'
 
 export type Type_PitcherHand = '좌완' | '우완' | '좌사' | '우사' | '좌언' | '우언'
 
-export type Type_Result = '1루타' | '2루타' | '3루타' | '홈런' | '삼진' | '뜬공' | '땅볼' | '직선타' | '병살' | '에러' | '도루실패' | null
+export type Type_Result = '1루타' | '2루타' | '3루타' | '홈런' | '볼넷' | '삼진' | '뜬공' | '땅볼' | '직선타' | '병살' | '에러' | null
 
 export type Type_Team = 'KT' | '기아' | '삼성' | '두산' | 'SSG' | 'LG' | '롯데' | '한화' | 'NC' | '키움'

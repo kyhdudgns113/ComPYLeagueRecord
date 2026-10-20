@@ -63,7 +63,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
               {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
             </td>
             <td className={`td-result`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
-              {record?.result?.slice(0, 1) || ''}
+              {[record?.result?.slice(0, 1) || '', record?.isStealFail ? '도' : ''].filter(Boolean).join('')}
             </td>
           </Fragment>
         )

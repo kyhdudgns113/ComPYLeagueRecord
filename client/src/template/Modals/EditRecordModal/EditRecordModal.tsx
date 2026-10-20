@@ -37,7 +37,10 @@ const PITCH_BTN_ARR: {ball: CT.Type_Pitch; label: string}[] = [
   {ball: '체인지업', label: '체인지'},
   {ball: '써클 체인지업', label: '써클'},
 ]
-const RESULT_ARR: CT.Type_Result[] = ['1루타', '2루타', '3루타', '홈런', '삼진', '뜬공', '땅볼', '직선타', '병살', '에러', '도루실패', null]
+const RESULT_ARR: CT.Type_Result[] = ['1루타', '2루타', '3루타', '홈런', '볼넷', '삼진', '뜬공', '땅볼', '직선타', '병살', '에러', null]
+const ON_BASE_RESULT_ARR: CT.Type_Result[] = ['1루타', '2루타', '3루타', '볼넷', '에러']
+
+const canStealFail = (nextResult: CT.Type_Result) => ON_BASE_RESULT_ARR.includes(nextResult)
 
 type EditRecordModalProps = ModalCommonProps
 
@@ -68,6 +71,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
   const [pitcherName, setPitcherName] = useState<string>(record?.pitcherName || game?.SPName || pitcherArr[0]?.name || '')
   const [batterOId, setBatterOId] = useState<string>(record?.batterOId || editRecord?.batter.batterOId || '')
   const [result, setResult] = useState<CT.Type_Result>(record?.result ?? null)
+  const [isStealFail, setIsStealFail] = useState<boolean>(!!record?.isStealFail && canStealFail(record?.result ?? null))
 
   const selectedBatter =
     batterArr.find(batter => batter.batterOId === batterOId) ||
@@ -84,6 +88,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
         batterOId: batter?.batterOId || record?.batterOId || '',
         gameNum: gameNum || 0,
         hasPressure: batter?.hasPressureSkill ?? record?.hasPressure ?? false,
+        isStealFail: canStealFail(nextResult) && isStealFail,
         leagueNum: leagueNum || 0,
         order: editRecord?.order || 0,
         pitchArr: nextPitchArr,
@@ -93,7 +98,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
       }
       return nextRecord
     },
-    [editRecord?.order, editRecord?.rotation, gameNum, leagueNum, record]
+    [editRecord?.order, editRecord?.rotation, gameNum, isStealFail, leagueNum, record]
   )
 
   const _saveRecord = useCallback(
@@ -206,6 +211,28 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
   const onChangeBatter = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setBatterOId(e.target.value)
   }, [])
+
+  const onChangeResult = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
+    const nextResult = (e.target.value || null) as CT.Type_Result
+    setResult(nextResult)
+
+    if (!canStealFail(nextResult)) {
+      setIsStealFail(false)
+    }
+  }, [])
+
+  const onClickStealFail = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+
+      if (!canStealFail(result)) {
+        return
+      }
+
+      setIsStealFail(prev => !prev)
+    },
+    [result]
+  )
 
   const onKeyDownModal = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -322,7 +349,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
           {/* 4. 입력행: 결과 */}
           <div className={`Input_Row_Modal`}>
             <p className={`Input_Label_Modal`}>결과</p>
-            <select className={`Select_Modal`} onChange={e => setResult((e.target.value || null) as CT.Type_Result)} value={result || ''}>
+            <select className={`Select_Modal`} onChange={onChangeResult} value={result || ''}>
               {RESULT_ARR.map(item => (
                 <option key={item || 'empty'} value={item || ''}>
                   {item || '없음'}
@@ -331,7 +358,20 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
             </select>
           </div>
 
-          {/* 5. 버튼 행 */}
+          {/* 5. 입력행: 도루실패 */}
+          <div className={`Input_Row_Modal`}>
+            <p className={`Input_Label_Modal`}>도루실패</p>
+            <button
+              className={`StealFailToggle_Modal ${isStealFail ? '_on' : ''}`}
+              disabled={!canStealFail(result)}
+              onClick={onClickStealFail}
+              type="button"
+            >
+              {isStealFail ? '실패' : '없음'}
+            </button>
+          </div>
+
+          {/* 6. 버튼 행 */}
           <div className={`Button_Row_Modal`}>
             <button className={`Button_Modal`} onClick={onClickSaveInfo} type="button">
               추가

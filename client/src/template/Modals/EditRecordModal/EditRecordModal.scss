@@ -173,6 +173,32 @@
         padding-right: 8px;
         width: 100%;
       }
+
+      .StealFailToggle_Modal {
+        align-items: center;
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        cursor: pointer;
+        display: flex;
+        height: 40px;
+        justify-content: center;
+        user-select: none;
+        width: 100%;
+
+        &:disabled {
+          cursor: default;
+          opacity: 0.4;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: #f0f0f0;
+        }
+
+        &._on {
+          background-color: #c8e0ff;
+          font-weight: 700;
+        }
+      }
     }
 
     .Button_Row_Modal {

@@ -52,6 +52,7 @@ export type RecordElementType = {
 
   gameNum: number
   hasPressure: boolean
+  isStealFail: boolean // 도루실패 여부
   leagueNum: number
   order: number // 1번~9번
 
