@@ -14,10 +14,11 @@ import * as U from '@util'
 type RecordRowProps = TableRowCommonProps & {
   atBatArr: (OT.RecordElementType | null)[]
   batter: OT.BatterType
+  inningEndKeySet: Set<string>
   order: number
 }
 
-export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props}) => {
+export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet, order, ...props}) => {
   const {openEditRecordModal, openModifyBatterModal} = useModalActions()
 
   const onDoubleClickBatter = useCallback(
@@ -62,7 +63,10 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
             <td className={`td-pitch`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
               {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
             </td>
-            <td className={`td-result`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
+            <td
+              className={`td-result ${inningEndKeySet.has(`${order}-${atBatIdx + 1}`) ? '_inningEnd' : ''}`}
+              onClick={onClickRecord(batter, order, record, atBatIdx + 1)}
+            >
               {[record?.result?.slice(0, 1) || '', record?.isStealFail ? '도' : ''].filter(Boolean).join('')}
             </td>
           </Fragment>

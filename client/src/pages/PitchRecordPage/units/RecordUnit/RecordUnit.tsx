@@ -1,4 +1,4 @@
-import {Fragment, useEffect, useState} from 'react'
+import {Fragment, useEffect, useMemo, useState} from 'react'
 
 import {useRecordStates, useTeamBatterArr} from '@redux'
 
@@ -12,11 +12,54 @@ import * as V from '@value'
 import './RecordUnit.scss'
 
 const ORDER_ARR = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+const RESULT_OUT_COUNT: Partial<Record<NonNullable<OT.RecordElementType['result']>, number>> = {
+  땅볼: 1,
+  뜬공: 1,
+  병살: 2,
+  삼진: 1,
+  직선타: 1,
+}
 
 const getAtBatArr = (recordArr: OT.RecordElementType[], order: number, atBatLen: number) => {
   return Array.from({length: atBatLen}, (_, atBatIdx) => {
     return recordArr.find(record => record.order === order && record.rotation === atBatIdx + 1) || null
   })
+}
+
+const getRecordOutCount = (record: OT.RecordElementType | null) => {
+  if (!record) {
+    return 0
+  }
+
+  const resultOut = record.result ? RESULT_OUT_COUNT[record.result] || 0 : 0
+  const stealOut = record.isStealFail ? 1 : 0
+  return resultOut + stealOut
+}
+
+const getInningEndKeySet = (recordArr: OT.RecordElementType[]) => {
+  const maxRotation = Math.max(0, ...recordArr.map(record => record.rotation || 0))
+  const inningEndKeySet = new Set<string>()
+  let outs = 0
+
+  for (let rotation = 1; rotation <= maxRotation; rotation++) {
+    for (const order of ORDER_ARR) {
+      const record = recordArr.find(item => item.order === order && item.rotation === rotation) || null
+      const outCount = getRecordOutCount(record)
+
+      if (outCount <= 0) {
+        continue
+      }
+
+      outs += outCount
+
+      if (outs >= 3) {
+        inningEndKeySet.add(`${order}-${rotation}`)
+        outs = 0
+      }
+    }
+  }
+
+  return inningEndKeySet
 }
 
 type RecordUnitProps = DivCommonProps
@@ -32,6 +75,7 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
   const lineupArr = ORDER_ARR.map((_, orderIdx) => starterArr[orderIdx] || V.NULL_BATTER_OBJ())
   const maxRotation = Math.max(0, ...recordArr.map(record => record.rotation || 0))
   const atBatLen = Math.max(6, maxRotation)
+  const inningEndKeySet = useMemo(() => getInningEndKeySet(recordArr), [recordArr])
 
   useEffect(() => {
     setIsHidden(gameNum === null)
@@ -78,7 +122,13 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
             {lineupArr.map((batter, orderIdx) => {
               const order = ORDER_ARR[orderIdx]
               return (
-                <R.RecordRow key={order} atBatArr={getAtBatArr(recordArr, order, atBatLen)} batter={batter} order={order} />
+                <R.RecordRow
+                  key={order}
+                  atBatArr={getAtBatArr(recordArr, order, atBatLen)}
+                  batter={batter}
+                  inningEndKeySet={inningEndKeySet}
+                  order={order}
+                />
               )
             })}
           </tbody>
