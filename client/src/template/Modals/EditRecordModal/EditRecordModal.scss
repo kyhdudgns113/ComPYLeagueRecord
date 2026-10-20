@@ -4,29 +4,159 @@
     flex-direction: column;
 
     height: fit-content;
-    max-height: 80vh;
+    max-height: 90vh;
     overflow-y: auto;
 
-    padding-bottom: 12px;
-    padding-left: 24px;
-    padding-right: 24px;
-    padding-top: 8px;
+    padding-bottom: 16px;
+    padding-left: 20px;
+    padding-right: 20px;
+    padding-top: 16px;
 
     width: fit-content;
 
-    .Title_Modal {
-      font-size: 18px;
-      font-weight: bold;
-      max-width: 360px;
+    .Tab_Row_Modal {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      width: 280px;
+
+      .Tab_Modal {
+        border: 1px solid #bbb;
+        cursor: pointer;
+        height: 32px;
+        width: 96px;
+
+        &.selected {
+          background-color: #d9d9d9;
+          font-weight: 700;
+        }
+
+        &:hover:not(.selected) {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+
+    .RecordTab_Modal,
+    .InfoTab_Modal {
+      display: flex;
+      flex-direction: column;
+      margin-top: 12px;
+      width: 280px;
+    }
+
+    .PitchLog_Row_Modal {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      margin-bottom: 12px;
+      width: 100%;
+
+      .PitchLog_Modal {
+        background-color: #f2f2f2;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+        flex: 1;
+        font-size: 14px;
+        height: 32px;
+        line-height: 32px;
+        overflow: hidden;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .RemoveLast_Modal {
+        border: 1px solid #ccc;
+        cursor: pointer;
+        height: 32px;
+        width: 48px;
+
+        &:disabled {
+          cursor: default;
+          opacity: 0.4;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+
+    .Zone_Grid_Modal {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-left: auto;
+      margin-right: auto;
+
+      .Zone_Row_Modal {
+        display: flex;
+        flex-direction: row;
+
+        .Zone_Cell_Modal {
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+          cursor: pointer;
+          font-size: 13px;
+          height: 40px;
+          width: 48px;
+
+          &.ball {
+            background-color: #ececec;
+          }
+
+          &.strike {
+            background-color: #ffffff;
+          }
+
+          &.selected {
+            background-color: #9ec5e8;
+            font-weight: 700;
+          }
+
+          &:hover {
+            filter: brightness(0.97);
+          }
+        }
+      }
+    }
+
+    .PitchType_Grid_Modal {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      margin-top: 16px;
+      width: 100%;
+
+      .PitchType_Modal {
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        cursor: pointer;
+        height: 40px;
+        width: calc((100% - 32px) / 5);
+
+        &.selected {
+          background-color: #9ec5e8;
+          font-weight: 700;
+        }
+
+        &:hover:not(.selected) {
+          background-color: #f0f0f0;
+        }
+      }
     }
 
     .Input_Row_Modal {
       display: flex;
       flex-direction: column;
       gap: 8px;
-
-      margin-top: 16px;
-      width: 320px;
+      margin-top: 12px;
+      width: 100%;
 
       .Input_Label_Modal {
         font-size: 16px;
@@ -37,63 +167,24 @@
         border: 1px solid #ccc;
         box-sizing: border-box;
         height: 40px;
-
         padding-left: 8px;
         padding-right: 8px;
         width: 100%;
-      }
-
-      .Pitch_Row_Modal {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-
-        .Select_Modal {
-          width: 132px;
-        }
-
-        .RemovePitch_Modal {
-          border: 1px solid #ccc;
-          cursor: pointer;
-          height: 40px;
-          width: 40px;
-
-          &:hover {
-            background-color: #f0f0f0;
-          }
-        }
-      }
-
-      .AddPitch_Modal {
-        border: 1px solid #ccc;
-        cursor: pointer;
-        height: 36px;
-
-        &:hover {
-          background-color: #f0f0f0;
-        }
       }
     }
 
     .Button_Row_Modal {
       display: flex;
       flex-direction: row;
+      gap: 24px;
       justify-content: center;
-      gap: 10px;
-      margin-top: 16px;
+      margin-top: 20px;
       width: 100%;
 
       .Button_Modal {
-        border: 2px solid #ccc;
-
-        height: 40px;
-
-        transition: background-color 0.3s ease;
-        width: 72px;
-
-        &:active {
-          font-size: 12px;
-        }
+        border: 1px solid #bbb;
+        height: 36px;
+        width: 88px;
 
         &:hover {
           background-color: #f0f0f0;

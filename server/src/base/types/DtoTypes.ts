@@ -37,6 +37,14 @@ export type DTO_CreateRecordArr = {
   recordArr: OT.RecordElementType[]
 }
 
+export type DTO_UpdateRecord = {
+  gameNum: number
+  leagueNum: number
+  order: number
+  record: OT.RecordElementType
+  rotation: number
+}
+
 export type DTO_ReadBatterArr = {
   batterClass: CT.Type_BatterClass
   leagueNum: number

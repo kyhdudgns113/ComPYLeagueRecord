@@ -1,4 +1,5 @@
 import * as CT from '@commonType'
+import * as OT from '@objectTye'
 
 export type HTTP_AddBatter = {
   batterClass: CT.Type_BatterClass
@@ -52,6 +53,14 @@ export type HTTP_MoveBatterInArr = {
   targetIdx: number
 
   teamName: CT.Type_Team
+}
+
+export type HTTP_UpdateRecord = {
+  gameNum: number
+  leagueNum: number
+  order: number
+  record: OT.RecordElementType
+  rotation: number
 }
 
 export type HTTP_MovePitcherInArr = {

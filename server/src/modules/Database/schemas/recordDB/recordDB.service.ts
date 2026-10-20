@@ -67,6 +67,36 @@ export class RecordDBService {
     }
   }
 
+  async updateRecord(where: string, dto: DTO.DTO_UpdateRecord) {
+    where = where + '/updateRecord'
+
+    const {gameNum, leagueNum, order, record, rotation} = dto
+
+    try {
+      const recordArrDB = await this.recordArrDBModel.findOne({gameNum, leagueNum})
+
+      if (!recordArrDB) {
+        throw {gkdErrMsg: `[${where}] recordArr is missing`, statusCode: 400}
+      }
+
+      const recordIdx = (recordArrDB.recordArr || []).findIndex(item => item.order === order && item.rotation === rotation)
+      if (recordIdx < 0) {
+        throw {gkdErrMsg: `[${where}] record is missing: order ${order}, rotation ${rotation}`, statusCode: 400}
+      }
+
+      recordArrDB.recordArr[recordIdx] = toRecordElementType(record)
+      recordArrDB.markModified('recordArr')
+      await recordArrDB.save()
+
+      const recordArr = recordArrDB.recordArr.map(item => toRecordElementType(item))
+      return {recordArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async updateBatterInfoInRecordArr(where: string, dto: DTO.DTO_UpdateBatterInRecordArr) {
     where = where + '/updateBatterInfoInRecordArr'
 

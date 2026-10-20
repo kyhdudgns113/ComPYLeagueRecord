@@ -1,4 +1,4 @@
-import {Body, Controller, Get, Param, Post} from '@nestjs/common'
+import {Body, Controller, Get, Param, Post, Put} from '@nestjs/common'
 import {RecordService} from './Record.service'
 
 import * as HTTP from '@httpType'
@@ -22,6 +22,12 @@ export class RecordController {
   @Post('/addGame')
   async addGame(@Body() data: HTTP.HTTP_AddGame) {
     const {ok, body, gkdErrMsg, statusCode} = await this.recordService.addGame(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Put('/updateRecord')
+  async updateRecord(@Body() data: HTTP.HTTP_UpdateRecord) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.recordService.updateRecord(data)
     return {ok, body, gkdErrMsg, statusCode}
   }
 }

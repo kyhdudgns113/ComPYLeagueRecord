@@ -118,4 +118,19 @@ export class RecordService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // PUT AREA:
+  async updateRecord(data: HTTP.HTTP_UpdateRecord) {
+    const where = '/record/updateRecord'
+    try {
+      const {gameNum, leagueNum, order, record, rotation} = data
+      const {recordArr} = await this.recordDBService.updateRecord(where, {gameNum, leagueNum, order, record, rotation})
+
+      return {ok: true, body: {recordArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

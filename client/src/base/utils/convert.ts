@@ -7,6 +7,11 @@ export const convertPitchMark = (pitch: OT.PitchType) => {
   return `${pitch.ball[0]}${pitch.location}`.slice(0, 2)
 }
 
+/** `직구` + `2` → `직2`, `슬라이더` + `H1` → `슬H1` */
+export const convertPitchLog = (pitch: OT.PitchType) => {
+  return `${pitch.ball[0]}${pitch.location}`
+}
+
 /** `createdAtNum` 등 Date.valueOf() → `[26.10.19] 18:18:40` */
 export const convertDateNum = (dateNum: number) => {
   const date = new Date(dateNum)

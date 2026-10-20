@@ -33,7 +33,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
     [openModifyBatterModal]
   )
 
-  const onDoubleClickRecord = useCallback(
+  const onClickRecord = useCallback(
     (batter: OT.BatterType, order: number, record: OT.RecordElementType | null, rotation: number) =>
       (e: React.MouseEvent<HTMLTableCellElement>) => {
         e.stopPropagation()
@@ -59,10 +59,10 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
       {atBatArr.map((record, atBatIdx) => {
         return (
           <Fragment key={atBatIdx}>
-            <td className={`td-pitch`} onDoubleClick={onDoubleClickRecord(batter, order, record, atBatIdx + 1)}>
+            <td className={`td-pitch`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
               {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
             </td>
-            <td className={`td-result`} onDoubleClick={onDoubleClickRecord(batter, order, record, atBatIdx + 1)}>
+            <td className={`td-result`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
               {record?.result?.slice(0, 1) || ''}
             </td>
           </Fragment>
