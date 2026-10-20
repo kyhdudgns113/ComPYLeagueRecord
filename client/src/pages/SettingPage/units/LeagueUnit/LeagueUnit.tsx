@@ -6,6 +6,7 @@ import {useRecordStates} from '@redux'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as B from '../../buttons'
 import * as R from '../../rows'
 
 import './LeagueUnit.scss'
@@ -27,8 +28,11 @@ export const LeagueUnit: FC<LeagueUnitProps> = ({...props}) => {
 
   return (
     <div className={`LeagueUnit`} {...props}>
-      {/* 1. 타이틀 */}
-      <p className={`Title_Unit`}>리그 목록</p>
+      {/* 1. 타이틀행(with 버튼) */}
+      <div className={`TitleRow_Unit`}>
+        <p className={`Title_Unit`}>리그 목록</p>
+        <B.AddLeagueButton />
+      </div>
 
       {/* 2. 테이블: 리그 목록 */}
       <table className={`Table_Unit`}>
@@ -42,9 +46,6 @@ export const LeagueUnit: FC<LeagueUnitProps> = ({...props}) => {
           </tr>
         </thead>
         <tbody>
-          {/* 리그 추가 버튼 행 */}
-          <R.AddLeagueRow />
-
           {/* 리그 목록 */}
           {leagueArr.map((league, leagueIdx) => {
             return <R.LeagueRow key={leagueIdx} league={league} />
