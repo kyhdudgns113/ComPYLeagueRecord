@@ -1,9 +1,10 @@
-import {Fragment} from 'react'
+import {Fragment, useCallback} from 'react'
+
+import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
 import type {TableRowCommonProps} from '@prop'
 
-import * as CT from '@commonType'
 import * as OT from '@objectType'
 import * as U from '@util'
 
@@ -12,19 +13,40 @@ import * as U from '@util'
 
 type RecordRowProps = TableRowCommonProps & {
   atBatArr: (OT.RecordElementType | null)[]
-  batterHand: CT.Type_BatterHand
-  batterName: string
-  hasPressure: boolean
+  batter: OT.BatterType
   order: number
 }
 
-export const RecordRow: FC<RecordRowProps> = ({atBatArr, batterHand, batterName, hasPressure, order, ...props}) => {
+export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props}) => {
+  const {openModifyBatterModal} = useModalActions()
+
+  const onDoubleClickBatter = useCallback(
+    (batter: OT.BatterType) => (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+
+      if (!batter.batterOId) {
+        return
+      }
+
+      openModifyBatterModal(batter)
+    },
+    [openModifyBatterModal]
+  )
+
   return (
     <tr className={`RecordRow`} {...props}>
-      <td className={`td-order`}>{order}</td>
-      <td className={`td-name`}>{batterName}</td>
-      <td className={`td-hand`}>{batterHand.slice(0, 1)}</td>
-      <td className={`td-pressure`}>{hasPressure ? 'O' : ''}</td>
+      <td className={`td-order`} onDoubleClick={onDoubleClickBatter(batter)}>
+        {order}
+      </td>
+      <td className={`td-name`} onDoubleClick={onDoubleClickBatter(batter)}>
+        {batter.name}
+      </td>
+      <td className={`td-hand`} onDoubleClick={onDoubleClickBatter(batter)}>
+        {batter.batterHand.slice(0, 1)}
+      </td>
+      <td className={`td-pressure`} onDoubleClick={onDoubleClickBatter(batter)}>
+        {batter.hasPressureSkill ? 'O' : ''}
+      </td>
       {atBatArr.map((record, atBatIdx) => {
         return (
           <Fragment key={atBatIdx}>

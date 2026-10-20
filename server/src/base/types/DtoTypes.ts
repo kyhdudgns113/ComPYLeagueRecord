@@ -66,6 +66,7 @@ export type DTO_ReadGameInfoArr = {
 export type DTO_UpdateBatter = {
   batterHand: CT.Type_BatterHand
   batterOId: string
+  hasPressureSkill: boolean
   name: string
 }
 

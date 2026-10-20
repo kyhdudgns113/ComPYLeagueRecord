@@ -78,14 +78,7 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
             {lineupArr.map((batter, orderIdx) => {
               const order = ORDER_ARR[orderIdx]
               return (
-                <R.RecordRow
-                  key={order}
-                  atBatArr={getAtBatArr(recordArr, order, atBatLen)}
-                  batterHand={batter.batterHand}
-                  batterName={batter.name}
-                  hasPressure={batter.hasPressureSkill}
-                  order={order}
-                />
+                <R.RecordRow key={order} atBatArr={getAtBatArr(recordArr, order, atBatLen)} batter={batter} order={order} />
               )
             })}
           </tbody>

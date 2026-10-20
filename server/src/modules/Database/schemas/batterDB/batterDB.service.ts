@@ -128,10 +128,10 @@ export class BatterDBService {
   async updateBatter(where: string, dto: DTO.DTO_UpdateBatter) {
     where = where + '/updateBatter'
 
-    const {batterHand, batterOId, name} = dto
+    const {batterHand, batterOId, hasPressureSkill, name} = dto
 
     try {
-      const batterDB = await this.batterDBModel.findByIdAndUpdate(batterOId, {$set: {batterHand, name}}, {new: true})
+      const batterDB = await this.batterDBModel.findByIdAndUpdate(batterOId, {$set: {batterHand, hasPressureSkill, name}}, {new: true})
 
       if (!batterDB) {
         console.log(`[${where}] 수정이 되지 않았어요`)

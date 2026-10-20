@@ -159,12 +159,15 @@ export const AddBatterModal: FC<AddBatterModalProps> = ({...props}) => {
       {/* 4. 입력행: 위압감 */}
       <div className={`Input_Row_Modal`}>
         <p className={`Input_Label_Modal`}>위압감</p>
-        <input
-          checked={hasPressureSkill}
-          className={`Checkbox_Modal`}
-          onChange={e => setHasPressureSkill(e.target.checked)}
-          type="checkbox"
-        />
+        <div
+          className={`PressureToggle_Modal ${hasPressureSkill ? '_on' : ''}`}
+          onClick={e => {
+            e.stopPropagation()
+            setHasPressureSkill(prev => !prev)
+          }}
+        >
+          {hasPressureSkill ? '있음' : '없음'}
+        </div>
       </div>
 
       {/* 5. 버튼 행 */}

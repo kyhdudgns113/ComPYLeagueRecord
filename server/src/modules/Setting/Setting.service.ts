@@ -138,6 +138,7 @@ export class SettingService {
       const dto: DTO.DTO_UpdateBatter = {
         batterHand: data.batterHand,
         batterOId: data.batterOId,
+        hasPressureSkill: data.hasPressureSkill,
         name: data.name,
       }
 

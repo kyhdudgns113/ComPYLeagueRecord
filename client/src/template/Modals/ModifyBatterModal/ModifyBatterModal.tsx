@@ -25,14 +25,15 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
 
   const [name, setName] = useState<string>(modifyBatter?.name || '')
   const [batterHand, setBatterHand] = useState<CT.Type_BatterHand>(modifyBatter?.batterHand || '우타')
+  const [hasPressureSkill, setHasPressureSkill] = useState<boolean>(modifyBatter?.hasPressureSkill || false)
 
-  const _submit = useCallback((batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => {
+  const _submit = useCallback((batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) => {
     if (!batter) {
       alert(`[ModifyBatterModal] batter is null`)
       return
     }
 
-    if (name === batter.name && batterHand === batter.batterHand) {
+    if (name === batter.name && batterHand === batter.batterHand && hasPressureSkill === batter.hasPressureSkill) {
       closeModal()
       return
     }
@@ -42,6 +43,7 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
     modifyBatterApi({
       batterHand,
       batterOId: batter.batterOId,
+      hasPressureSkill,
       name,
     }).then(res => {
       if (res.isSuccess) {
@@ -67,29 +69,36 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
   }, [])
 
   const onClickSubmit = useCallback(
-    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
-      _submit(batter, name, batterHand)
-    },
+    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+        _submit(batter, name, batterHand, hasPressureSkill)
+      },
     []
   )
 
   const onKeyDownModal = useCallback(
-    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => (e: React.KeyboardEvent<HTMLDivElement>) => {
-      switch (e.key) {
-        case 'Enter':
-          _submit(batter, name, batterHand)
-          break
-        case 'Escape':
-          closeModal()
-          break
-      }
-    },
+    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) =>
+      (e: React.KeyboardEvent<HTMLDivElement>) => {
+        switch (e.key) {
+          case 'Enter':
+            _submit(batter, name, batterHand, hasPressureSkill)
+            break
+          case 'Escape':
+            closeModal()
+            break
+        }
+      },
     []
   )
 
   return (
-    <Modal className={`ModifyBatterModal`} onClose={closeModal} onKeyDown={onKeyDownModal(modifyBatter, name, batterHand)} {...props}>
+    <Modal
+      className={`ModifyBatterModal`}
+      onClose={closeModal}
+      onKeyDown={onKeyDownModal(modifyBatter, name, batterHand, hasPressureSkill)}
+      {...props}
+    >
       {/* 1. 타이틀 */}
       <p className={`Title_Modal`}>{`[리그 ${modifyBatter?.leagueNum || ''} ${modifyBatter?.teamName || ''}] ${
         modifyBatter?.name || ''
@@ -113,9 +122,23 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
         </select>
       </div>
 
-      {/* 4. 버튼 행 */}
+      {/* 4. 입력행: 위압감 */}
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>위압감</p>
+        <div
+          className={`PressureToggle_Modal ${hasPressureSkill ? '_on' : ''}`}
+          onClick={e => {
+            e.stopPropagation()
+            setHasPressureSkill(prev => !prev)
+          }}
+        >
+          {hasPressureSkill ? '있음' : '없음'}
+        </div>
+      </div>
+
+      {/* 5. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(modifyBatter, name, batterHand)}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(modifyBatter, name, batterHand, hasPressureSkill)}>
           수정
         </button>
         <button className={`Button_Modal`} onClick={closeModal}>

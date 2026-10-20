@@ -33,6 +33,7 @@ export type HTTP_AddPitcher = {
 export type HTTP_ModifyBatter = {
   batterHand: CT.Type_BatterHand
   batterOId: string
+  hasPressureSkill: boolean
   name: string
 }
 
