@@ -3,12 +3,15 @@ import {createSlice} from '@reduxjs/toolkit'
 import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 
 import * as LT from '@localType'
+import * as OT from '@objectType'
 
 interface ModalState {
   modalType: LT.ModalType
 
   addBatter_BatterClass: LT.ModalBatterClassType
   addPitcher_PitcherType: LT.ModalPitcherType
+  modifyBatter: OT.BatterType | null
+  modifyPitcher: OT.PitcherType | null
 }
 
 const initialState: ModalState = {
@@ -16,6 +19,15 @@ const initialState: ModalState = {
 
   addBatter_BatterClass: null,
   addPitcher_PitcherType: null,
+  modifyBatter: null,
+  modifyPitcher: null,
+}
+
+const clearModalExtras = (state: ModalState) => {
+  state.addBatter_BatterClass = null
+  state.addPitcher_PitcherType = null
+  state.modifyBatter = null
+  state.modifyPitcher = null
 }
 
 export const ModalSlice = createSlice({
@@ -24,24 +36,32 @@ export const ModalSlice = createSlice({
   reducers: {
     closeModal: state => {
       state.modalType = null
-      state.addBatter_BatterClass = null
-      state.addPitcher_PitcherType = null
+      clearModalExtras(state)
     },
 
     openAddBatterModal: (state, action: PayloadAction<LT.ModalBatterClassType>) => {
       state.modalType = 'AddBatter'
+      clearModalExtras(state)
       state.addBatter_BatterClass = action.payload
-      state.addPitcher_PitcherType = null
     },
     openAddLeagueModal: state => {
       state.modalType = 'AddLeague'
-      state.addBatter_BatterClass = null
-      state.addPitcher_PitcherType = null
+      clearModalExtras(state)
     },
     openAddPitcherModal: (state, action: PayloadAction<LT.ModalPitcherType>) => {
       state.modalType = 'AddPitcher'
-      state.addBatter_BatterClass = null
+      clearModalExtras(state)
       state.addPitcher_PitcherType = action.payload
+    },
+    openModifyBatterModal: (state, action: PayloadAction<OT.BatterType>) => {
+      state.modalType = 'ModifyBatter'
+      clearModalExtras(state)
+      state.modifyBatter = action.payload
+    },
+    openModifyPitcherModal: (state, action: PayloadAction<OT.PitcherType>) => {
+      state.modalType = 'ModifyPitcher'
+      clearModalExtras(state)
+      state.modifyPitcher = action.payload
     },
   },
 })

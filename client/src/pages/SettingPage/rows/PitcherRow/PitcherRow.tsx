@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useSettingCallbacksContext} from '@context'
-import {useMovedPitcher, usePitcherActions, useSettingActions} from '@redux'
+import {useModalActions, useMovedPitcher, usePitcherActions, useSettingActions} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,6 +17,7 @@ type PitcherRowProps = DivCommonProps & {
 }
 
 export const PitcherRow: FC<PitcherRowProps> = ({pitcher, pitcherIdx, ...props}) => {
+  const {openModifyPitcherModal} = useModalActions()
   const {setTeamCPArr, setTeamRPArr, setTeamSPArr} = usePitcherActions()
   const {clearMovedPitcher, setMovedPitcher} = useSettingActions()
   const {movePitcherInArr} = useSettingCallbacksContext()
@@ -30,6 +31,14 @@ export const PitcherRow: FC<PitcherRowProps> = ({pitcher, pitcherIdx, ...props})
   const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation()
   }, [])
+
+  const onDoubleClick = useCallback(
+    (pitcher: OT.PitcherType) => (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      openModifyPitcherModal(pitcher)
+    },
+    []
+  )
 
   const onDragStart = useCallback(
     (pitcher: OT.PitcherType) => (e: React.DragEvent<HTMLDivElement>) => {
@@ -78,6 +87,7 @@ export const PitcherRow: FC<PitcherRowProps> = ({pitcher, pitcherIdx, ...props})
     <div
       className={`PitcherRow`}
       draggable
+      onDoubleClick={onDoubleClick(pitcher)}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDragOver={e => e.preventDefault()}

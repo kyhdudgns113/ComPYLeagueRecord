@@ -20,6 +20,8 @@ type ContextType = {
   addLeague: (description: string, leagueNum: number) => Promise<LT.APIReturnType>,
   addPitcher: (data: HTTP.HTTP_AddPitcher) => Promise<LT.APIReturnType>,
 
+  modifyBatter: (data: HTTP.HTTP_ModifyBatter) => Promise<LT.APIReturnType>,
+  modifyPitcher: (data: HTTP.HTTP_ModifyPitcher) => Promise<LT.APIReturnType>,
   moveBatterInArr: (moveBatter: OT.BatterType, targetIdx: number, targetBatterClass: CT.Type_BatterClass, teamName: CT.Type_Team) => Promise<LT.APIReturnType>,
   movePitcherInArr: (movePitcher: OT.PitcherType, targetIdx: number, targetPitcherType: CT.Type_Pitcher, teamName: CT.Type_Team) => Promise<LT.APIReturnType>,
 }
@@ -33,6 +35,8 @@ export const SettingCallbacksContext = createContext<ContextType>({
   addLeague: () => Promise.resolve({isSuccess: false, errMsg: `addLeague is not initialized`}),
   addPitcher: () => Promise.resolve({isSuccess: false, errMsg: `addPitcher is not initialized`}),
 
+  modifyBatter: () => Promise.resolve({isSuccess: false, errMsg: `modifyBatter is not initialized`}),
+  modifyPitcher: () => Promise.resolve({isSuccess: false, errMsg: `modifyPitcher is not initialized`}),
   moveBatterInArr: () => Promise.resolve({isSuccess: false, errMsg: `moveBatterInArr is not initialized`}),
   movePitcherInArr: () => Promise.resolve({isSuccess: false, errMsg: `movePitcherInArr is not initialized`}),
 })
@@ -217,6 +221,62 @@ export const SettingCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   }, [])
 
   // PUT AREA:
+  const modifyBatter = useCallback(async (data: HTTP.HTTP_ModifyBatter) => {
+    const url = `/setting/modifyBatter`
+
+    return F.put(url, data, null)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+        if (ok) {
+          const {batterArr} = body
+
+          if (!batterArr) {
+            return {isSuccess: false, errMsg: `Some arr is falsy\batterArr: ${batterArr}`} as LT.APIReturnType
+          } // ::
+          else {
+            return {isSuccess: true, batterArr} as LT.APIReturnType
+          }
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
+  const modifyPitcher = useCallback(async (data: HTTP.HTTP_ModifyPitcher) => {
+    const url = `/setting/modifyPitcher`
+
+    return F.put(url, data, null)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+        if (ok) {
+          const {pitcherArr} = body
+
+          if (!pitcherArr) {
+            return {isSuccess: false, errMsg: `Some arr is falsy\pitcherArr: ${pitcherArr}`} as LT.APIReturnType
+          } // ::
+          else {
+            return {isSuccess: true, pitcherArr} as LT.APIReturnType
+          }
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
   const moveBatterInArr = useCallback(
     async (moveBatter: OT.BatterType, targetIdx: number, targetBatterClass: CT.Type_BatterClass, teamName: CT.Type_Team) => {
       const url = `/setting/moveBatterInArr`
@@ -318,6 +378,8 @@ export const SettingCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     addLeague,
     addPitcher,
 
+    modifyBatter,
+    modifyPitcher,
     moveBatterInArr,
     movePitcherInArr,
   }

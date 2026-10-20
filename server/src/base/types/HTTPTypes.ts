@@ -30,6 +30,18 @@ export type HTTP_AddPitcher = {
   teamName: CT.Type_Team
 }
 
+export type HTTP_ModifyBatter = {
+  batterHand: CT.Type_BatterHand
+  batterOId: string
+  name: string
+}
+
+export type HTTP_ModifyPitcher = {
+  name: string
+  pitcherHand: CT.Type_PitcherHand
+  pitcherOId: string
+}
+
 export type HTTP_MoveBatterInArr = {
   batterClass: CT.Type_BatterClass
   batterOId: string

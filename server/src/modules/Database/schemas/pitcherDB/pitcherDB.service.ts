@@ -149,6 +149,27 @@ export class PitcherDBService {
     }
   }
 
+  async updatePitcher(where: string, dto: DTO.DTO_UpdatePitcher) {
+    where = where + '/updatePitcher'
+
+    const {name, pitcherHand, pitcherOId} = dto
+
+    try {
+      const pitcherDB = await this.pitcherDBModel.findByIdAndUpdate(pitcherOId, {$set: {name, pitcherHand}}, {new: true})
+
+      if (!pitcherDB) {
+        console.log(`[${where}] 수정이 되지 않았어요`)
+        throw {gkdErrMsg: `[${where}] pitcher is missing`}
+      }
+
+      return {pitcher: toPitcherType(pitcherDB)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async updatePitcherInArr(where: string, dto: DTO.DTO_MovePitcherInArr) {
     where = where + '/updatePitcherInArr'
 

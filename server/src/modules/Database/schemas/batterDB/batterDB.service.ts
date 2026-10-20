@@ -125,6 +125,27 @@ export class BatterDBService {
     }
   }
 
+  async updateBatter(where: string, dto: DTO.DTO_UpdateBatter) {
+    where = where + '/updateBatter'
+
+    const {batterHand, batterOId, name} = dto
+
+    try {
+      const batterDB = await this.batterDBModel.findByIdAndUpdate(batterOId, {$set: {batterHand, name}}, {new: true})
+
+      if (!batterDB) {
+        console.log(`[${where}] 수정이 되지 않았어요`)
+        throw {gkdErrMsg: `[${where}] batter is missing`}
+      }
+
+      return {batter: toBatterType(batterDB)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async updateBatterInArr(where: string, dto: DTO.DTO_MoveBatterInArr) {
     where = where + '/updateBatterInArr'
 

@@ -132,6 +132,54 @@ export class SettingService {
   }
 
   // PUT AREA:
+  async modifyBatter(data: HTTP.HTTP_ModifyBatter) {
+    const where = '/setting/modifyBatter'
+    try {
+      const dto: DTO.DTO_UpdateBatter = {
+        batterHand: data.batterHand,
+        batterOId: data.batterOId,
+        name: data.name,
+      }
+
+      const {batter} = await this.batterDBService.updateBatter(where, dto)
+      const {batterArr} = await this.batterDBService.readBatterArr(where, {
+        batterClass: batter.batterClass,
+        leagueNum: batter.leagueNum,
+        teamName: batter.teamName,
+      })
+
+      return {ok: true, body: {batterArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async modifyPitcher(data: HTTP.HTTP_ModifyPitcher) {
+    const where = '/setting/modifyPitcher'
+    try {
+      const dto: DTO.DTO_UpdatePitcher = {
+        name: data.name,
+        pitcherHand: data.pitcherHand,
+        pitcherOId: data.pitcherOId,
+      }
+
+      const {pitcher} = await this.pitcherDBService.updatePitcher(where, dto)
+      const {pitcherArr} = await this.pitcherDBService.readPitcherArr(where, {
+        leagueNum: pitcher.leagueNum,
+        pitcherType: pitcher.pitcherType,
+        teamName: pitcher.teamName,
+      })
+
+      return {ok: true, body: {pitcherArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async moveBatterInArr(data: HTTP.HTTP_MoveBatterInArr) {
     const where = '/setting/moveBatterInArr'
     try {

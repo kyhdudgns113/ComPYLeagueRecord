@@ -1,7 +1,7 @@
 import {useCallback} from 'react'
 
 import {useSettingCallbacksContext} from '@context'
-import {useBatterActions, useMovedBatter, useSettingActions} from '@redux'
+import {useBatterActions, useModalActions, useMovedBatter, useSettingActions} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -17,6 +17,7 @@ type BatterRowProps = DivCommonProps & {
 }
 
 export const BatterRow: FC<BatterRowProps> = ({batter, batterIdx, ...props}) => {
+  const {openModifyBatterModal} = useModalActions()
   const {setTeamMainBatterArr, setTeamSubBatterArr} = useBatterActions()
   const {clearMovedBatter, setMovedBatter} = useSettingActions()
   const {moveBatterInArr} = useSettingCallbacksContext()
@@ -30,6 +31,14 @@ export const BatterRow: FC<BatterRowProps> = ({batter, batterIdx, ...props}) => 
   const onDragLeave = useCallback((e: React.DragEvent<HTMLDivElement>) => {
     e.stopPropagation()
   }, [])
+
+  const onDoubleClick = useCallback(
+    (batter: OT.BatterType) => (e: React.MouseEvent<HTMLDivElement>) => {
+      e.stopPropagation()
+      openModifyBatterModal(batter)
+    },
+    []
+  )
 
   const onDragStart = useCallback(
     (batter: OT.BatterType) => (e: React.DragEvent<HTMLDivElement>) => {
@@ -72,6 +81,7 @@ export const BatterRow: FC<BatterRowProps> = ({batter, batterIdx, ...props}) => 
     <div
       className={`BatterRow`}
       draggable
+      onDoubleClick={onDoubleClick(batter)}
       onDragEnter={onDragEnter}
       onDragLeave={onDragLeave}
       onDragOver={e => e.preventDefault()}

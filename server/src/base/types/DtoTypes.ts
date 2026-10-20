@@ -58,6 +58,12 @@ export type DTO_ReadGameInfoArr = {
   SPName?: string
 }
 
+export type DTO_UpdateBatter = {
+  batterHand: CT.Type_BatterHand
+  batterOId: string
+  name: string
+}
+
 export type DTO_UpdateBatterArr = {
   batterOIdArr: string[]
   batterClass: CT.Type_BatterClass
@@ -67,6 +73,12 @@ export type DTO_UpdateBatterArr = {
 export type DTO_UpdateLeagueInfo = {
   leagueNum: number
   league: OT.LeagueInfoType
+}
+
+export type DTO_UpdatePitcher = {
+  name: string
+  pitcherHand: CT.Type_PitcherHand
+  pitcherOId: string
 }
 
 export type DTO_UpdatePitcherArr = {

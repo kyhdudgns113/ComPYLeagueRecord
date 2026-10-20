@@ -1,0 +1,127 @@
+import {useCallback, useState} from 'react'
+
+import {Modal} from '@component'
+import {useSettingCallbacksContext} from '@context'
+import {useBatterActions, useModalActions, useModalStates} from '@redux'
+
+import type {FC} from 'react'
+import type {ModalCommonProps} from '@prop'
+
+import * as CT from '@commonType'
+import * as OT from '@objectType'
+import * as V from '@value'
+
+import './ModifyBatterModal.scss'
+
+const BATTER_HAND_ARR: CT.Type_BatterHand[] = ['좌타', '우타', '양타']
+
+type ModifyBatterModalProps = ModalCommonProps
+
+export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
+  const {modifyBatter} = useModalStates()
+  const {closeModal} = useModalActions()
+  const {setTeamMainBatterArr, setTeamSubBatterArr} = useBatterActions()
+  const {modifyBatter: modifyBatterApi} = useSettingCallbacksContext()
+
+  const [name, setName] = useState<string>(modifyBatter?.name || '')
+  const [batterHand, setBatterHand] = useState<CT.Type_BatterHand>(modifyBatter?.batterHand || '우타')
+
+  const _submit = useCallback((batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => {
+    if (!batter) {
+      alert(`[ModifyBatterModal] batter is null`)
+      return
+    }
+
+    if (name === batter.name && batterHand === batter.batterHand) {
+      closeModal()
+      return
+    }
+
+    const teamIdx = V.TEAM_IDX_MAP[batter.teamName]
+
+    modifyBatterApi({
+      batterHand,
+      batterOId: batter.batterOId,
+      name,
+    }).then(res => {
+      if (res.isSuccess) {
+        const {batterArr} = res
+
+        switch (batter.batterClass) {
+          case '선발':
+            setTeamMainBatterArr(batter.leagueNum, teamIdx, batterArr)
+            break
+          case '후보':
+            setTeamSubBatterArr(batter.leagueNum, teamIdx, batterArr)
+            break
+        }
+
+        closeModal()
+      } // ::
+      else {
+        if (res.errMsg) {
+          alert(`[ModifyBatterModal] ${res.errMsg}`)
+        }
+      }
+    })
+  }, [])
+
+  const onClickSubmit = useCallback(
+    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+      _submit(batter, name, batterHand)
+    },
+    []
+  )
+
+  const onKeyDownModal = useCallback(
+    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand) => (e: React.KeyboardEvent<HTMLDivElement>) => {
+      switch (e.key) {
+        case 'Enter':
+          _submit(batter, name, batterHand)
+          break
+        case 'Escape':
+          closeModal()
+          break
+      }
+    },
+    []
+  )
+
+  return (
+    <Modal className={`ModifyBatterModal`} onClose={closeModal} onKeyDown={onKeyDownModal(modifyBatter, name, batterHand)} {...props}>
+      {/* 1. 타이틀 */}
+      <p className={`Title_Modal`}>{`[리그 ${modifyBatter?.leagueNum || ''} ${modifyBatter?.teamName || ''}] ${
+        modifyBatter?.name || ''
+      } 정보 수정`}</p>
+
+      {/* 2. 입력행: 이름 */}
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>이름</p>
+        <input autoFocus={true} className={`Input_Modal`} onChange={e => setName(e.target.value)} tabIndex={0} type="text" value={name} />
+      </div>
+
+      {/* 3. 입력행: 타격 유형 */}
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>유형</p>
+        <select className={`Select_Modal`} onChange={e => setBatterHand(e.target.value as CT.Type_BatterHand)} value={batterHand}>
+          {BATTER_HAND_ARR.map(hand => (
+            <option key={hand} value={hand}>
+              {hand}
+            </option>
+          ))}
+        </select>
+      </div>
+
+      {/* 4. 버튼 행 */}
+      <div className={`Button_Row_Modal`}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(modifyBatter, name, batterHand)}>
+          수정
+        </button>
+        <button className={`Button_Modal`} onClick={closeModal}>
+          취소
+        </button>
+      </div>
+    </Modal>
+  )
+}

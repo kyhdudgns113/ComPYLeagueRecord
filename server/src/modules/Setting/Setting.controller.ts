@@ -43,6 +43,18 @@ export class SettingController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Put('/modifyBatter')
+  async modifyBatter(@Body() data: HTTP.HTTP_ModifyBatter) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.modifyBatter(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Put('/modifyPitcher')
+  async modifyPitcher(@Body() data: HTTP.HTTP_ModifyPitcher) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.modifyPitcher(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   @Put('/moveBatterInArr')
   async moveBatterInArr(@Body() data: HTTP.HTTP_MoveBatterInArr) {
     const {ok, body, gkdErrMsg, statusCode} = await this.settingService.moveBatterInArr(data)
