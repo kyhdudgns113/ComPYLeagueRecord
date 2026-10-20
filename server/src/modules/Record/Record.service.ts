@@ -1,13 +1,15 @@
 import {Injectable} from '@nestjs/common'
-import {LeagueInfoDBService, RecordDBService} from '../Database'
+import {BatterDBService, LeagueInfoDBService, RecordDBService} from '../Database'
 
 import * as DTO from '@dtoType'
 import * as HTTP from '@httpType'
+import * as OT from '@objectTye'
 import * as U from '@util'
 
 @Injectable()
 export class RecordService {
   constructor(
+    private readonly batterDBService: BatterDBService,
     private readonly leagueInfoDBService: LeagueInfoDBService,
     private readonly recordDBService: RecordDBService
   ) {}
@@ -76,6 +78,37 @@ export class RecordService {
       }
 
       await this.leagueInfoDBService.createGameInfo(where, dto)
+
+      const {batterArr} = await this.batterDBService.readBatterArr(where, {
+        batterClass: '선발',
+        leagueNum,
+        teamName,
+      })
+
+      const recordArr: OT.RecordElementType[] = []
+      Array.from({length: 9}, (_, orderIdx) => {
+        const order = orderIdx + 1
+        const batter = batterArr[orderIdx] || null
+
+        Array.from({length: 6}, (_, rotationIdx) => {
+          recordArr.push({
+            batterClass: batter?.batterClass || '선발',
+            batterHand: batter?.batterHand || '우타',
+            batterName: batter?.name || '',
+            batterOId: batter?.batterOId || '',
+            gameNum,
+            hasPressure: batter?.hasPressureSkill || false,
+            leagueNum,
+            order,
+            pitchArr: [],
+            pitcherName: SPName,
+            result: null,
+            rotation: rotationIdx + 1,
+          })
+        })
+      })
+
+      await this.recordDBService.createRecordArr(where, {gameNum, leagueNum, recordArr})
       const {gameArr} = await this.leagueInfoDBService.readGameInfoArr(where, {leagueNum})
 
       return {ok: true, body: {gameArr}, gkdErrMsg: '', statusCode: 200}

@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
 import {useSettingCallbacksContext} from '@context'
-import {useLeagueArr, useModalActions} from '@redux'
+import {useBatterActions, useLeagueArr, useModalActions, usePitcherActions, useRecordActions} from '@redux'
 
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
@@ -14,6 +14,9 @@ type AddLeagueModalProps = ModalCommonProps
 export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
   const leagueArr = useLeagueArr()
   const {closeModal} = useModalActions()
+  const {setMainBatter3DArr, setSubBatter3DArr} = useBatterActions()
+  const {setCP3DArr, setRP3DArr, setSP3DArr} = usePitcherActions()
+  const {setLeagueArr} = useRecordActions()
   const {addLeague} = useSettingCallbacksContext()
 
   const [description, setDescription] = useState<string>('')
@@ -24,6 +27,13 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
     (description: string, newLeagueNum: number) => {
       addLeague(description, newLeagueNum).then(res => {
         if (res.isSuccess) {
+          const {CP3DArr, leagueArr, MainBatter3DArr, RP3DArr, SP3DArr, SubBatter3DArr} = res
+          setLeagueArr(leagueArr)
+          setMainBatter3DArr(MainBatter3DArr)
+          setSubBatter3DArr(SubBatter3DArr)
+          setCP3DArr(CP3DArr)
+          setRP3DArr(RP3DArr)
+          setSP3DArr(SP3DArr)
           closeModal()
         } // ::
         else {
@@ -33,7 +43,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
         }
       })
     },
-    [addLeague, closeModal]
+    [addLeague, closeModal, setCP3DArr, setLeagueArr, setMainBatter3DArr, setRP3DArr, setSP3DArr, setSubBatter3DArr]
   )
 
   const onClickSubmit = useCallback(

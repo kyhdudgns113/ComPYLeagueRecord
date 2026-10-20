@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {BatterDBService, LeagueInfoDBService, PitcherDBService} from '../Database'
+import {BatterDBService, LeagueInfoDBService, PitcherDBService, RecordDBService} from '../Database'
 
 import * as DTO from '@dtoType'
 import * as HTTP from '@httpType'
@@ -10,7 +10,8 @@ export class SettingService {
   constructor(
     private readonly batterDBService: BatterDBService,
     private readonly leagueInfoDBService: LeagueInfoDBService,
-    private readonly pitcherDBService: PitcherDBService
+    private readonly pitcherDBService: PitcherDBService,
+    private readonly recordDBService: RecordDBService
   ) {}
 
   // GET AREA:
@@ -95,9 +96,14 @@ export class SettingService {
       }
 
       await this.leagueInfoDBService.createLeagueInfo(where, dto)
-      const {leagueArr} = await this.leagueInfoDBService.readLeagueInfoArr(where)
+      await this.batterDBService.createDummyBatters(where, data.leagueNum)
+      await this.pitcherDBService.createDummyPitchers(where, data.leagueNum)
 
-      return {ok: true, body: {leagueArr}, gkdErrMsg: '', statusCode: 200}
+      const {leagueArr} = await this.leagueInfoDBService.readLeagueInfoArr(where)
+      const {MainBatter3DArr, SubBatter3DArr} = await this.batterDBService.readBatter3DArrAll(where, {maxLeagueNum: data.leagueNum})
+      const {CP3DArr, RP3DArr, SP3DArr} = await this.pitcherDBService.readPitcher3DArrAll(where, {maxLeagueNum: data.leagueNum})
+
+      return {ok: true, body: {CP3DArr, leagueArr, MainBatter3DArr, RP3DArr, SP3DArr, SubBatter3DArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::
@@ -142,11 +148,27 @@ export class SettingService {
         name: data.name,
       }
 
+      const {batter: prevBatter} = await this.batterDBService.readBatterByOId(where, data.batterOId)
       const {batter} = await this.batterDBService.updateBatter(where, dto)
       const {batterArr} = await this.batterDBService.readBatterArr(where, {
         batterClass: batter.batterClass,
         leagueNum: batter.leagueNum,
         teamName: batter.teamName,
+      })
+
+      const {gameArr} = await this.leagueInfoDBService.readGameInfoArr(where, {
+        enemyTeam: batter.teamName,
+        leagueNum: batter.leagueNum,
+      })
+      await this.recordDBService.updateBatterInfoInRecordArr(where, {
+        batterClass: batter.batterClass,
+        batterHand: batter.batterHand,
+        batterName: batter.name,
+        batterOId: batter.batterOId,
+        gameNumArr: gameArr.map(game => game.gameNum),
+        hasPressure: batter.hasPressureSkill,
+        leagueNum: batter.leagueNum,
+        prevName: prevBatter.name,
       })
 
       return {ok: true, body: {batterArr}, gkdErrMsg: '', statusCode: 200}

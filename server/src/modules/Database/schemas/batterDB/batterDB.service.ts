@@ -26,6 +26,78 @@ export class BatterDBService {
     @InjectModel(BatterArr.name) private batterArrDBModel: Model<BatterArr>
   ) {}
 
+  async createDummyBatters(where: string, leagueNum: number) {
+    where = where + '/createDummyBatters'
+
+    try {
+      const batterDocs: {
+        batterClass: OT.BatterType['batterClass']
+        batterHand: OT.BatterType['batterHand']
+        batterNum: number
+        hasPressureSkill: boolean
+        leagueNum: number
+        name: string
+        teamName: OT.BatterType['teamName']
+      }[] = []
+
+      V.TEAM_IDX_ARR.forEach(teamIdx => {
+        const teamName = V.TEAM_NAME[teamIdx]
+
+        Array.from({length: 9}, (_, idx) => {
+          batterDocs.push({
+            batterClass: '선발',
+            batterHand: '우타',
+            batterNum: idx + 1,
+            hasPressureSkill: false,
+            leagueNum,
+            name: `${idx + 1}번 선발`,
+            teamName,
+          })
+        })
+
+        Array.from({length: 5}, (_, idx) => {
+          batterDocs.push({
+            batterClass: '후보',
+            batterHand: '우타',
+            batterNum: idx + 1,
+            hasPressureSkill: false,
+            leagueNum,
+            name: `${idx + 1}번 후보`,
+            teamName,
+          })
+        })
+      })
+
+      const insertedBatterArr = await this.batterDBModel.insertMany(batterDocs)
+
+      const batterArrDocs = V.TEAM_IDX_ARR.flatMap(teamIdx => {
+        const teamName = V.TEAM_NAME[teamIdx]
+        const teamBatterArr = insertedBatterArr.filter(batter => batter.teamName === teamName)
+
+        return [
+          {
+            batterClass: '선발' as const,
+            batterOIdArr: teamBatterArr.filter(batter => batter.batterClass === '선발').map(batter => batter._id.toString()),
+            leagueNum,
+            teamName,
+          },
+          {
+            batterClass: '후보' as const,
+            batterOIdArr: teamBatterArr.filter(batter => batter.batterClass === '후보').map(batter => batter._id.toString()),
+            leagueNum,
+            teamName,
+          },
+        ]
+      })
+
+      await this.batterArrDBModel.insertMany(batterArrDocs)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async createBatter(where: string, dto: DTO.DTO_CreateBatter) {
     where = where + '/createBatter'
 
@@ -39,6 +111,24 @@ export class BatterDBService {
       await this.batterArrDBModel.updateOne({batterClass, leagueNum, teamName}, {$push: {batterOIdArr: batterOId}}, {upsert: true})
 
       return {batter: toBatterType(newBatter)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readBatterByOId(where: string, batterOId: string) {
+    where = where + '/readBatterByOId'
+
+    try {
+      const batterDB = await this.batterDBModel.findById(batterOId)
+
+      if (!batterDB) {
+        throw {gkdErrMsg: `[${where}] batter is missing`, statusCode: 400}
+      }
+
+      return {batter: toBatterType(batterDB)}
       // ::
     } catch (errObj) {
       // ::

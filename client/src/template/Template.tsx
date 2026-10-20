@@ -39,6 +39,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       {modalType === 'AddGame' && <M.AddGameModal />}
       {modalType === 'AddLeague' && <M.AddLeagueModal />}
       {modalType === 'AddPitcher' && <M.AddPitcherModal />}
+      {modalType === 'EditRecord' && <M.EditRecordModal />}
       {modalType === 'ModifyBatter' && <M.ModifyBatterModal />}
       {modalType === 'ModifyPitcher' && <M.ModifyPitcherModal />}
     </div>

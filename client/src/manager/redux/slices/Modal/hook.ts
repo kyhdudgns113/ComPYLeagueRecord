@@ -2,6 +2,7 @@ import {useAppSelector, useAppDispatch} from '@redux'
 import {ModalSlice} from './slice'
 
 import * as CT from '@commonType'
+import * as LT from '@localType'
 import * as OT from '@objectType'
 
 export const useModalStates = () => useAppSelector(state => state.modal)
@@ -16,6 +17,7 @@ export const useModalActions = () => {
     openAddGameModal: () => dispatch(ModalSlice.actions.openAddGameModal()),
     openAddLeagueModal: () => dispatch(ModalSlice.actions.openAddLeagueModal()),
     openAddPitcherModal: (pitcherType: CT.Type_Pitcher) => dispatch(ModalSlice.actions.openAddPitcherModal(pitcherType)),
+    openEditRecordModal: (payload: LT.EditRecordPayload) => dispatch(ModalSlice.actions.openEditRecordModal(payload)),
     openModifyBatterModal: (batter: OT.BatterType) => dispatch(ModalSlice.actions.openModifyBatterModal(batter)),
     openModifyPitcherModal: (pitcher: OT.PitcherType) => dispatch(ModalSlice.actions.openModifyPitcherModal(pitcher)),
   }

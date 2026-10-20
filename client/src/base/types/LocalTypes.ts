@@ -1,4 +1,5 @@
 import * as CT from '@commonType'
+import * as OT from '@objectType'
 
 import type {Dispatch, SetStateAction} from 'react'
 
@@ -12,8 +13,15 @@ export type LeagueNumType = number | null
 export type LefterTabType = 'PitchRecord' | 'Setting' | null
 export type ModalBatterTeamIdxType = number | null
 export type ModalBatterClassType = CT.Type_BatterClass | null
-export type ModalType = 'AddBatter' | 'AddGame' | 'AddLeague' | 'AddPitcher' | 'ModifyBatter' | 'ModifyPitcher' | null
+export type ModalType = 'AddBatter' | 'AddGame' | 'AddLeague' | 'AddPitcher' | 'EditRecord' | 'ModifyBatter' | 'ModifyPitcher' | null
 export type ModalPitcherType = CT.Type_Pitcher | null
+
+export type EditRecordPayload = {
+  batter: OT.BatterType
+  order: number
+  record: OT.RecordElementType | null
+  rotation: number
+}
 
 export type PageTeamType = CT.Type_Team | ''
 

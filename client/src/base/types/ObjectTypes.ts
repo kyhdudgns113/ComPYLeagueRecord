@@ -48,6 +48,7 @@ export type RecordElementType = {
   batterClass: CT.Type_BatterClass
   batterHand: CT.Type_BatterHand
   batterName: string
+  batterOId: string
 
   gameNum: number
   hasPressure: boolean

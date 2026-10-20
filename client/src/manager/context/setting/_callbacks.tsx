@@ -172,13 +172,16 @@ export const SettingCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       .then(res => {
         const {ok, body, statusCode, gkdErrMsg, message} = res
         if (ok) {
-          const {leagueArr} = body
+          const {CP3DArr, leagueArr, MainBatter3DArr, RP3DArr, SP3DArr, SubBatter3DArr} = body
 
-          if (!leagueArr) {
-            return {isSuccess: false, errMsg: `Some arr is falsy\leagueArr: ${leagueArr}`} as LT.APIReturnType
+          if (!leagueArr || !MainBatter3DArr || !SubBatter3DArr || !CP3DArr || !RP3DArr || !SP3DArr) {
+            return {
+              isSuccess: false,
+              errMsg: `Some arr is falsy\nleagueArr: ${leagueArr}\nMainBatter3DArr: ${MainBatter3DArr}\nSubBatter3DArr: ${SubBatter3DArr}\nCP3DArr: ${CP3DArr}\nRP3DArr: ${RP3DArr}\nSP3DArr: ${SP3DArr}`,
+            } as LT.APIReturnType
           } // ::
           else {
-            return {isSuccess: true, leagueArr} as LT.APIReturnType
+            return {isSuccess: true, CP3DArr, leagueArr, MainBatter3DArr, RP3DArr, SP3DArr, SubBatter3DArr} as LT.APIReturnType
           }
         } // ::
         else {

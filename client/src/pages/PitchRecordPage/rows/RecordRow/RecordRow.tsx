@@ -18,7 +18,7 @@ type RecordRowProps = TableRowCommonProps & {
 }
 
 export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props}) => {
-  const {openModifyBatterModal} = useModalActions()
+  const {openEditRecordModal, openModifyBatterModal} = useModalActions()
 
   const onDoubleClickBatter = useCallback(
     (batter: OT.BatterType) => (e: React.MouseEvent<HTMLTableCellElement>) => {
@@ -31,6 +31,15 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
       openModifyBatterModal(batter)
     },
     [openModifyBatterModal]
+  )
+
+  const onDoubleClickRecord = useCallback(
+    (batter: OT.BatterType, order: number, record: OT.RecordElementType | null, rotation: number) =>
+      (e: React.MouseEvent<HTMLTableCellElement>) => {
+        e.stopPropagation()
+        openEditRecordModal({batter, order, record, rotation})
+      },
+    [openEditRecordModal]
   )
 
   return (
@@ -50,8 +59,12 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, order, ...props
       {atBatArr.map((record, atBatIdx) => {
         return (
           <Fragment key={atBatIdx}>
-            <td className={`td-pitch`}>{record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}</td>
-            <td className={`td-result`}>{record?.result?.slice(0, 1) || ''}</td>
+            <td className={`td-pitch`} onDoubleClick={onDoubleClickRecord(batter, order, record, atBatIdx + 1)}>
+              {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
+            </td>
+            <td className={`td-result`} onDoubleClick={onDoubleClickRecord(batter, order, record, atBatIdx + 1)}>
+              {record?.result?.slice(0, 1) || ''}
+            </td>
           </Fragment>
         )
       })}

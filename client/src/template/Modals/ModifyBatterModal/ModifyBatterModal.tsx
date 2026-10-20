@@ -2,7 +2,7 @@ import {useCallback, useState} from 'react'
 
 import {Modal} from '@component'
 import {useSettingCallbacksContext} from '@context'
-import {useBatterActions, useModalActions, useModalStates} from '@redux'
+import {useBatterActions, useModalActions, useModalStates, useRecordActions, useRecordStates} from '@redux'
 
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
@@ -21,52 +21,76 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
   const {modifyBatter} = useModalStates()
   const {closeModal} = useModalActions()
   const {setTeamMainBatterArr, setTeamSubBatterArr} = useBatterActions()
+  const {setRecordArr} = useRecordActions()
+  const {gameArr, gameNum, recordArr} = useRecordStates()
   const {modifyBatter: modifyBatterApi} = useSettingCallbacksContext()
 
   const [name, setName] = useState<string>(modifyBatter?.name || '')
   const [batterHand, setBatterHand] = useState<CT.Type_BatterHand>(modifyBatter?.batterHand || '우타')
   const [hasPressureSkill, setHasPressureSkill] = useState<boolean>(modifyBatter?.hasPressureSkill || false)
 
-  const _submit = useCallback((batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) => {
-    if (!batter) {
-      alert(`[ModifyBatterModal] batter is null`)
-      return
-    }
-
-    if (name === batter.name && batterHand === batter.batterHand && hasPressureSkill === batter.hasPressureSkill) {
-      closeModal()
-      return
-    }
-
-    const teamIdx = V.TEAM_IDX_MAP[batter.teamName]
-
-    modifyBatterApi({
-      batterHand,
-      batterOId: batter.batterOId,
-      hasPressureSkill,
-      name,
-    }).then(res => {
-      if (res.isSuccess) {
-        const {batterArr} = res
-
-        switch (batter.batterClass) {
-          case '선발':
-            setTeamMainBatterArr(batter.leagueNum, teamIdx, batterArr)
-            break
-          case '후보':
-            setTeamSubBatterArr(batter.leagueNum, teamIdx, batterArr)
-            break
-        }
-
-        closeModal()
-      } // ::
-      else {
-        if (res.errMsg) {
-          alert(`[ModifyBatterModal] ${res.errMsg}`)
-        }
+  const _submit = useCallback(
+    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) => {
+      if (!batter) {
+        alert(`[ModifyBatterModal] batter is null`)
+        return
       }
-    })
-  }, [])
+
+      if (name === batter.name && batterHand === batter.batterHand && hasPressureSkill === batter.hasPressureSkill) {
+        closeModal()
+        return
+      }
+
+      const teamIdx = V.TEAM_IDX_MAP[batter.teamName]
+
+      modifyBatterApi({
+        batterHand,
+        batterOId: batter.batterOId,
+        hasPressureSkill,
+        name,
+      }).then(res => {
+        if (res.isSuccess) {
+          const {batterArr} = res
+
+          switch (batter.batterClass) {
+            case '선발':
+              setTeamMainBatterArr(batter.leagueNum, teamIdx, batterArr)
+              break
+            case '후보':
+              setTeamSubBatterArr(batter.leagueNum, teamIdx, batterArr)
+              break
+          }
+
+          const game = gameArr.find(item => item.gameNum === gameNum) || null
+          if (game && game.enemyTeam === batter.teamName) {
+            setRecordArr(
+              recordArr.map(record => {
+                if (record.batterOId === batter.batterOId || (!record.batterOId && record.batterName === batter.name)) {
+                  return {
+                    ...record,
+                    batterClass: batter.batterClass,
+                    batterHand,
+                    batterName: name,
+                    batterOId: batter.batterOId,
+                    hasPressure: hasPressureSkill,
+                  }
+                }
+                return record
+              })
+            )
+          }
+
+          closeModal()
+        } // ::
+        else {
+          if (res.errMsg) {
+            alert(`[ModifyBatterModal] ${res.errMsg}`)
+          }
+        }
+      })
+    },
+    [closeModal, gameArr, gameNum, modifyBatterApi, recordArr, setRecordArr, setTeamMainBatterArr, setTeamSubBatterArr]
+  )
 
   const onClickSubmit = useCallback(
     (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) =>

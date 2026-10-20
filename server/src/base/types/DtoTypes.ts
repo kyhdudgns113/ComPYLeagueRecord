@@ -31,6 +31,12 @@ export type DTO_CreatePitcher = {
   teamName: CT.Type_Team
 }
 
+export type DTO_CreateRecordArr = {
+  gameNum: number
+  leagueNum: number
+  recordArr: OT.RecordElementType[]
+}
+
 export type DTO_ReadBatterArr = {
   batterClass: CT.Type_BatterClass
   leagueNum: number
@@ -109,4 +115,15 @@ export type DTO_MovePitcherInArr = {
   targetIdx: number
   targetPitcherType: CT.Type_Pitcher
   teamName: CT.Type_Team
+}
+
+export type DTO_UpdateBatterInRecordArr = {
+  batterClass: CT.Type_BatterClass
+  batterHand: CT.Type_BatterHand
+  batterName: string
+  batterOId: string
+  gameNumArr: number[]
+  hasPressure: boolean
+  leagueNum: number
+  prevName: string
 }

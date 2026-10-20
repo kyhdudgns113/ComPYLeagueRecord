@@ -25,6 +25,86 @@ export class PitcherDBService {
     @InjectModel(PitcherArr.name) private pitcherArrDBModel: Model<PitcherArr>
   ) {}
 
+  async createDummyPitchers(where: string, leagueNum: number) {
+    where = where + '/createDummyPitchers'
+
+    try {
+      const pitcherDocs: {
+        leagueNum: number
+        name: string
+        pitcherHand: OT.PitcherType['pitcherHand']
+        pitcherType: OT.PitcherType['pitcherType']
+        teamName: OT.PitcherType['teamName']
+      }[] = []
+
+      V.TEAM_IDX_ARR.forEach(teamIdx => {
+        const teamName = V.TEAM_NAME[teamIdx]
+
+        Array.from({length: 5}, (_, idx) => {
+          pitcherDocs.push({
+            leagueNum,
+            name: `${idx + 1}번 선발`,
+            pitcherHand: '우완',
+            pitcherType: '선발',
+            teamName,
+          })
+        })
+
+        Array.from({length: 5}, (_, idx) => {
+          pitcherDocs.push({
+            leagueNum,
+            name: `${idx + 1}번 중계`,
+            pitcherHand: '우완',
+            pitcherType: '중계',
+            teamName,
+          })
+        })
+
+        pitcherDocs.push({
+          leagueNum,
+          name: `1번 마무리`,
+          pitcherHand: '우완',
+          pitcherType: '마무리',
+          teamName,
+        })
+      })
+
+      const insertedPitcherArr = await this.pitcherDBModel.insertMany(pitcherDocs)
+
+      const pitcherArrDocs = V.TEAM_IDX_ARR.flatMap(teamIdx => {
+        const teamName = V.TEAM_NAME[teamIdx]
+        const teamPitcherArr = insertedPitcherArr.filter(pitcher => pitcher.teamName === teamName)
+
+        return [
+          {
+            leagueNum,
+            pitcherOIdArr: teamPitcherArr.filter(pitcher => pitcher.pitcherType === '선발').map(pitcher => pitcher._id.toString()),
+            pitcherType: '선발' as const,
+            teamName,
+          },
+          {
+            leagueNum,
+            pitcherOIdArr: teamPitcherArr.filter(pitcher => pitcher.pitcherType === '중계').map(pitcher => pitcher._id.toString()),
+            pitcherType: '중계' as const,
+            teamName,
+          },
+          {
+            leagueNum,
+            pitcherOIdArr: teamPitcherArr.filter(pitcher => pitcher.pitcherType === '마무리').map(pitcher => pitcher._id.toString()),
+            pitcherType: '마무리' as const,
+            teamName,
+          },
+        ]
+      })
+
+      await this.pitcherArrDBModel.insertMany(pitcherArrDocs)
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async createPitcher(where: string, dto: DTO.DTO_CreatePitcher) {
     where = where + '/createPitcher'
 
