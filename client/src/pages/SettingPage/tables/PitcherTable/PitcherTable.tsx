@@ -1,28 +1,37 @@
+import {useTeamIdxSetting, useTeamPitcherArr} from '@redux'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import './PitcherTable.scss'
-
+import * as B from '../../buttons'
 import * as CT from '@commonType'
+import * as R from '../../rows'
+
+import './PitcherTable.scss'
 
 type PitcherTableProps = DivCommonProps & {
   pitcherType: CT.Type_Pitcher
 }
 
 export const PitcherTable: FC<PitcherTableProps> = ({pitcherType, ...props}) => {
+  const teamIdx = useTeamIdxSetting()
+
+  const pitcherArr = useTeamPitcherArr(teamIdx || 0, pitcherType) || []
+
   return (
     <div className={`PitcherTable`} {...props}>
       {/* 1. 타이틀 */}
-      <p className={`Title_PitcherTable`}>{`${pitcherType}투수`}</p>
+      <p className={`Title_Table`}>{`${pitcherType}투수`}</p>
 
-      {/* 2. 테이블 */}
-      <table className={`Table_PitcherTable`}>
-        <thead>
-          <tr>
-            <th>이름</th>
-          </tr>
-        </thead>
-      </table>
+      {/* 2. 투수 목록 */}
+      <div className={`PitcherList_Table`}>
+        {pitcherArr.map((pitcher, pitcherIdx) => {
+          return <R.PitcherRow key={pitcherIdx} pitcher={pitcher} pitcherIdx={pitcherIdx} />
+        })}
+      </div>
+
+      {/* 3. 추가 버튼 */}
+      <B.AddPitcherButton pitcherType={pitcherType} />
     </div>
   )
 }

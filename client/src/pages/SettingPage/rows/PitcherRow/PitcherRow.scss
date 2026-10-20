@@ -1,0 +1,19 @@
+.SettingPage {
+  .PlayerUnit {
+    .PitcherTable {
+      .PitcherRow {
+        transition: background-color 0.2s ease;
+
+        width: 100%;
+
+        &:hover {
+          background-color: #d0d0d0;
+        }
+
+        .Name_Row {
+          text-align: center;
+        }
+      }
+    }
+  }
+}
