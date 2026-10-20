@@ -49,39 +49,33 @@
           border-top-width: 0px;
 
           box-sizing: border-box;
-          font-size: 14px;
+          font-size: 16px;
+          height: 28px;
           white-space: nowrap;
 
           &.th-order {
-            max-width: 24px;
-            min-width: 24px;
             width: 24px;
           }
           &.th-name {
-            max-width: 90px;
-            min-width: 90px;
             width: 90px;
           }
           &.th-hand {
-            max-width: 24px;
-            min-width: 24px;
             width: 24px;
           }
           &.th-pressure {
-            max-width: 24px;
-            min-width: 24px;
+            border-right-width: 3px;
             width: 24px;
           }
           &.th-atBat {
+            border-right-width: 3px;
             border-bottom-width: 1px;
           }
           &.th-pitch {
             width: 180px;
           }
           &.th-result {
-            max-width: 24px;
-            min-width: 24px;
-            width: 24px;
+            border-right-width: 3px;
+            width: 28px;
           }
         }
       }
@@ -97,9 +91,9 @@
             border-top-width: 0px;
 
             box-sizing: border-box;
-            font-size: 12px;
+            font-size: 14px;
 
-            height: 24px;
+            height: 28px;
 
             text-align: center;
             vertical-align: middle;
@@ -107,38 +101,54 @@
 
 
             &.td-order {
-              max-width: 24px;
-              min-width: 24px;
               width: 24px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
             &.td-name {
-              max-width: 90px;
-              min-width: 90px;
               width: 90px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
             &.td-hand {
-              max-width: 24px;
-              min-width: 24px;
               width: 24px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
             &.td-pressure {
-              max-width: 24px;
-              min-width: 24px;
+              border-right-width: 3px;
               width: 24px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
 
             &.td-pitch {
               font-size: 12px;
               padding-left: 4px;
               padding-right: 4px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
 
             &.td-result {
+              border-right-width: 3px;
               font-size: 13px;
               font-weight: 700;
-              max-width: 24px;
-              min-width: 24px;
               width: 24px;
+
+              &:hover {
+                background-color: #f0f0f0;
+              }
             }
           }
         }

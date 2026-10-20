@@ -45,16 +45,13 @@
           border-top-width: 0px;
 
           &.th-number {
-            min-width: 36px;
             width: 36px;
           }
           &.th-createdAt {
-            min-width: 80px;
-            width: 80px;
+            width: 70px;
           }
           &.th-description {
-            min-width: 120px;
-            width: 120px;
+            width: 128px;
           }
         }
       }
@@ -70,6 +67,8 @@
             border-left-width: 0px;
             border-right-width: 1px;
             border-top-width: 0px;
+
+            font-size: 14px;
 
             text-align: center;
           }
