@@ -12,19 +12,26 @@ export const usePitcherActions = () => {
   const dispatch = useAppDispatch()
 
   return {
-    setTeamCPArr: (teamIdx: number, pitcherArr: OT.PitcherType[]) => dispatch(PitcherSlice.actions.modifyCPArr({teamIdx, pitcherArr})),
-    setTeamRPArr: (teamIdx: number, pitcherArr: OT.PitcherType[]) => dispatch(PitcherSlice.actions.modifyRPArr({teamIdx, pitcherArr})),
-    setTeamSPArr: (teamIdx: number, pitcherArr: OT.PitcherType[]) => dispatch(PitcherSlice.actions.modifySPArr({teamIdx, pitcherArr})),
+    setTeamCPArr: (leagueNum: number, teamIdx: number, pitcherArr: OT.PitcherType[]) =>
+      dispatch(PitcherSlice.actions.modifyCPArr({leagueNum, teamIdx, pitcherArr})),
+    setTeamRPArr: (leagueNum: number, teamIdx: number, pitcherArr: OT.PitcherType[]) =>
+      dispatch(PitcherSlice.actions.modifyRPArr({leagueNum, teamIdx, pitcherArr})),
+    setTeamSPArr: (leagueNum: number, teamIdx: number, pitcherArr: OT.PitcherType[]) =>
+      dispatch(PitcherSlice.actions.modifySPArr({leagueNum, teamIdx, pitcherArr})),
 
-    setCPMatrix: (CPMatrix: OT.PitcherType[][]) => dispatch(PitcherSlice.actions.setCPMatrix(CPMatrix)),
-    setRPMatrix: (RPMatrix: OT.PitcherType[][]) => dispatch(PitcherSlice.actions.setRPMatrix(RPMatrix)),
-    setSPMatrix: (SPMatrix: OT.PitcherType[][]) => dispatch(PitcherSlice.actions.setSPMatrix(SPMatrix)),
+    setCP3DArr: (CP3DArr: OT.PitcherType[][][]) => dispatch(PitcherSlice.actions.setCP3DArr(CP3DArr)),
+    setRP3DArr: (RP3DArr: OT.PitcherType[][][]) => dispatch(PitcherSlice.actions.setRP3DArr(RP3DArr)),
+    setSP3DArr: (SP3DArr: OT.PitcherType[][][]) => dispatch(PitcherSlice.actions.setSP3DArr(SP3DArr)),
   }
 }
 
-// export const useCopyMeCount = () => useAppSelector(state => state.copyMe.count)
+export const useTeamPitcherArr = (leagueNum: number, teamIdx: number, pitcherType: CT.Type_Pitcher) => {
+  const {CP3DArr, RP3DArr, SP3DArr} = usePitcherStates()
 
-export const useTeamPitcherArr = (teamIdx: number, pitcherType: CT.Type_Pitcher) => {
+  if (leagueNum < 0) {
+    return []
+  }
+
   if (teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
     alert(`[PitcherHook] teamIdx is out of range: ${teamIdx}. but return []`)
     return []
@@ -32,11 +39,11 @@ export const useTeamPitcherArr = (teamIdx: number, pitcherType: CT.Type_Pitcher)
 
   switch (pitcherType) {
     case '선발':
-      return usePitcherStates().SPMatrix[teamIdx]
+      return SP3DArr[leagueNum]?.[teamIdx] || []
     case '중계':
-      return usePitcherStates().RPMatrix[teamIdx]
+      return RP3DArr[leagueNum]?.[teamIdx] || []
     case '마무리':
-      return usePitcherStates().SPMatrix[teamIdx]
+      return CP3DArr[leagueNum]?.[teamIdx] || []
     default:
       alert(`[PitcherHook] pitcherType is invalid: ${pitcherType}. but return []`)
       return []

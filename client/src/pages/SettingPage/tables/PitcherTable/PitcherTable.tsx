@@ -1,4 +1,4 @@
-import {useTeamIdxSetting, useTeamPitcherArr} from '@redux'
+import {useLeagueNumSetting, useTeamIdxSetting, useTeamPitcherArr} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -14,9 +14,10 @@ type PitcherTableProps = DivCommonProps & {
 }
 
 export const PitcherTable: FC<PitcherTableProps> = ({pitcherType, ...props}) => {
+  const leagueNum = useLeagueNumSetting()
   const teamIdx = useTeamIdxSetting()
 
-  const pitcherArr = useTeamPitcherArr(teamIdx || 0, pitcherType) || []
+  const pitcherArr = useTeamPitcherArr(leagueNum ?? -1, teamIdx ?? -1, pitcherType)
 
   return (
     <div className={`PitcherTable`} {...props}>

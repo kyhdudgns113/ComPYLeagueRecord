@@ -13,9 +13,21 @@ export class SettingController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Get('/getPitcher3DArrAll')
+  async getPitcher3DArrAll() {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.getPitcher3DArrAll()
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   @Post('/addLeague')
   async addLeague(@Body() data: HTTP.HTTP_AddLeague) {
     const {ok, body, gkdErrMsg, statusCode} = await this.settingService.addLeague(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Post('/addPitcher')
+  async addPitcher(@Body() data: HTTP.HTTP_AddPitcher) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.addPitcher(data)
     return {ok, body, gkdErrMsg, statusCode}
   }
 }

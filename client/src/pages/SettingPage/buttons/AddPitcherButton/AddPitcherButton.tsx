@@ -22,11 +22,11 @@ export const AddPitcherButton: FC<AddPitcherButtonProps> = ({pitcherType, ...pro
       e.stopPropagation()
       openAddPitcherModal(pitcherType)
     },
-    []
+    [openAddPitcherModal]
   )
 
   return (
-    <button className={`AddPitcherButton`} onClick={() => onClickAddPitcher(pitcherType)} {...props}>
+    <button className={`AddPitcherButton`} onClick={onClickAddPitcher(pitcherType)} {...props}>
       <Icon className={`AddPitcherIcon_Button`} iconName="add" />
     </button>
   )

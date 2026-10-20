@@ -23,10 +23,21 @@ export type DTO_CreateLeagueInfo = {
 }
 
 export type DTO_CreatePitcher = {
+  leagueNum: number
   name: string
   pitcherHand: CT.Type_PitcherHand
   pitcherType: CT.Type_Pitcher
   teamName: CT.Type_Team
+}
+
+export type DTO_ReadPitcherArr = {
+  leagueNum: number
+  pitcherType: CT.Type_Pitcher
+  teamName: CT.Type_Team
+}
+
+export type DTO_ReadPitcher3DArrAll = {
+  maxLeagueNum: number
 }
 
 export type DTO_ReadGameInfoArr = {
