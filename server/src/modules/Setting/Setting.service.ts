@@ -86,4 +86,32 @@ export class SettingService {
       return U.getFailResponse(errObj)
     }
   }
+
+  // PUT AREA:
+  async movePitcherInArr(data: HTTP.HTTP_MovePitcherInArr) {
+    const where = '/setting/movePitcherInArr'
+    try {
+      const dto: DTO.DTO_MovePitcherInArr = {
+        leagueNum: data.leagueNum,
+        pitcherOId: data.pitcherOId,
+        pitcherType: data.pitcherType,
+        targetIdx: data.targetIdx,
+        targetPitcherType: data.targetPitcherType,
+        teamName: data.teamName,
+      }
+
+      await this.pitcherDBService.updatePitcherInArr(where, dto)
+
+      const readDto = {leagueNum: data.leagueNum, teamName: data.teamName}
+      const {pitcherArr: SPArr} = await this.pitcherDBService.readPitcherArr(where, {...readDto, pitcherType: '선발'})
+      const {pitcherArr: RPArr} = await this.pitcherDBService.readPitcherArr(where, {...readDto, pitcherType: '중계'})
+      const {pitcherArr: CPArr} = await this.pitcherDBService.readPitcherArr(where, {...readDto, pitcherType: '마무리'})
+
+      return {ok: true, body: {CPArr, RPArr, SPArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
 }

@@ -63,3 +63,12 @@ export type DTO_UpdatePitcherArr = {
   pitcherType: CT.Type_Pitcher
   teamName: CT.Type_Team
 }
+
+export type DTO_MovePitcherInArr = {
+  leagueNum: number
+  pitcherOId: string
+  pitcherType: CT.Type_Pitcher
+  targetIdx: number
+  targetPitcherType: CT.Type_Pitcher
+  teamName: CT.Type_Team
+}

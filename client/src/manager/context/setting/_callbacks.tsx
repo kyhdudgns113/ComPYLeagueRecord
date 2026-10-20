@@ -2,10 +2,13 @@ import {createContext, useCallback, useContext} from 'react'
 
 import type {FC, PropsWithChildren} from 'react'
 
+import * as CT from '@commonType'
 import * as F from '@fetch'
 import * as HTTP from '@httpType'
 import * as LT from '@localType'
+import * as OT from '@objectType'
 import * as U from '@util'
+import * as V from '@value'
 
 // prettier-ignore
 type ContextType = {
@@ -14,6 +17,8 @@ type ContextType = {
 
   addLeague: (description: string, leagueNum: number) => Promise<LT.APIReturnType>,
   addPitcher: (data: HTTP.HTTP_AddPitcher) => Promise<LT.APIReturnType>,
+
+  movePitcherInArr: (movePitcher: OT.PitcherType, targetIdx: number, targetPitcherType: CT.Type_Pitcher, teamName: CT.Type_Team) => Promise<LT.APIReturnType>,
 }
 // prettier-ignore
 export const SettingCallbacksContext = createContext<ContextType>({
@@ -22,6 +27,8 @@ export const SettingCallbacksContext = createContext<ContextType>({
 
   addLeague: () => Promise.resolve({isSuccess: false, errMsg: `addLeague is not initialized`}),
   addPitcher: () => Promise.resolve({isSuccess: false, errMsg: `addPitcher is not initialized`}),
+
+  movePitcherInArr: () => Promise.resolve({isSuccess: false, errMsg: `movePitcherInArr is not initialized`}),
 })
 
 export const useSettingCallbacksContext = () => useContext(SettingCallbacksContext)
@@ -146,6 +153,51 @@ export const SettingCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, [])
 
+  // PUT AREA:
+  const movePitcherInArr = useCallback(
+    async (movePitcher: OT.PitcherType, targetIdx: number, targetPitcherType: CT.Type_Pitcher, teamName: CT.Type_Team) => {
+      const url = `/setting/movePitcherInArr`
+
+      const {leagueNum} = movePitcher
+
+      const data: HTTP.HTTP_MovePitcherInArr = {
+        leagueNum: leagueNum,
+        pitcherOId: movePitcher.pitcherOId,
+        pitcherType: movePitcher.pitcherType,
+        targetIdx,
+        targetPitcherType,
+        teamName,
+      }
+
+      const teamIdx = V.TEAM_IDX_MAP[teamName]
+
+      return F.put(url, data, null)
+        .then(res => res.json())
+        .then(res => {
+          const {ok, body, statusCode, gkdErrMsg, message} = res
+          if (ok) {
+            const {CPArr, RPArr, SPArr} = body
+
+            if (!CPArr || !RPArr || !SPArr) {
+              return {isSuccess: false, errMsg: `Some arr is falsy\CPArr: ${CPArr}, RPArr: ${RPArr}, SPArr: ${SPArr}`} as LT.APIReturnType
+            } // ::
+            else {
+              return {isSuccess: true, leagueNum, teamIdx, CPArr, RPArr, SPArr} as LT.APIReturnType
+            }
+          } // ::
+          else {
+            U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+            return {isSuccess: false} as LT.APIReturnType
+          }
+        })
+        .catch(errObj => {
+          U.alertErrors(url, errObj)
+          return {isSuccess: false} as LT.APIReturnType
+        })
+    },
+    []
+  )
+
   // prettier-ignore
   const value: ContextType = {
     getLeagueArr,
@@ -153,6 +205,8 @@ export const SettingCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
 
     addLeague,
     addPitcher,
+
+    movePitcherInArr,
   }
   return <SettingCallbacksContext.Provider value={value}>{children}</SettingCallbacksContext.Provider>
 }

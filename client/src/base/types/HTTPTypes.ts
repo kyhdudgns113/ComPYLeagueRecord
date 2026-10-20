@@ -31,6 +31,7 @@ export type HTTP_AddPitcher = {
 }
 
 export type HTTP_MovePitcherInArr = {
+  leagueNum: number
   pitcherOId: string
   pitcherType: CT.Type_Pitcher
 

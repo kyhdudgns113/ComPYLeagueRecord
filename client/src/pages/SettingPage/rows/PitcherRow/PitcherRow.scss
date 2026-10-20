@@ -2,7 +2,13 @@
   .PlayerUnit {
     .PitcherTable {
       .PitcherRow {
+        cursor: default;
+
+        padding-bottom: 2px;
+        padding-top: 2px;
+
         transition: background-color 0.2s ease;
+        user-select: none;
 
         width: 100%;
 

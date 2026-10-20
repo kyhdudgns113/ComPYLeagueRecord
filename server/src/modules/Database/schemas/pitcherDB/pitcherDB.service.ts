@@ -148,4 +148,32 @@ export class PitcherDBService {
       throw errObj
     }
   }
+
+  async updatePitcherInArr(where: string, dto: DTO.DTO_MovePitcherInArr) {
+    where = where + '/updatePitcherInArr'
+
+    const {leagueNum, pitcherOId, pitcherType, targetIdx, targetPitcherType, teamName} = dto
+
+    try {
+      if (pitcherType !== targetPitcherType) {
+        const srcArrDB = await this.pitcherArrDBModel.findOne({leagueNum, pitcherType, teamName})
+        if (srcArrDB) {
+          await this.pitcherArrDBModel.updateOne({_id: srcArrDB._id}, {$set: {pitcherOIdArr: srcArrDB.pitcherOIdArr.filter(id => id !== pitcherOId)}})
+        }
+
+        await this.pitcherDBModel.updateOne({_id: pitcherOId}, {$set: {pitcherType: targetPitcherType}})
+      }
+
+      const dstArrDB = await this.pitcherArrDBModel.findOne({leagueNum, pitcherType: targetPitcherType, teamName})
+      const pitcherOIdArr = (dstArrDB?.pitcherOIdArr ?? []).filter(id => id !== pitcherOId)
+      const insertIdx = Math.max(0, Math.min(targetIdx, pitcherOIdArr.length))
+      pitcherOIdArr.splice(insertIdx, 0, pitcherOId)
+
+      await this.pitcherArrDBModel.updateOne({leagueNum, pitcherType: targetPitcherType, teamName}, {$set: {pitcherOIdArr}}, {upsert: true})
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
 }

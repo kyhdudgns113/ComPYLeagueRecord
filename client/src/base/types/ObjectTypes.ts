@@ -7,7 +7,7 @@ export type BatterType = {
 
   hasPressureSkill: boolean // 위압감 여부
 
-  leagueNum: string
+  leagueNum: number
   name: string
 
   teamName: CT.Type_Team
@@ -32,7 +32,7 @@ export type PitchType = {
 }
 
 export type PitcherType = {
-  leagueNum: string
+  leagueNum: number
   name: string
   pitcherHand: CT.Type_PitcherHand
   pitcherOId: string // uniqueId, ObjectId
