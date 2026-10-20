@@ -20,7 +20,9 @@ export const useRecordActions = () => {
     setGameNum: (gameNum: number) => dispatch(RecordSlice.actions.setGameNum(gameNum)),
     setLeagueArr: (leagueArr: OT.LeagueInfoType[]) => dispatch(RecordSlice.actions.setLeagueArr(leagueArr)),
     setLeagueNum: (leagueNum: number) => dispatch(RecordSlice.actions.setLeagueNum(leagueNum)),
+    setRecordArr: (recordArr: OT.RecordElementType[]) => dispatch(RecordSlice.actions.setRecordArr(recordArr)),
   }
 }
 
 export const useLeagueArr = () => useAppSelector(state => state.record.leagueArr)
+export const useRecordArr = () => useAppSelector(state => state.record.recordArr)

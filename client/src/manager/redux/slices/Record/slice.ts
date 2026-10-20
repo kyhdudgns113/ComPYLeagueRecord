@@ -10,6 +10,8 @@ interface RecordState {
   gameNum: LT.GameNumType
   leagueArr: OT.LeagueInfoType[]
   leagueNum: LT.LeagueNumType
+
+  recordArr: OT.RecordElementType[]
 }
 
 const initialState: RecordState = {
@@ -17,6 +19,8 @@ const initialState: RecordState = {
   gameNum: null,
   leagueArr: [],
   leagueNum: null,
+
+  recordArr: [],
 }
 
 export const RecordSlice = createSlice({
@@ -49,6 +53,9 @@ export const RecordSlice = createSlice({
     },
     setLeagueNum: (state, action: PayloadAction<LT.LeagueNumType>) => {
       state.leagueNum = action.payload
+    },
+    setRecordArr: (state, action: PayloadAction<OT.RecordElementType[]>) => {
+      state.recordArr = action.payload
     },
   },
 })

@@ -10,12 +10,14 @@ import * as U from '@util'
 // prettier-ignore
 type ContextType = {
   getGameArr: (leagueNum: number) => Promise<LT.APIReturnType>,
+  getRecordArr: (gameNum: number, leagueNum: number) => Promise<LT.APIReturnType>,
 
   addGame: (data: HTTP.HTTP_AddGame) => Promise<LT.APIReturnType>,
 }
 // prettier-ignore
 export const RecordCallbacksContext = createContext<ContextType>({
   getGameArr: () => Promise.resolve({isSuccess: false, errMsg: `getGameArr is not initialized`}),
+  getRecordArr: () => Promise.resolve({isSuccess: false, errMsg: `getRecordArr is not initialized`}),
 
   addGame: () => Promise.resolve({isSuccess: false, errMsg: `addGame is not initialized`}),
 })
@@ -40,6 +42,34 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
           }
 
           return {isSuccess: true, gameArr} as LT.APIReturnType
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
+  const getRecordArr = useCallback(async (gameNum: number, leagueNum: number) => {
+    const url = `/record/getRecordArr/${leagueNum}/${gameNum}`
+
+    return F.get(url, null)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+
+        if (ok) {
+          const {recordArr} = body
+
+          if (!recordArr) {
+            return {isSuccess: false, errMsg: `Some arr is falsy\recordArr: ${recordArr}`} as LT.APIReturnType
+          }
+
+          return {isSuccess: true, recordArr} as LT.APIReturnType
         } // ::
         else {
           U.alertErrMsg(url, statusCode, gkdErrMsg, message)
@@ -84,6 +114,7 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
   // prettier-ignore
   const value: ContextType = {
     getGameArr,
+    getRecordArr,
 
     addGame,
   }

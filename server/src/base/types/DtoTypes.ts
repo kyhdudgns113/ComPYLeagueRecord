@@ -51,6 +51,11 @@ export type DTO_ReadPitcher3DArrAll = {
   maxLeagueNum: number
 }
 
+export type DTO_ReadRecordArr = {
+  gameNum: number
+  leagueNum: number
+}
+
 export type DTO_ReadGameInfoArr = {
   enemyTeam?: CT.Type_Team
   gameNum?: number

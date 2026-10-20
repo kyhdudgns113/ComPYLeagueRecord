@@ -8,6 +8,7 @@
 
     user-select: none;
 
+    flex-shrink: 0;
     width: fit-content;
 
     .Title_Unit {
@@ -19,7 +20,6 @@
 
       text-align: center;
       user-select: none;
-      width: 100%;
     }
 
     .Table_Unit {
@@ -45,12 +45,15 @@
           border-top-width: 0px;
 
           &.th-number {
+            min-width: 36px;
             width: 36px;
           }
           &.th-createdAt {
+            min-width: 80px;
             width: 80px;
           }
           &.th-description {
+            min-width: 120px;
             width: 120px;
           }
         }

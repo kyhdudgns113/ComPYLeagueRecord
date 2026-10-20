@@ -8,6 +8,7 @@ export const NULL_BATTER_OBJ = () => {
     hasPressureSkill: false,
     name: 'NULL VALUE',
     teamName: 'KT',
+    leagueNum: 0,
   }
   return ret
 }
@@ -29,6 +30,7 @@ export const NULL_PITCHER_OBJ = () => {
     pitcherOId: '빈 OID',
     pitcherType: '선발',
     teamName: 'KT',
+    leagueNum: 0,
   }
   return ret
 }

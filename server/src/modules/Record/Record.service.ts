@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {LeagueInfoDBService} from '../Database'
+import {LeagueInfoDBService, RecordDBService} from '../Database'
 
 import * as DTO from '@dtoType'
 import * as HTTP from '@httpType'
@@ -7,7 +7,10 @@ import * as U from '@util'
 
 @Injectable()
 export class RecordService {
-  constructor(private readonly leagueInfoDBService: LeagueInfoDBService) {}
+  constructor(
+    private readonly leagueInfoDBService: LeagueInfoDBService,
+    private readonly recordDBService: RecordDBService
+  ) {}
 
   // GET AREA:
   async getGameArr(leagueNumRaw: string) {
@@ -21,6 +24,28 @@ export class RecordService {
       const {gameArr} = await this.leagueInfoDBService.readGameInfoArr(where, {leagueNum})
 
       return {ok: true, body: {gameArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async getRecordArr(leagueNumRaw: string, gameNumRaw: string) {
+    const where = '/record/getRecordArr'
+    try {
+      const leagueNum = parseInt(leagueNumRaw)
+      const gameNum = parseInt(gameNumRaw)
+      if (isNaN(leagueNum) || isNaN(gameNum)) {
+        throw {
+          gkdErrMsg: `[${where}] leagueNum or gameNum is invalid: ${leagueNumRaw}, ${gameNumRaw}`,
+          statusCode: 400,
+        }
+      }
+
+      const {recordArr} = await this.recordDBService.readRecordArr(where, {gameNum, leagueNum})
+
+      return {ok: true, body: {recordArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

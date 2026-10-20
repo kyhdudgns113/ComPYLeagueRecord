@@ -28,7 +28,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batterHand, batterName,
       {atBatArr.map((record, atBatIdx) => {
         return (
           <Fragment key={atBatIdx}>
-            <td className={`td-pitch`}>{record ? record.pitch.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}</td>
+            <td className={`td-pitch`}>{record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}</td>
             <td className={`td-result`}>{record?.result?.slice(0, 1) || ''}</td>
           </Fragment>
         )

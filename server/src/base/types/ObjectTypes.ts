@@ -48,16 +48,14 @@ export type RecordElementType = {
   batterClass: CT.Type_BatterClass
   batterHand: CT.Type_BatterHand
   batterName: string
-  hasPressure: boolean
 
-  pitch: PitchType[]
+  gameNum: number
+  hasPressure: boolean
+  leagueNum: number
+  order: number // 1번~9번
+
+  pitchArr: PitchType[]
   pitcherName: string
   result: CT.Type_Result
-}
-
-export type RecordObjectType = {
-  gameNum: number
-  leagueNum: number
-
-  RecordMatrix: RecordElementType[][]
+  rotation: number // 몇번째 타석인지. 대타가 나와도 1로 초기화 되지 않는다.
 }

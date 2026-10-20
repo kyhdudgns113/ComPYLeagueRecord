@@ -1,177 +1,37 @@
 import {Fragment, useEffect, useState} from 'react'
 
-import {useRecordStates} from '@redux'
+import {useRecordStates, useTeamBatterArr} from '@redux'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import * as CT from '@commonType'
 import * as OT from '@objectType'
 import * as R from '../../rows'
+import * as V from '@value'
 
 import './RecordUnit.scss'
 
-type DummyStarterType = {
-  batterHand: CT.Type_BatterHand
-  batterName: string
-  hasPressure: boolean
-  order: number
-}
+const ORDER_ARR = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 
-const DUMMY_STARTER_ARR: DummyStarterType[] = [
-  {order: 1, batterName: '박찬호', batterHand: '우타', hasPressure: false},
-  {order: 2, batterName: '김도영', batterHand: '우타', hasPressure: true},
-  {order: 3, batterName: '소크라테스', batterHand: '좌타', hasPressure: false},
-  {order: 4, batterName: '최형우', batterHand: '좌타', hasPressure: true},
-  {order: 5, batterName: '나성범', batterHand: '좌타', hasPressure: false},
-  {order: 6, batterName: '김선빈', batterHand: '우타', hasPressure: false},
-  {order: 7, batterName: '이우성', batterHand: '우타', hasPressure: false},
-  {order: 8, batterName: '한준수', batterHand: '좌타', hasPressure: false},
-  {order: 9, batterName: '박민', batterHand: '우타', hasPressure: false},
-]
-
-const makeRecord = (
-  starter: DummyStarterType,
-  pitcherName: string,
-  pitch: OT.PitchType[],
-  result: CT.Type_Result,
-  override?: Partial<OT.RecordElementType>
-): OT.RecordElementType => {
-  return {
-    batterClass: '선발',
-    batterHand: starter.batterHand,
-    batterName: starter.batterName,
-    hasPressure: starter.hasPressure,
-    pitch,
-    pitcherName,
-    result,
-    ...override,
-  }
-}
-
-const DUMMY_RECORD_ARR: OT.RecordElementType[] = [
-  makeRecord(
-    DUMMY_STARTER_ARR[0],
-    '구대성',
-    [
-      {ball: '직구', location: '5'},
-      {ball: '슬라이더', location: 'H1'},
-    ],
-    '삼진'
-  ),
-  makeRecord(
-    DUMMY_STARTER_ARR[1],
-    '구대성',
-    [
-      {ball: '직구', location: '2'},
-      {ball: '커브', location: '7'},
-    ],
-    '1루타'
-  ),
-  makeRecord(
-    DUMMY_STARTER_ARR[2],
-    '구대성',
-    [
-      {ball: '포크', location: '8'},
-      {ball: '직구', location: '9'},
-    ],
-    '뜬공'
-  ),
-  makeRecord(
-    DUMMY_STARTER_ARR[3],
-    '구대성',
-    [
-      {ball: '직구', location: '1'},
-      {ball: '슬라이더', location: 'L7'},
-    ],
-    '삼진'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[4], '구대성', [{ball: '체인지업', location: '6'}], '땅볼'),
-  makeRecord(
-    DUMMY_STARTER_ARR[5],
-    '구대성',
-    [
-      {ball: '직구', location: '4'},
-      {ball: '직구', location: '5'},
-      {ball: '컷터', location: '3'},
-    ],
-    '2루타'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[6], '구대성', [{ball: '슬라이더', location: 'HR'}], '삼진'),
-  makeRecord(DUMMY_STARTER_ARR[7], '구대성', [{ball: '직구', location: '8'}], '병살'),
-  makeRecord(DUMMY_STARTER_ARR[8], '구대성', [{ball: '커브', location: 'B8'}], '뜬공'),
-  makeRecord(DUMMY_STARTER_ARR[0], '구대성', [{ball: '직구', location: '5'}], '1루타'),
-  makeRecord(
-    DUMMY_STARTER_ARR[1],
-    '구대성',
-    [
-      {ball: '슬라이더', location: '2'},
-      {ball: '포크', location: '8'},
-    ],
-    '홈런'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[2], '정민철', [{ball: '직구', location: '9'}], '직선타'),
-  makeRecord(
-    DUMMY_STARTER_ARR[3],
-    '정민철',
-    [
-      {ball: '투심', location: '5'},
-      {ball: '커브', location: 'H3'},
-    ],
-    '삼진'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[4], '정민철', [{ball: '직구', location: 'L1'}], '에러'),
-  makeRecord(DUMMY_STARTER_ARR[5], '정민철', [{ball: '슬라이더', location: '6'}], '뜬공', {
-    batterClass: '후보',
-    batterName: '이창진',
-    batterHand: '좌타',
-    hasPressure: false,
-  }),
-  makeRecord(
-    DUMMY_STARTER_ARR[6],
-    '정민철',
-    [
-      {ball: '직구', location: '7'},
-      {ball: '체인지업', location: '2'},
-    ],
-    '땅볼'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[7], '정민철', [{ball: '포크', location: '5'}], '삼진'),
-  makeRecord(DUMMY_STARTER_ARR[8], '정민철', [{ball: '직구', location: '3'}], '1루타'),
-  makeRecord(
-    DUMMY_STARTER_ARR[0],
-    '김원형',
-    [
-      {ball: '직구', location: '5'},
-      {ball: '슬라이더', location: '1'},
-    ],
-    '뜬공'
-  ),
-  makeRecord(DUMMY_STARTER_ARR[1], '김원형', [{ball: '커브', location: '8'}], '삼진'),
-  makeRecord(
-    DUMMY_STARTER_ARR[2],
-    '김원형',
-    [
-      {ball: '직구', location: '4'},
-      {ball: '직구', location: '6'},
-    ],
-    '2루타'
-  ),
-]
-
-const getAtBatArr = (recordArr: OT.RecordElementType[], orderIdx: number, atBatLen: number) => {
+const getAtBatArr = (recordArr: OT.RecordElementType[], order: number, atBatLen: number) => {
   return Array.from({length: atBatLen}, (_, atBatIdx) => {
-    return recordArr[atBatIdx * 9 + orderIdx] || null
+    return recordArr.find(record => record.order === order && record.rotation === atBatIdx + 1) || null
   })
 }
 
 type RecordUnitProps = DivCommonProps
 
 export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
-  const {gameNum, leagueNum} = useRecordStates()
+  const {gameArr, gameNum, leagueNum, recordArr} = useRecordStates()
   const [isHidden, setIsHidden] = useState<boolean>(true)
 
-  const atBatLen = Math.max(6, Math.ceil(DUMMY_RECORD_ARR.length / 9))
+  const game = gameArr.find(item => item.gameNum === gameNum) || null
+  const teamIdx = game ? V.TEAM_IDX_MAP[game.enemyTeam] : -1
+  const starterArr = useTeamBatterArr(leagueNum ?? -1, teamIdx, '선발')
+
+  const lineupArr = ORDER_ARR.map((_, orderIdx) => starterArr[orderIdx] || V.NULL_BATTER_OBJ())
+  const maxRotation = Math.max(0, ...recordArr.map(record => record.rotation || 0))
+  const atBatLen = Math.max(6, maxRotation)
 
   useEffect(() => {
     setIsHidden(gameNum === null)
@@ -215,15 +75,16 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
             </tr>
           </thead>
           <tbody>
-            {DUMMY_STARTER_ARR.map((starter, orderIdx) => {
+            {lineupArr.map((batter, orderIdx) => {
+              const order = ORDER_ARR[orderIdx]
               return (
                 <R.RecordRow
-                  key={starter.order}
-                  atBatArr={getAtBatArr(DUMMY_RECORD_ARR, orderIdx, atBatLen)}
-                  batterHand={starter.batterHand}
-                  batterName={starter.batterName}
-                  hasPressure={starter.hasPressure}
-                  order={starter.order}
+                  key={order}
+                  atBatArr={getAtBatArr(recordArr, order, atBatLen)}
+                  batterHand={batter.batterHand}
+                  batterName={batter.name}
+                  hasPressure={batter.hasPressureSkill}
+                  order={order}
                 />
               )
             })}
