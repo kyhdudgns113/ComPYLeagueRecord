@@ -1,0 +1,25 @@
+.SettingPage {
+  .PlayerUnit {
+    .BatterTable {
+      .BatterRow {
+        cursor: default;
+
+        padding-bottom: 2px;
+        padding-top: 2px;
+
+        transition: background-color 0.2s ease;
+        user-select: none;
+
+        width: 100%;
+
+        &:hover {
+          background-color: #d0d0d0;
+        }
+
+        .Name_Row {
+          text-align: center;
+        }
+      }
+    }
+  }
+}

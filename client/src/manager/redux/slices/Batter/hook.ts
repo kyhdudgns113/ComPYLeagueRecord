@@ -12,27 +12,33 @@ export const useBatterActions = () => {
   const dispatch = useAppDispatch()
 
   return {
-    setTeamMainBatterArr: (teamIdx: number, batterArr: OT.BatterType[]) => dispatch(BatterSlice.actions.modifyMainBatterArr({teamIdx, batterArr})),
-    setTeamSubBatterArr: (teamIdx: number, batterArr: OT.BatterType[]) => dispatch(BatterSlice.actions.modifySubBatterArr({teamIdx, batterArr})),
+    setTeamMainBatterArr: (leagueNum: number, teamIdx: number, batterArr: OT.BatterType[]) =>
+      dispatch(BatterSlice.actions.modifyMainBatterArr({leagueNum, teamIdx, batterArr})),
+    setTeamSubBatterArr: (leagueNum: number, teamIdx: number, batterArr: OT.BatterType[]) =>
+      dispatch(BatterSlice.actions.modifySubBatterArr({leagueNum, teamIdx, batterArr})),
 
-    setMainBatterMatrix: (MainBatterMatrix: OT.BatterType[][]) => dispatch(BatterSlice.actions.setMainBatterMatrix(MainBatterMatrix)),
-    setSubBatterMatrix: (SubBatterMatrix: OT.BatterType[][]) => dispatch(BatterSlice.actions.setSubBatterMatrix(SubBatterMatrix)),
+    setMainBatter3DArr: (MainBatter3DArr: OT.BatterType[][][]) => dispatch(BatterSlice.actions.setMainBatter3DArr(MainBatter3DArr)),
+    setSubBatter3DArr: (SubBatter3DArr: OT.BatterType[][][]) => dispatch(BatterSlice.actions.setSubBatter3DArr(SubBatter3DArr)),
   }
 }
 
-export const useTeamBatterArr = (teamIdx: number, batterClass: CT.Type_BatterClass) => {
-  const {MainBatterMatrix, SubBatterMatrix} = useBatterStates()
+export const useTeamBatterArr = (leagueNum: number, teamIdx: number, batterClass: CT.Type_BatterClass) => {
+  const {MainBatter3DArr, SubBatter3DArr} = useBatterStates()
+
+  if (leagueNum < 0) {
+    return []
+  }
 
   if (teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
-    alert(`[BatterHook] teamIdx is out of range: ${teamIdx}. but return []`)
+    // alert(`[BatterHook] teamIdx is out of range: ${teamIdx}. but return []`)
     return []
   }
 
   switch (batterClass) {
     case '선발':
-      return MainBatterMatrix[teamIdx]
+      return MainBatter3DArr[leagueNum]?.[teamIdx] || []
     case '후보':
-      return SubBatterMatrix[teamIdx]
+      return SubBatter3DArr[leagueNum]?.[teamIdx] || []
     default:
       alert(`[BatterHook] batterClass is invalid: ${batterClass}. but return []`)
       return []

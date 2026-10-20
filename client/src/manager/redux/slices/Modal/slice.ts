@@ -7,12 +7,14 @@ import * as LT from '@localType'
 interface ModalState {
   modalType: LT.ModalType
 
+  addBatter_BatterClass: LT.ModalBatterClassType
   addPitcher_PitcherType: LT.ModalPitcherType
 }
 
 const initialState: ModalState = {
   modalType: null,
 
+  addBatter_BatterClass: null,
   addPitcher_PitcherType: null,
 }
 
@@ -22,15 +24,23 @@ export const ModalSlice = createSlice({
   reducers: {
     closeModal: state => {
       state.modalType = null
+      state.addBatter_BatterClass = null
       state.addPitcher_PitcherType = null
     },
 
+    openAddBatterModal: (state, action: PayloadAction<LT.ModalBatterClassType>) => {
+      state.modalType = 'AddBatter'
+      state.addBatter_BatterClass = action.payload
+      state.addPitcher_PitcherType = null
+    },
     openAddLeagueModal: state => {
       state.modalType = 'AddLeague'
+      state.addBatter_BatterClass = null
       state.addPitcher_PitcherType = null
     },
     openAddPitcherModal: (state, action: PayloadAction<LT.ModalPitcherType>) => {
       state.modalType = 'AddPitcher'
+      state.addBatter_BatterClass = null
       state.addPitcher_PitcherType = action.payload
     },
   },

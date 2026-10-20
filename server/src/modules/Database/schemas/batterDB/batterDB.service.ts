@@ -1,0 +1,162 @@
+import {Injectable} from '@nestjs/common'
+import {InjectModel} from '@nestjs/mongoose'
+import {Batter, BatterArr} from './batterDB.entity'
+import {Model} from 'mongoose'
+
+import * as DTO from '@dtoType'
+import * as OT from '@objectTye'
+import * as V from '@value'
+
+const toBatterType = (batter: Batter): OT.BatterType => {
+  return {
+    batterClass: batter.batterClass,
+    batterHand: batter.batterHand,
+    batterOId: batter._id.toString(),
+    hasPressureSkill: batter.hasPressureSkill,
+    leagueNum: batter.leagueNum,
+    name: batter.name,
+    teamName: batter.teamName,
+  }
+}
+
+@Injectable()
+export class BatterDBService {
+  constructor(
+    @InjectModel(Batter.name) private batterDBModel: Model<Batter>,
+    @InjectModel(BatterArr.name) private batterArrDBModel: Model<BatterArr>
+  ) {}
+
+  async createBatter(where: string, dto: DTO.DTO_CreateBatter) {
+    where = where + '/createBatter'
+
+    const {batterClass, batterHand, batterNum, hasPressureSkill, leagueNum, name, teamName} = dto
+
+    try {
+      const newBatter = new this.batterDBModel({batterClass, batterHand, batterNum, hasPressureSkill, leagueNum, name, teamName})
+      await newBatter.save()
+
+      const batterOId = newBatter._id.toString()
+      await this.batterArrDBModel.updateOne({batterClass, leagueNum, teamName}, {$push: {batterOIdArr: batterOId}}, {upsert: true})
+
+      return {batter: toBatterType(newBatter)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readBatterArr(where: string, dto: DTO.DTO_ReadBatterArr) {
+    where = where + '/readBatterArr'
+
+    const {batterClass, leagueNum, teamName} = dto
+
+    try {
+      const batterArrDB = await this.batterArrDBModel.findOne({batterClass, leagueNum, teamName})
+
+      if (!batterArrDB) {
+        return {batterArr: []}
+      }
+
+      const batterOIdArr = batterArrDB.batterOIdArr
+      const batterDBArr = await this.batterDBModel.find({batterClass, leagueNum, teamName})
+      const batterArr = batterOIdArr.flatMap(batterOId => {
+        const batter = batterDBArr.find(item => item._id.toString() === batterOId)
+        if (!batter) {
+          return []
+        }
+        return [toBatterType(batter)]
+      })
+
+      return {batterArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async readBatter3DArrAll(where: string, dto: DTO.DTO_ReadBatter3DArrAll) {
+    where = where + '/readBatter3DArrAll'
+
+    const {maxLeagueNum} = dto
+
+    try {
+      const batterArrDBArr = await this.batterArrDBModel.find()
+      const batterDBArr = await this.batterDBModel.find()
+      const batterDBMap = new Map(batterDBArr.map(batter => [batter._id.toString(), batter]))
+
+      const leagueLen =
+        Math.max(maxLeagueNum, ...batterArrDBArr.map(batterArrDB => batterArrDB.leagueNum), ...batterDBArr.map(batter => batter.leagueNum), 0) + 1
+      const emptyMatrix = (): OT.BatterType[][] => Array.from({length: V.TEAM_IDX_ARR.length}, () => [])
+      const MainBatter3DArr = Array.from({length: leagueLen}, emptyMatrix)
+      const SubBatter3DArr = Array.from({length: leagueLen}, emptyMatrix)
+
+      batterArrDBArr.forEach(batterArrDB => {
+        const {batterClass, leagueNum, teamName} = batterArrDB
+        const teamIdx = V.TEAM_IDX_ARR.find(idx => V.TEAM_NAME[idx] === teamName)
+        if (teamIdx === undefined) {
+          return
+        }
+
+        const batterArr = batterArrDB.batterOIdArr.flatMap(batterOId => {
+          const batter = batterDBMap.get(batterOId)
+          if (!batter) {
+            return []
+          }
+          return [toBatterType(batter)]
+        })
+
+        switch (batterClass) {
+          case '선발':
+            MainBatter3DArr[leagueNum][teamIdx] = batterArr
+            break
+          case '후보':
+            SubBatter3DArr[leagueNum][teamIdx] = batterArr
+            break
+        }
+      })
+
+      return {MainBatter3DArr, SubBatter3DArr}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
+  async updateBatterInArr(where: string, dto: DTO.DTO_MoveBatterInArr) {
+    where = where + '/updateBatterInArr'
+
+    const {batterClass, batterOId, leagueNum, targetBatterClass, targetIdx, teamName} = dto
+
+    try {
+      if (batterClass !== targetBatterClass) {
+        const srcArrDB = await this.batterArrDBModel.findOne({batterClass, leagueNum, teamName})
+        if (srcArrDB) {
+          await this.batterArrDBModel.updateOne(
+            {_id: srcArrDB._id},
+            {$set: {batterOIdArr: srcArrDB.batterOIdArr.filter(id => id !== batterOId)}}
+          )
+        }
+
+        await this.batterDBModel.updateOne({_id: batterOId}, {$set: {batterClass: targetBatterClass}})
+      }
+
+      const dstArrDB = await this.batterArrDBModel.findOne({batterClass: targetBatterClass, leagueNum, teamName})
+      const batterOIdArr = (dstArrDB?.batterOIdArr ?? []).filter(id => id !== batterOId)
+      const insertIdx = Math.max(0, Math.min(targetIdx, batterOIdArr.length))
+      batterOIdArr.splice(insertIdx, 0, batterOId)
+
+      await this.batterArrDBModel.updateOne(
+        {batterClass: targetBatterClass, leagueNum, teamName},
+        {$set: {batterClass: targetBatterClass, batterOIdArr, leagueNum, teamName}},
+        {upsert: true}
+      )
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+}

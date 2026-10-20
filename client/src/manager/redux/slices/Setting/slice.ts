@@ -10,12 +10,14 @@ import * as OT from '@objectType'
  */
 interface SettingState {
   leagueNumSetting: LT.LeagueNumType
+  movedBatter: OT.BatterType | null
   movedPitcher: OT.PitcherType | null
   teamIdxSetting: number | null
 }
 
 const initialState: SettingState = {
   leagueNumSetting: null,
+  movedBatter: null,
   movedPitcher: null,
   teamIdxSetting: null,
 }
@@ -26,6 +28,9 @@ export const SettingSlice = createSlice({
   reducers: {
     setLeagueNumSetting: (state, action: PayloadAction<LT.LeagueNumType>) => {
       state.leagueNumSetting = action.payload
+    },
+    setMovedBatter: (state, action: PayloadAction<OT.BatterType | null>) => {
+      state.movedBatter = action.payload
     },
     setMovedPitcher: (state, action: PayloadAction<OT.PitcherType | null>) => {
       state.movedPitcher = action.payload

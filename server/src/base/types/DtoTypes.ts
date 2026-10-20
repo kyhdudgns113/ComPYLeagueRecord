@@ -6,6 +6,7 @@ export type DTO_CreateBatter = {
   batterHand: CT.Type_BatterHand
   batterNum: number
   hasPressureSkill: boolean
+  leagueNum: number
   name: string
   teamName: CT.Type_Team
 }
@@ -28,6 +29,16 @@ export type DTO_CreatePitcher = {
   pitcherHand: CT.Type_PitcherHand
   pitcherType: CT.Type_Pitcher
   teamName: CT.Type_Team
+}
+
+export type DTO_ReadBatterArr = {
+  batterClass: CT.Type_BatterClass
+  leagueNum: number
+  teamName: CT.Type_Team
+}
+
+export type DTO_ReadBatter3DArrAll = {
+  maxLeagueNum: number
 }
 
 export type DTO_ReadPitcherArr = {
@@ -61,6 +72,15 @@ export type DTO_UpdateLeagueInfo = {
 export type DTO_UpdatePitcherArr = {
   pitcherOIdArr: string[]
   pitcherType: CT.Type_Pitcher
+  teamName: CT.Type_Team
+}
+
+export type DTO_MoveBatterInArr = {
+  batterClass: CT.Type_BatterClass
+  batterOId: string
+  leagueNum: number
+  targetBatterClass: CT.Type_BatterClass
+  targetIdx: number
   teamName: CT.Type_Team
 }
 

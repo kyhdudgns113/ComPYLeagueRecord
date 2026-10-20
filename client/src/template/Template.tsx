@@ -35,6 +35,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       <Footer />
 
       {/* 4. 모달 영역 */}
+      {modalType === 'AddBatter' && <M.AddBatterModal />}
       {modalType === 'AddLeague' && <M.AddLeagueModal />}
       {modalType === 'AddPitcher' && <M.AddPitcherModal />}
     </div>

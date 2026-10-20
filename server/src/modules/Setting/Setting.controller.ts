@@ -13,9 +13,21 @@ export class SettingController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Get('/getBatter3DArrAll')
+  async getBatter3DArrAll() {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.getBatter3DArrAll()
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   @Get('/getPitcher3DArrAll')
   async getPitcher3DArrAll() {
     const {ok, body, gkdErrMsg, statusCode} = await this.settingService.getPitcher3DArrAll()
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Post('/addBatter')
+  async addBatter(@Body() data: HTTP.HTTP_AddBatter) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.addBatter(data)
     return {ok, body, gkdErrMsg, statusCode}
   }
 
@@ -28,6 +40,12 @@ export class SettingController {
   @Post('/addPitcher')
   async addPitcher(@Body() data: HTTP.HTTP_AddPitcher) {
     const {ok, body, gkdErrMsg, statusCode} = await this.settingService.addPitcher(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Put('/moveBatterInArr')
+  async moveBatterInArr(@Body() data: HTTP.HTTP_MoveBatterInArr) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.settingService.moveBatterInArr(data)
     return {ok, body, gkdErrMsg, statusCode}
   }
 

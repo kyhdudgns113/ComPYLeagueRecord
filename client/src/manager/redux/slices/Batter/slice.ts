@@ -5,40 +5,52 @@ import type {PayloadAction} from '@reduxjs/toolkit' // eslint-disable-line
 import * as OT from '@objectType'
 import * as V from '@value'
 
+type ModifyBatterArrPayload = {leagueNum: number; teamIdx: number; batterArr: OT.BatterType[]}
+
 interface BatterState {
-  MainBatterMatrix: OT.BatterType[][]
-  SubBatterMatrix: OT.BatterType[][]
+  MainBatter3DArr: OT.BatterType[][][]
+  SubBatter3DArr: OT.BatterType[][][]
+}
+
+const emptyMatrix = (): OT.BatterType[][] => Array.from({length: V.TEAM_IDX_ARR.length}, () => [])
+
+const ensureLeague = (arr3D: OT.BatterType[][][], leagueNum: number) => {
+  while (arr3D.length <= leagueNum) {
+    arr3D.push(emptyMatrix())
+  }
 }
 
 const initialState: BatterState = {
-  MainBatterMatrix: Array.from({length: V.TEAM_IDX_ARR.length}, () => []),
-  SubBatterMatrix: Array.from({length: V.TEAM_IDX_ARR.length}, () => []),
+  MainBatter3DArr: [],
+  SubBatter3DArr: [],
 }
 
 export const BatterSlice = createSlice({
   name: 'batter',
   initialState,
   reducers: {
-    modifyMainBatterArr: (state, action: PayloadAction<{teamIdx: number; batterArr: OT.BatterType[]}>) => {
-      const {teamIdx, batterArr} = action.payload
-      if (teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
+    modifyMainBatterArr: (state, action: PayloadAction<ModifyBatterArrPayload>) => {
+      const {leagueNum, teamIdx, batterArr} = action.payload
+      if (leagueNum < 0 || teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
         return
       }
-      state.MainBatterMatrix[teamIdx] = batterArr
+      ensureLeague(state.MainBatter3DArr, leagueNum)
+      state.MainBatter3DArr[leagueNum][teamIdx] = batterArr
     },
-    modifySubBatterArr: (state, action: PayloadAction<{teamIdx: number; batterArr: OT.BatterType[]}>) => {
-      const {teamIdx, batterArr} = action.payload
-      if (teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
+    modifySubBatterArr: (state, action: PayloadAction<ModifyBatterArrPayload>) => {
+      const {leagueNum, teamIdx, batterArr} = action.payload
+      if (leagueNum < 0 || teamIdx < 0 || teamIdx >= V.TEAM_IDX_ARR.length) {
         return
       }
-      state.SubBatterMatrix[teamIdx] = batterArr
+      ensureLeague(state.SubBatter3DArr, leagueNum)
+      state.SubBatter3DArr[leagueNum][teamIdx] = batterArr
     },
 
-    setMainBatterMatrix: (state, action: PayloadAction<OT.BatterType[][]>) => {
-      state.MainBatterMatrix = action.payload
+    setMainBatter3DArr: (state, action: PayloadAction<OT.BatterType[][][]>) => {
+      state.MainBatter3DArr = action.payload
     },
-    setSubBatterMatrix: (state, action: PayloadAction<OT.BatterType[][]>) => {
-      state.SubBatterMatrix = action.payload
+    setSubBatter3DArr: (state, action: PayloadAction<OT.BatterType[][][]>) => {
+      state.SubBatter3DArr = action.payload
     },
   },
 })

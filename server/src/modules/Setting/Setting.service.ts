@@ -1,5 +1,5 @@
 import {Injectable} from '@nestjs/common'
-import {LeagueInfoDBService, PitcherDBService} from '../Database'
+import {BatterDBService, LeagueInfoDBService, PitcherDBService} from '../Database'
 
 import * as DTO from '@dtoType'
 import * as HTTP from '@httpType'
@@ -8,6 +8,7 @@ import * as U from '@util'
 @Injectable()
 export class SettingService {
   constructor(
+    private readonly batterDBService: BatterDBService,
     private readonly leagueInfoDBService: LeagueInfoDBService,
     private readonly pitcherDBService: PitcherDBService
   ) {}
@@ -23,6 +24,21 @@ export class SettingService {
     } catch (errObj) {
       // ::
       return {ok: false, body: {}, gkdErrMsg: '', statusCode: 200}
+    }
+  }
+
+  async getBatter3DArrAll() {
+    const where = '/setting/getBatter3DArrAll'
+    try {
+      const {leagueArr} = await this.leagueInfoDBService.readLeagueInfoArr(where)
+      const maxLeagueNum = Math.max(0, ...leagueArr.map(league => league.leagueNum))
+      const {MainBatter3DArr, SubBatter3DArr} = await this.batterDBService.readBatter3DArrAll(where, {maxLeagueNum})
+
+      return {ok: true, body: {MainBatter3DArr, SubBatter3DArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
     }
   }
 
@@ -42,6 +58,34 @@ export class SettingService {
   }
 
   // POST AREA:
+  async addBatter(data: HTTP.HTTP_AddBatter) {
+    const where = '/setting/addBatter'
+    try {
+      const dto: DTO.DTO_CreateBatter = {
+        batterClass: data.batterClass,
+        batterHand: data.batterHand,
+        batterNum: data.batterNum,
+        hasPressureSkill: data.hasPressureSkill,
+        leagueNum: data.leagueNum,
+        name: data.name,
+        teamName: data.teamName,
+      }
+
+      await this.batterDBService.createBatter(where, dto)
+      const {batterArr} = await this.batterDBService.readBatterArr(where, {
+        batterClass: data.batterClass,
+        leagueNum: data.leagueNum,
+        teamName: data.teamName,
+      })
+
+      return {ok: true, body: {batterArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async addLeague(data: HTTP.HTTP_AddLeague) {
     const where = '/setting/addLeague'
     try {
@@ -88,6 +132,32 @@ export class SettingService {
   }
 
   // PUT AREA:
+  async moveBatterInArr(data: HTTP.HTTP_MoveBatterInArr) {
+    const where = '/setting/moveBatterInArr'
+    try {
+      const dto: DTO.DTO_MoveBatterInArr = {
+        batterClass: data.batterClass,
+        batterOId: data.batterOId,
+        leagueNum: data.leagueNum,
+        targetBatterClass: data.targetBatterClass,
+        targetIdx: data.targetIdx,
+        teamName: data.teamName,
+      }
+
+      await this.batterDBService.updateBatterInArr(where, dto)
+
+      const readDto = {leagueNum: data.leagueNum, teamName: data.teamName}
+      const {batterArr: MainBatterArr} = await this.batterDBService.readBatterArr(where, {...readDto, batterClass: '선발'})
+      const {batterArr: SubBatterArr} = await this.batterDBService.readBatterArr(where, {...readDto, batterClass: '후보'})
+
+      return {ok: true, body: {MainBatterArr, SubBatterArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async movePitcherInArr(data: HTTP.HTTP_MovePitcherInArr) {
     const where = '/setting/movePitcherInArr'
     try {
