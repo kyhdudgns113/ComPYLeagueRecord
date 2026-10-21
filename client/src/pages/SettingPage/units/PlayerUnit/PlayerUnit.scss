@@ -7,6 +7,19 @@
 
     width: 520px;
 
+    .Title_Unit {
+      font-size: 24px;
+      font-weight: 600;
+      margin-bottom: 16px;
+
+      text-align: center;
+      width: 100%;
+
+      &.hidden {
+        display: none;
+      }
+    }
+
     .Container_Unit {
       align-items: center;
       display: flex;

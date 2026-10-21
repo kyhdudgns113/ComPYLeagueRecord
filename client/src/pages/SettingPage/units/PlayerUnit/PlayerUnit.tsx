@@ -18,6 +18,7 @@ export const PlayerUnit: FC<PlayerUnitProps> = ({...props}) => {
 
   const [isHidden, setIsHidden] = useState<boolean>(true)
   const [isMyTeam, setIsMyTeam] = useState<boolean>(false)
+  const [teamName, setTeamName] = useState<string>('')
 
   // 자동 갱신: isHidden
   useEffect(() => {
@@ -37,8 +38,18 @@ export const PlayerUnit: FC<PlayerUnitProps> = ({...props}) => {
     }
   }, [leagueNumSetting, teamIdxSetting])
 
+  useEffect(() => {
+    if (teamIdxSetting !== null) {
+      setTeamName(V.TEAM_NAME[teamIdxSetting])
+    } // ::
+    else {
+      setTeamName('')
+    }
+  }, [teamIdxSetting])
+
   return (
     <div className={`PlayerUnit`} {...props}>
+      <p className={`Title_Unit ${isHidden ? 'hidden' : ''}`}>{`${teamName} 선수 명단`}</p>
       <div className={`Container_Unit ${isHidden ? 'hidden' : ''}`}>
         {isMyTeam && (
           <Fragment>

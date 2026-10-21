@@ -43,7 +43,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
   )
 
   return (
-    <tr className={`RecordRow`} {...props}>
+    <tr className={`RecordRow order-${order}`} {...props}>
       <td className={`td-order`} onDoubleClick={onDoubleClickBatter(batter)}>
         {order}
       </td>

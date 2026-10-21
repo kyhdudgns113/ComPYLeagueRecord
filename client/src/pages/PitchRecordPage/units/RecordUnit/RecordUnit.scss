@@ -82,9 +82,18 @@
 
       tbody {
         tr {
+          &.order-3,
+          &.order-6 {
+            td {
+              border-bottom-color: #808080;
+              border-bottom-width: 3px;
+            }
+          }
+          
           td {
             border-color: #000000;
             border-style: solid;
+            border-bottom-color: #808080;
             border-bottom-width: 1px;
             border-left-width: 0px;
             border-right-width: 1px;
