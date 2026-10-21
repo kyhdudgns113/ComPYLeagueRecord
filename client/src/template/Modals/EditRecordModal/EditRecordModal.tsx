@@ -41,6 +41,43 @@ const RESULT_ARR: CT.Type_Result[] = ['1루타', '2루타', '3루타', '홈런',
 const ON_BASE_RESULT_ARR: CT.Type_Result[] = ['1루타', '2루타', '3루타', '볼넷', '에러']
 
 const canStealFail = (nextResult: CT.Type_Result) => ON_BASE_RESULT_ARR.includes(nextResult)
+const ORDER_ARR = [1, 2, 3, 4, 5, 6, 7, 8, 9]
+
+const isRecordedAtBat = (record: OT.RecordElementType | null) => {
+  if (!record) {
+    return false
+  }
+
+  return record.pitchArr.length > 0 || record.result !== null || record.isStealFail
+}
+
+const getRecentPitcherName = (
+  recordArr: OT.RecordElementType[],
+  current: {order: number; rotation: number} | null,
+  fallback: string
+) => {
+  if (!current) {
+    return fallback
+  }
+
+  let recentPitcherName = fallback
+  const maxRotation = Math.max(current.rotation, ...recordArr.map(record => record.rotation || 0))
+
+  for (let rotation = 1; rotation <= maxRotation; rotation++) {
+    for (const order of ORDER_ARR) {
+      if (rotation === current.rotation && order === current.order) {
+        return recentPitcherName
+      }
+
+      const item = recordArr.find(record => record.order === order && record.rotation === rotation) || null
+      if (isRecordedAtBat(item) && item?.pitcherName) {
+        recentPitcherName = item.pitcherName
+      }
+    }
+  }
+
+  return recentPitcherName
+}
 
 type EditRecordModalProps = ModalCommonProps
 
@@ -48,7 +85,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
   const {editRecord} = useModalStates()
   const {closeModal} = useModalActions()
   const {setRecordArr} = useRecordActions()
-  const {gameArr, gameNum, leagueNum} = useRecordStates()
+  const {gameArr, gameNum, leagueNum, recordArr} = useRecordStates()
   const {updateRecord} = useRecordCallbacksContext()
 
   const game = gameArr.find(item => item.gameNum === gameNum) || null
@@ -68,7 +105,16 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
   const [pitchArr, setPitchArr] = useState<OT.PitchType[]>(record?.pitchArr || [])
   const [selectedBall, setSelectedBall] = useState<CT.Type_Pitch | null>(null)
   const [selectedLocation, setSelectedLocation] = useState<CT.Type_Location | null>(null)
-  const [pitcherName, setPitcherName] = useState<string>(record?.pitcherName || game?.SPName || pitcherArr[0]?.name || '')
+  const fallbackPitcherName = record?.pitcherName || game?.SPName || pitcherArr[0]?.name || ''
+  const [pitcherName, setPitcherName] = useState<string>(
+    isRecordedAtBat(record)
+      ? record?.pitcherName || fallbackPitcherName
+      : getRecentPitcherName(
+          recordArr,
+          editRecord ? {order: editRecord.order, rotation: editRecord.rotation} : null,
+          fallbackPitcherName
+        )
+  )
   const [batterOId, setBatterOId] = useState<string>(record?.batterOId || editRecord?.batter.batterOId || '')
   const [result, setResult] = useState<CT.Type_Result>(record?.result ?? null)
   const [isStealFail, setIsStealFail] = useState<boolean>(!!record?.isStealFail && canStealFail(record?.result ?? null))
