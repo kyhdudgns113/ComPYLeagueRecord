@@ -11,6 +11,7 @@ export const store = configureStore({
     pitcher: Slices.PitcherSlice.reducer,
     record: Slices.RecordSlice.reducer,
     setting: Slices.SettingSlice.reducer,
+    ultimate: Slices.UltimateSlice.reducer,
   },
 })
 

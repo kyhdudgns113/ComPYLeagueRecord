@@ -66,7 +66,7 @@ export type RecordElementType = {
  * 얼티밋 리그 통산기록 체크하는 용도이다.
  * - 알파벳순이 아닌, 테이블의 열 순으로 적는다
  */
-export type TableBatterType = {
+export type UltiBatterRecordType = {
   name: string
   gameNum: number // 진행된 리그경기
   playNum: number // 출전수
@@ -85,11 +85,17 @@ export type TableBatterType = {
   desc: string
 }
 
+export type UltiBatterTableType = {
+  desc: string
+  gameNum: number
+  recordArr: UltiBatterRecordType[]
+}
+
 /**
  * 얼티밋 리그 통산기록 체크하는 용도이다.
  * - 알파벳순이 아닌, 테이블의 열 순으로 적는다
  */
-export type TablePicherType = {
+export type UltiPitcherRecordType = {
   name: string
   gameNum: number // 진행된 리그경기
   playNum: number // 출전수
@@ -112,4 +118,10 @@ export type TablePicherType = {
   homeRunPer9: number
 
   desc: string
+}
+
+export type UltiPitcherTableType = {
+  desc: string
+  gameNum: number
+  recordArr: UltiPitcherRecordType[]
 }
