@@ -24,6 +24,7 @@ export class RecordService {
       }
 
       const {gameArr} = await this.leagueInfoDBService.readGameInfoArr(where, {leagueNum})
+      gameArr.sort((a, b) => b.gameNum - a.gameNum)
 
       return {ok: true, body: {gameArr}, gkdErrMsg: '', statusCode: 200}
       // ::
