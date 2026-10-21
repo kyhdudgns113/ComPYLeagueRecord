@@ -35,11 +35,10 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
   )
 
   const onClickRecord = useCallback(
-    (batter: OT.BatterType, order: number, record: OT.RecordElementType | null, rotation: number) =>
-      (e: React.MouseEvent<HTMLTableCellElement>) => {
-        e.stopPropagation()
-        openEditRecordModal({batter, order, record, rotation})
-      },
+    (batter: OT.BatterType, order: number, record: OT.RecordElementType | null, rotation: number) => (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      openEditRecordModal({batter, order, record, rotation})
+    },
     [openEditRecordModal]
   )
 
@@ -60,7 +59,10 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
       {atBatArr.map((record, atBatIdx) => {
         return (
           <Fragment key={atBatIdx}>
-            <td className={`td-pitch`} onClick={onClickRecord(batter, order, record, atBatIdx + 1)}>
+            <td
+              className={`td-pitch ${inningEndKeySet.has(`${order}-${atBatIdx + 1}`) ? '_inningEnd' : ''}`}
+              onClick={onClickRecord(batter, order, record, atBatIdx + 1)}
+            >
               {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
             </td>
             <td
