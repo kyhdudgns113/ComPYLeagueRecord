@@ -61,3 +61,55 @@ export type RecordElementType = {
   result: CT.Type_Result
   rotation: number // 몇번째 타석인지. 대타가 나와도 1로 초기화 되지 않는다.
 }
+
+/**
+ * 얼티밋 리그 통산기록 체크하는 용도이다.
+ * - 알파벳순이 아닌, 테이블의 열 순으로 적는다
+ */
+export type TableBatterType = {
+  name: string
+  gameNum: number // 진행된 리그경기
+  playNum: number // 출전수
+  atBat: number
+  avg: number
+  hit1: number
+  hit2: number
+  hit3: number
+  hit4: number
+
+  steal: number // 도루
+
+  slg: number
+  ops: number
+
+  desc: string
+}
+
+/**
+ * 얼티밋 리그 통산기록 체크하는 용도이다.
+ * - 알파벳순이 아닌, 테이블의 열 순으로 적는다
+ */
+export type TablePicherType = {
+  name: string
+  gameNum: number // 진행된 리그경기
+  playNum: number // 출전수
+  inning: number
+  era: number
+  win: number
+  lose: number
+  save: number
+  hold: number
+  blown: number
+
+  wanBong: number
+  wanTo: number
+  strikeOut: number
+  whip: number
+  homeRun: number
+  ownLoseScore: number
+
+  kPer9: number
+  homeRunPer9: number
+
+  desc: string
+}
