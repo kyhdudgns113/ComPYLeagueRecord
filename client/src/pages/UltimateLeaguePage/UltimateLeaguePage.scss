@@ -1,6 +1,44 @@
 .Template {
   .UltimateLeaguePage {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
     height: 100%;
     width: 100%;
+
+    .Tab_Row_Page {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 40px;
+      justify-content: center;
+
+      margin-top: 24px;
+      width: 100%;
+
+      .Tab_Page {
+        cursor: pointer;
+        height: 40px;
+
+        width: 80px;
+
+        &._selected {
+          background-color: #e0e0e0;
+          font-weight: 700;
+        }
+      }
+    }
+
+    .SubPageArea_Page {
+      border-color: #000000;
+      border-style: solid;
+      border-width: 1px;
+
+      height: fit-content;
+
+      margin-top: 24px;
+      
+      width: 1000px;
+    }
   }
 }
