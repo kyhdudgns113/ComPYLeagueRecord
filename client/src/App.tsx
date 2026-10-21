@@ -29,6 +29,8 @@ function App() {
             <Route path=":gameNum" element={<P.PitchRecordPage />} />
           </Route>
         </Route>
+
+        <Route path="ultimateLeague" element={<P.UltimateLeaguePage />} />
       </Route>
     </Routes>
   )

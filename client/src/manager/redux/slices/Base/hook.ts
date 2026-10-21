@@ -11,8 +11,9 @@ export const useBaseActions = () => {
   return {
     clearLefterTab: () => dispatch(BaseSlice.actions.setLefterTab(null)),
 
-    setLefterSetting: () => dispatch(BaseSlice.actions.setLefterTab('Setting')),
     setLefterPitchRecord: () => dispatch(BaseSlice.actions.setLefterTab('PitchRecord')),
+    setLefterSetting: () => dispatch(BaseSlice.actions.setLefterTab('Setting')),
+    setLefterUltimateLeague: () => dispatch(BaseSlice.actions.setLefterTab('UltimateLeague')),
 
     setPageTeamName: (teamName: CT.Type_Team) => dispatch(BaseSlice.actions.setPageTeamName(teamName)),
   }

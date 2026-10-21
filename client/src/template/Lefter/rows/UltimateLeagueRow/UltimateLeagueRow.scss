@@ -1,0 +1,30 @@
+@use '../../../../base/styles/values.scss' as v;
+
+.Template {
+  .Lefter {
+    .UltimateLeagueRow {
+      align-items: center;
+      box-sizing: border-box;
+      cursor: pointer;
+      display: flex;
+      height: 60px;
+
+      user-select: none;
+
+      width: 100%;
+
+      &:hover {
+        background-color: v.$SAKURA_BG;
+      }
+
+      &._selected {
+        font-size: 16px;
+        font-weight: 700;
+      }
+
+      .Title_Row {
+        padding-left: 8px;
+      }
+    }
+  }
+}

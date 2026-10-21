@@ -10,7 +10,7 @@ export type APIReturnType = {
 
 export type GameNumType = number | null
 export type LeagueNumType = number | null
-export type LefterTabType = 'PitchRecord' | 'Setting' | null
+export type LefterTabType = 'PitchRecord' | 'Setting' | 'UltimateLeague' | null
 export type ModalBatterTeamIdxType = number | null
 export type ModalBatterClassType = CT.Type_BatterClass | null
 export type ModalType = 'AddBatter' | 'AddGame' | 'AddLeague' | 'AddPitcher' | 'EditRecord' | 'ModifyBatter' | 'ModifyPitcher' | null
