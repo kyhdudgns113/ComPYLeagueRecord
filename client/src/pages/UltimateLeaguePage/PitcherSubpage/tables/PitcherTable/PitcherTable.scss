@@ -1,0 +1,85 @@
+.UltimateLeaguePage {
+  .PitcherTable {
+    table {
+      border-collapse: collapse;
+      border-color: #000000;
+      border-style: solid;
+      border-width: 4px;
+    }
+    thead {
+      background-color: #f0f0f0;
+
+      font-size: 14px;
+
+      tr {
+        th {
+          border-color: #000000;
+          border-style: solid;
+          border-bottom-width: 2px;
+          border-right-width: 1px;
+          border-top-width: 0px;
+          border-left-width: 0px;
+
+          height: 24px;
+
+          &.th-gameNum {
+            width: 110px;
+          }
+          &.th-playNum {
+            width: 50px;
+          }
+          &.th-innings {
+            width: 50px;
+          }
+          &.th-era {
+            width: 50px;
+          }
+          &.th-win {
+            width: 40px;
+          }
+          &.th-loss {
+            width: 40px;
+          }
+          &.th-save {
+            width: 40px;
+          }
+          &.th-hold {
+            width: 40px;
+          }
+          &.th-blown {
+            width: 40px;
+          }
+          &.th-complete {
+            width: 40px;
+          }
+          &.th-perfect {
+            width: 40px;
+          }
+          &.th-strikeout {
+            width: 60px;
+          }
+          &.th-whip {
+            width: 60px;
+          }
+          &.th-homeRun {
+            width: 60px;
+          }
+          &.th-earnedRun {
+            width: 60px;
+          }
+          &.th-k9 {
+              width: 60px;
+          }
+          &.th-hr9 {
+            width: 60px;
+          }
+
+        }
+      }
+    }
+
+    tbody {
+      
+    }
+  }
+}

@@ -60,6 +60,10 @@ export const ModalSlice = createSlice({
       clearModalExtras(state)
       state.addPitcher_PitcherType = action.payload
     },
+    openAddPitcherTableModal: state => {
+      state.modalType = 'AddPitcherTable'
+      clearModalExtras(state)
+    },
     openEditRecordModal: (state, action: PayloadAction<LT.EditRecordPayload>) => {
       state.modalType = 'EditRecord'
       clearModalExtras(state)

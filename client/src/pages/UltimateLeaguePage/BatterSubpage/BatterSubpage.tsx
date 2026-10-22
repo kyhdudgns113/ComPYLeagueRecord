@@ -1,6 +1,8 @@
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as T from './tables'
+
 import './BatterSubpage.scss'
 
 type BatterSubpageProps = DivCommonProps
@@ -8,7 +10,7 @@ type BatterSubpageProps = DivCommonProps
 export const BatterSubpage: FC<BatterSubpageProps> = ({...props}) => {
   return (
     <div className={`BatterSubpage`} {...props}>
-      BatterSubpage.tsx
+      <T.BatterTable />
     </div>
   )
 }

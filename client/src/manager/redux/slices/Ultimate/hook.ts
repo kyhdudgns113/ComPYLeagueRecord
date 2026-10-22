@@ -13,3 +13,6 @@ export const useUltimateActions = () => {
     setPitcherTableArr: (pitcherTableArr: OT.UltiPitcherTableType[]) => dispatch(UltimateSlice.actions.setPitcherTableArr(pitcherTableArr)),
   }
 }
+
+export const useUltimatePitcherTableArr = () => useAppSelector(state => state.ultimate.pitcherTableArr)
+export const useUltimateBatterTableArr = () => useAppSelector(state => state.ultimate.batterTableArr)

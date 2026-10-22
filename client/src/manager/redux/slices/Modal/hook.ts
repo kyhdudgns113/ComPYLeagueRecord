@@ -17,6 +17,7 @@ export const useModalActions = () => {
     openAddGameModal: () => dispatch(ModalSlice.actions.openAddGameModal()),
     openAddLeagueModal: () => dispatch(ModalSlice.actions.openAddLeagueModal()),
     openAddPitcherModal: (pitcherType: CT.Type_Pitcher) => dispatch(ModalSlice.actions.openAddPitcherModal(pitcherType)),
+    openAddPitcherTableModal: () => dispatch(ModalSlice.actions.openAddPitcherTableModal()),
     openEditRecordModal: (payload: LT.EditRecordPayload) => dispatch(ModalSlice.actions.openEditRecordModal(payload)),
     openModifyBatterModal: (batter: OT.BatterType) => dispatch(ModalSlice.actions.openModifyBatterModal(batter)),
     openModifyPitcherModal: (pitcher: OT.PitcherType) => dispatch(ModalSlice.actions.openModifyPitcherModal(pitcher)),
