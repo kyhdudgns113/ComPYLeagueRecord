@@ -54,7 +54,10 @@ export class UltiPitcherTableDBService {
         throw {gkdErrMsg: `[${where}] gameNum 은 1 이상이어야 합니다. gameNum: ${gameNum}`, statusCode: 400}
       }
 
-      const newTable = new this.ultiPitcherTableDBModel({desc: '', gameNum, leagueNum, recordArr: []})
+      const latestTable = await this.ultiPitcherTableDBModel.findOne({leagueNum}).sort({gameNum: -1})
+      const recordArr = (latestTable?.recordArr || []).map(record => makeEmptyPitcherRecord(record.name, gameNum))
+
+      const newTable = new this.ultiPitcherTableDBModel({desc: '', gameNum, leagueNum, recordArr})
       await newTable.save()
 
       return {pitcherTable: toUltiPitcherTableType(newTable)}

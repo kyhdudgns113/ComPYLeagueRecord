@@ -37,9 +37,18 @@ export type DTO_CreateRecordArr = {
   recordArr: OT.RecordElementType[]
 }
 
+export type DTO_AddUltiBatterRecord = {
+  name: string
+  tableOId: string
+}
+
 export type DTO_CreateUltiBatterTable = {
   gameNum: number
   leagueNum: number
+}
+
+export type DTO_DeleteUltiBatterTable = {
+  tableOId: string
 }
 
 export type DTO_CreateUltiLeagueInfo = {
@@ -71,6 +80,11 @@ export type DTO_ReadUltiBatterTableArr = {
 
 export type DTO_ReadUltiPitcherTableArr = {
   leagueNum: number
+}
+
+export type DTO_UpdateUltiBatterTable = {
+  recordArr: OT.UltiBatterRecordType[]
+  tableOId: string
 }
 
 export type DTO_UpdateUltiPitcherTable = {

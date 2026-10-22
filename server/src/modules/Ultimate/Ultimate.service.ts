@@ -64,6 +64,30 @@ export class UltimateService {
   }
 
   // POST AREA:
+  async addBatterRecord(data: HTTP.HTTP_AddUltiBatterRecord) {
+    const where = '/ultimate/addBatterRecord'
+    try {
+      const name = data.name.trim()
+      if (!name) {
+        throw {gkdErrMsg: `[${where}] name is empty`, statusCode: 400}
+      }
+
+      const dto: DTO.DTO_AddUltiBatterRecord = {
+        name,
+        tableOId: data.tableOId,
+      }
+
+      const {batterTable} = await this.ultiBatterTableDBService.addUltiBatterRecord(where, dto)
+      const {batterTableArr} = await this.ultiBatterTableDBService.readUltiBatterTableArr(where, {leagueNum: batterTable.leagueNum})
+
+      return {ok: true, body: {batterTableArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async addBatterTable(data: HTTP.HTTP_AddUltiBatterTable) {
     const where = '/ultimate/addBatterTable'
     try {
@@ -126,6 +150,32 @@ export class UltimateService {
     }
   }
 
+  async updateBatterTable(data: HTTP.HTTP_UpdateUltiBatterTable) {
+    const where = '/ultimate/updateBatterTable'
+    try {
+      if (!data.tableOId) {
+        throw {gkdErrMsg: `[${where}] tableOId is empty`, statusCode: 400}
+      }
+      if (!data.recordArr) {
+        throw {gkdErrMsg: `[${where}] recordArr is falsy`, statusCode: 400}
+      }
+
+      const dto: DTO.DTO_UpdateUltiBatterTable = {
+        recordArr: data.recordArr,
+        tableOId: data.tableOId,
+      }
+
+      const {batterTable} = await this.ultiBatterTableDBService.updateUltiBatterTable(where, dto)
+      const {batterTableArr} = await this.ultiBatterTableDBService.readUltiBatterTableArr(where, {leagueNum: batterTable.leagueNum})
+
+      return {ok: true, body: {batterTableArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   async updatePitcherTable(data: HTTP.HTTP_UpdateUltiPitcherTable) {
     const where = '/ultimate/updatePitcherTable'
     try {
@@ -167,6 +217,25 @@ export class UltimateService {
       const {leagueArr} = await this.ultiLeagueInfoDBService.readUltiLeagueInfoArr(where)
 
       return {ok: true, body: {leagueArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
+  async deleteBatterTable(tableOId: string) {
+    const where = '/ultimate/deleteBatterTable'
+    try {
+      if (!tableOId) {
+        throw {gkdErrMsg: `[${where}] tableOId is empty`, statusCode: 400}
+      }
+
+      const dto: DTO.DTO_DeleteUltiBatterTable = {tableOId}
+      const {leagueNum} = await this.ultiBatterTableDBService.deleteUltiBatterTable(where, dto)
+      const {batterTableArr} = await this.ultiBatterTableDBService.readUltiBatterTableArr(where, {leagueNum})
+
+      return {ok: true, body: {batterTableArr}, gkdErrMsg: '', statusCode: 200}
       // ::
     } catch (errObj) {
       // ::

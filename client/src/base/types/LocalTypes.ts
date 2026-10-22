@@ -13,7 +13,7 @@ export type LeagueNumType = number | null
 export type LefterTabType = 'PitchRecord' | 'Setting' | 'UltimateLeague' | null
 export type ModalBatterTeamIdxType = number | null
 export type ModalBatterClassType = CT.Type_BatterClass | null
-export type ModalType = 'AddBatter' | 'AddBatterTable' | 'AddGame' | 'AddLeague' | 'AddPitcher' | 'AddPitcherTable' | 'AddUltiLeague' | 'AddUltiPitcher' | 'EditRecord' | 'ModifyBatter' | 'ModifyPitcher' | null
+export type ModalType = 'AddBatter' | 'AddBatterTable' | 'AddGame' | 'AddLeague' | 'AddPitcher' | 'AddPitcherTable' | 'AddUltiBatter' | 'AddUltiLeague' | 'AddUltiPitcher' | 'EditRecord' | 'ModifyBatter' | 'ModifyPitcher' | null
 export type ModalPitcherType = CT.Type_Pitcher | null
 
 export type EditRecordPayload = {

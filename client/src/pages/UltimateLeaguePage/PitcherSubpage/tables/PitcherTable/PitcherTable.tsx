@@ -7,7 +7,7 @@ import {useUltimateActions} from '@redux'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import * as B from './buttons'
+import * as B from '../../buttons'
 import * as OT from '@objectType'
 
 import './PitcherTable.scss'
@@ -190,7 +190,7 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
         <tbody>
           {recordArr.map((record, recordIdx) => (
             <tr
-              className={`${dragIdx === recordIdx ? '_dragging' : ''}`}
+              className={`${dragIdx === recordIdx ? '_dragging' : ''} rowIdx-${recordIdx} ${recordIdx > 10 && `_etcPitcher`}`}
               key={recordIdx}
               onDragOver={isEdit ? onDragOverRow : undefined}
               onDrop={isEdit ? onDropRow(recordIdx) : undefined}

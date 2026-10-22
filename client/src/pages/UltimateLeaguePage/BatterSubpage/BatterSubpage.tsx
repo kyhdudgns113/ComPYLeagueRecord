@@ -24,8 +24,8 @@ export const BatterSubpage: FC<BatterSubpageProps> = ({...props}) => {
 
       {/* 2. 테이블 목록 */}
       <div className={`TableArr_SubPage`}>
-        {batterTableArr.map((batterTable, idx) => (
-          <T.BatterTable key={idx} batterTable={batterTable} />
+        {batterTableArr.map(batterTable => (
+          <T.BatterTable key={batterTable.tableOId} batterTable={batterTable} />
         ))}
       </div>
     </div>

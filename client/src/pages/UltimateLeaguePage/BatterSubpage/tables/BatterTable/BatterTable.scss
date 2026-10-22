@@ -1,65 +1,162 @@
 .UltimateLeaguePage {
   .BatterTable {
+    margin-top: 16px;
     table {
       border-collapse: collapse;
       border-color: #000000;
       border-style: solid;
       border-width: 4px;
-    }
-    thead {
-      background-color: #f0f0f0;
+      thead {
+        background-color: #f0f0f0;
 
-      font-size: 14px;
+        font-size: 14px;
 
-      tr {
-        th {
-          border-color: #000000;
-          border-style: solid;
-          border-bottom-width: 2px;
-          border-right-width: 1px;
-          border-top-width: 0px;
-          border-left-width: 0px;
+        tr {
+          th {
+            border-color: #000000;
+            border-style: solid;
+            border-bottom-width: 2px;
+            border-right-width: 1px;
+            border-top-width: 0px;
+            border-left-width: 0px;
 
-          height: 24px;
+            height: 24px;
 
-          &.th-gameNum {
-            width: 110px;
+            &.th-gameNum {
+              width: 110px;
+            }
+            &.th-playNum {
+              width: 50px;
+            }
+            &.th-atBat {
+              width: 50px;
+            }
+            &.th-avg {
+              width: 50px;
+            }
+            &.th-hit1 {
+              width: 50px;
+            }
+            &.th-hit2 {
+              width: 50px;
+            }
+            &.th-hit3 {
+              width: 50px;
+            }
+            &.th-hit4 {
+              width: 50px;
+            }
+            &.th-steal {
+              width: 50px;
+            }
+            &.th-slg {
+              width: 50px;
+            }
+            &.th-ops {
+              width: 60px;
+            }
+            &.th-drag {
+              width: 28px;
+            }
+            &.th-delete {
+              width: 48px;
+            }
           }
-          &.th-playNum {
-            width: 50px;
+        }
+      }
+      tbody {
+        tr {
+          &._dragging {
+            opacity: 0.4;
           }
-          &.th-atBat {
-            width: 50px;
+          &.rowIdx-8 {
+            border-bottom-width: 4px;
+            border-bottom-style: solid;
+            border-bottom-color: #000000;
           }
-          &.th-avg {
-            width: 50px;
+
+          &._etcBatter {
+            background-color: #d0d0d0;
           }
-          &.th-hit1 {
-            width: 50px;
-          }
-          &.th-hit2 {
-            width: 50px;
-          }
-          &.th-hit3 {
-            width: 50px;
-          }
-          &.th-hit4 {
-            width: 50px;
-          }
-          &.th-steal {
-            width: 50px;
-          }
-          &.th-slg {
-            width: 50px;
-          }
-          &.th-ops {
-            width: 60px;
+
+          td {
+            border-color: #000000;
+            border-style: solid;
+            border-bottom-width: 1px;
+            border-right-width: 1px;
+            border-top-width: 0px;
+            border-left-width: 0px;
+
+            font-size: 14px;
+            height: 24px;
+            text-align: center;
+
+            &.td-delete {
+              padding-left: 2px;
+              padding-right: 2px;
+            }
+
+            &.td-drag {
+              cursor: default;
+              user-select: none;
+
+              .DragIcon_Table {
+                font-size: 18px;
+                vertical-align: middle;
+              }
+            }
+
+            .Input_Table {
+              appearance: textfield;
+              background-color: transparent;
+              border: none;
+              box-shadow: none;
+              box-sizing: border-box;
+              font-family: inherit;
+              font-size: inherit;
+              height: 100%;
+              margin: 0;
+              outline: none;
+              padding: 0;
+              text-align: center;
+              width: 100%;
+
+              &:focus {
+                outline: none;
+              }
+
+              &::-webkit-inner-spin-button,
+              &::-webkit-outer-spin-button {
+                appearance: none;
+                margin: 0;
+              }
+            }
           }
         }
       }
     }
 
-    tbody {
+    &._editing {
+      table {
+        tbody {
+          tr {
+            td {
+              &.td-drag:hover {
+                background-color: #c0c0c0;
+              }
+            }
+          }
+        }
+      }
+    }
+
+    .ButtonRow_Table {
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      justify-content: center;
+      margin-top: 8px;
+      width: 100%;
     }
   }
 }

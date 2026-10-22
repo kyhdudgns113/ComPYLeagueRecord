@@ -90,6 +90,7 @@ export type UltiBatterTableType = {
   gameNum: number
   leagueNum: number
   recordArr: UltiBatterRecordType[]
+  tableOId: string
 }
 
 /**

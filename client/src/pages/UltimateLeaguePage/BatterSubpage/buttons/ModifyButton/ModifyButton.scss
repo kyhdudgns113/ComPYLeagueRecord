@@ -1,0 +1,21 @@
+.UltimateLeaguePage {
+  .BatterTable {
+    .ModifyButton {
+      border: 1px solid #000000;
+      cursor: pointer;
+      height: 36px;
+
+      padding-left: 12px;
+      padding-right: 12px;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+
+      &._editing {
+        background-color: #c8e0ff;
+        font-weight: 700;
+      }
+    }
+  }
+}

@@ -10,6 +10,7 @@ interface ModalState {
 
   addBatter_BatterClass: LT.ModalBatterClassType
   addPitcher_PitcherType: LT.ModalPitcherType
+  addUltiBatter_TableOId: string | null
   addUltiPitcher_TableOId: string | null
   editRecord: LT.EditRecordPayload | null
   modifyBatter: OT.BatterType | null
@@ -21,6 +22,7 @@ const initialState: ModalState = {
 
   addBatter_BatterClass: null,
   addPitcher_PitcherType: null,
+  addUltiBatter_TableOId: null,
   addUltiPitcher_TableOId: null,
   editRecord: null,
   modifyBatter: null,
@@ -30,6 +32,7 @@ const initialState: ModalState = {
 const clearModalExtras = (state: ModalState) => {
   state.addBatter_BatterClass = null
   state.addPitcher_PitcherType = null
+  state.addUltiBatter_TableOId = null
   state.addUltiPitcher_TableOId = null
   state.editRecord = null
   state.modifyBatter = null
@@ -70,6 +73,11 @@ export const ModalSlice = createSlice({
     openAddPitcherTableModal: state => {
       state.modalType = 'AddPitcherTable'
       clearModalExtras(state)
+    },
+    openAddUltiBatterModal: (state, action: PayloadAction<string>) => {
+      state.modalType = 'AddUltiBatter'
+      clearModalExtras(state)
+      state.addUltiBatter_TableOId = action.payload
     },
     openAddUltiLeagueModal: state => {
       state.modalType = 'AddUltiLeague'

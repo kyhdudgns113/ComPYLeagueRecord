@@ -19,6 +19,7 @@ export const useModalActions = () => {
     openAddLeagueModal: () => dispatch(ModalSlice.actions.openAddLeagueModal()),
     openAddPitcherModal: (pitcherType: CT.Type_Pitcher) => dispatch(ModalSlice.actions.openAddPitcherModal(pitcherType)),
     openAddPitcherTableModal: () => dispatch(ModalSlice.actions.openAddPitcherTableModal()),
+    openAddUltiBatterModal: (tableOId: string) => dispatch(ModalSlice.actions.openAddUltiBatterModal(tableOId)),
     openAddUltiLeagueModal: () => dispatch(ModalSlice.actions.openAddUltiLeagueModal()),
     openAddUltiPitcherModal: (tableOId: string) => dispatch(ModalSlice.actions.openAddUltiPitcherModal(tableOId)),
     openEditRecordModal: (payload: LT.EditRecordPayload) => dispatch(ModalSlice.actions.openEditRecordModal(payload)),

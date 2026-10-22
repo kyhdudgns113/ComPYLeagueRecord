@@ -25,6 +25,12 @@ export class UltimateController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Post('/addBatterRecord')
+  async addBatterRecord(@Body() data: HTTP.HTTP_AddUltiBatterRecord) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.addBatterRecord(data)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   @Post('/addBatterTable')
   async addBatterTable(@Body() data: HTTP.HTTP_AddUltiBatterTable) {
     const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.addBatterTable(data)
@@ -49,6 +55,12 @@ export class UltimateController {
     return {ok, body, gkdErrMsg, statusCode}
   }
 
+  @Delete('/deleteBatterTable/:tableOId')
+  async deleteBatterTable(@Param('tableOId') tableOId: string) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.deleteBatterTable(tableOId)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
   @Delete('/deleteLeague/:leagueNum')
   async deleteLeague(@Param('leagueNum') leagueNum: string) {
     const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.deleteLeague(leagueNum)
@@ -58,6 +70,12 @@ export class UltimateController {
   @Delete('/deletePitcherTable/:tableOId')
   async deletePitcherTable(@Param('tableOId') tableOId: string) {
     const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.deletePitcherTable(tableOId)
+    return {ok, body, gkdErrMsg, statusCode}
+  }
+
+  @Put('/updateBatterTable')
+  async updateBatterTable(@Body() data: HTTP.HTTP_UpdateUltiBatterTable) {
+    const {ok, body, gkdErrMsg, statusCode} = await this.ultimateService.updateBatterTable(data)
     return {ok, body, gkdErrMsg, statusCode}
   }
 
