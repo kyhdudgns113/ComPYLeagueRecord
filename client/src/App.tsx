@@ -30,7 +30,10 @@ function App() {
           </Route>
         </Route>
 
-        <Route path="ultimateLeague" element={<P.UltimateLeaguePage />} />
+        <Route path="ultimateLeague/*">
+          <Route index element={<P.UltimateLeaguePage />} />
+          <Route path=":leagueNum" element={<P.UltimateLeaguePage />} />
+        </Route>
       </Route>
     </Routes>
   )

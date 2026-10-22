@@ -1,7 +1,7 @@
 import {createContext, useContext, useEffect, useEffectEvent} from 'react'
 import {useLocation} from 'react-router-dom'
 
-import {useBaseActions, useRecordActions, useSettingActions} from '@redux'
+import {useBaseActions, useRecordActions, useSettingActions, useUltimateActions} from '@redux'
 
 import type {FC, PropsWithChildren} from 'react'
 
@@ -13,6 +13,7 @@ type ResetStatesType = {
   gameNum: boolean
   leagueNum: boolean
   leagueNumSetting: boolean
+  leagueNumUlti: boolean
   teamIdxSetting: boolean
 }
 
@@ -27,6 +28,7 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
   const {clearLefterTab, setLefterPitchRecord, setLefterSetting, setLefterUltimateLeague} = useBaseActions()
   const {clearGameNum, clearLeagueNum, setGameNum, setLeagueNum} = useRecordActions()
   const {clearLeagueNumSetting, clearTeamIdxSetting, setLeagueNumSetting, setTeamIdxSetting} = useSettingActions()
+  const {clearLeagueNumUlti, setLeagueNumUlti} = useUltimateActions()
   const location = useLocation()
 
   const resetStates = useEffectEvent((arg: ResetStatesType) => {
@@ -42,6 +44,9 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
     if (arg.leagueNumSetting) {
       clearLeagueNumSetting()
     }
+    if (arg.leagueNumUlti) {
+      clearLeagueNumUlti()
+    }
     if (arg.teamIdxSetting) {
       clearTeamIdxSetting()
     }
@@ -49,7 +54,7 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
 
   const processPitchRecord = useEffectEvent((splitArr: string[]) => {
     setLefterPitchRecord()
-    resetStates({gameNum: false, leagueNum: false, leagueNumSetting: true, teamIdxSetting: true})
+    resetStates({gameNum: false, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
 
     if (splitArr.length > 1) {
       const leagueNum = parseInt(splitArr[1])
@@ -62,25 +67,38 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
             setGameNum(gameNum)
           } // ::
           else {
-            resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, teamIdxSetting: true})
+            resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
           }
         } // ::
         else {
-          resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, teamIdxSetting: true})
+          resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
         }
       } // ::
       else {
-        resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+        resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
       }
     } // ::
     else {
-      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
     }
   })
 
-  const processUltimateLeague = useEffectEvent(() => {
+  const processUltimateLeague = useEffectEvent((splitArr: string[]) => {
     setLefterUltimateLeague()
-    resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+    resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: false, teamIdxSetting: true})
+
+    if (splitArr.length > 1) {
+      const leagueNum = parseInt(splitArr[1])
+      if (!isNaN(leagueNum)) {
+        setLeagueNumUlti(leagueNum)
+      } // ::
+      else {
+        resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
+      }
+    } // ::
+    else {
+      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
+    }
   })
 
   const processSetting = useEffectEvent((splitArr: string[]) => {
@@ -94,22 +112,22 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           const teamIdx = parseInt(splitArr[2])
           if (!isNaN(teamIdx)) {
             setTeamIdxSetting(teamIdx)
-            resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, teamIdxSetting: false})
+            resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, leagueNumUlti: true, teamIdxSetting: false})
           } // ::
           else {
-            resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, teamIdxSetting: true})
+            resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, leagueNumUlti: true, teamIdxSetting: true})
           }
         } // ::
         else {
-          resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, teamIdxSetting: true})
+          resetStates({gameNum: true, leagueNum: true, leagueNumSetting: false, leagueNumUlti: true, teamIdxSetting: true})
         }
       } // ::
       else {
-        resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+        resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
       }
     } // ::
     else {
-      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
     }
   })
 
@@ -129,17 +147,17 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           processSetting(splitArr)
           break
         case 'ultimateLeague':
-          processUltimateLeague()
+          processUltimateLeague(splitArr)
           break
         default:
           clearLefterTab()
-          resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+          resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
           break
       }
     } // ::
     else {
       clearLefterTab()
-      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
+      resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
     }
   }, [location])
 

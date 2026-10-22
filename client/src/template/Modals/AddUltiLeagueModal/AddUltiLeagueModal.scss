@@ -1,0 +1,68 @@
+.Template {
+  .AddUltiLeagueModal {
+    display: flex;
+    flex-direction: column;
+
+    height: fit-content;
+
+    padding-bottom: 12px;
+    padding-left: 24px;
+    padding-right: 24px;
+    padding-top: 8px;
+
+    width: fit-content;
+
+    .Title_Modal {
+      font-size: 20px;
+      font-weight: bold;
+    }
+
+    .Input_Row_Modal {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      width: 200px;
+
+      .Input_Label_Modal {
+        font-size: 16px;
+        font-weight: bold;
+      }
+
+      .Input_Modal {
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        height: 40px;
+
+        padding-left: 8px;
+        padding-right: 8px;
+        width: 100%;
+      }
+    }
+
+    .Button_Row_Modal {
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+      justify-content: center;
+      margin-top: 16px;
+      width: 100%;
+
+      .Button_Modal {
+        border: 2px solid #ccc;
+
+        height: 40px;
+
+        transition: background-color 0.3s ease;
+        width: 72px;
+
+        &:active {
+          font-size: 12px;
+        }
+
+        &:hover {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+}

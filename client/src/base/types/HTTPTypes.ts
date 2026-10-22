@@ -31,6 +31,11 @@ export type HTTP_AddPitcher = {
   teamName: CT.Type_Team
 }
 
+export type HTTP_AddUltiLeague = {
+  description: string
+  leagueNum: number
+}
+
 export type HTTP_ModifyBatter = {
   batterHand: CT.Type_BatterHand
   batterOId: string

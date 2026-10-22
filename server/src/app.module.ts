@@ -10,6 +10,7 @@ import * as S from '@secret'
     M.DatabaseModule,
     M.RecordModule,
     M.SettingModule,
+    M.UltimateModule,
 
     MongooseModule.forRoot(S.mongoDBUrl),
   ],

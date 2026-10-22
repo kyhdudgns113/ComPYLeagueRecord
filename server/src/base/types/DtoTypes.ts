@@ -37,6 +37,11 @@ export type DTO_CreateRecordArr = {
   recordArr: OT.RecordElementType[]
 }
 
+export type DTO_CreateUltiLeagueInfo = {
+  description: string
+  leagueNum: number
+}
+
 export type DTO_UpdateRecord = {
   gameNum: number
   leagueNum: number

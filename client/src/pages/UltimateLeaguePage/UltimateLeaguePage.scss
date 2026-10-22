@@ -1,47 +1,70 @@
 .Template {
   .UltimateLeaguePage {
-    align-items: center;
+    align-items: flex-start;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
     height: 100%;
+    justify-content: flex-start;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    overflow-y: auto;
     width: 100%;
 
-    .Tab_Row_Page {
-      align-items: center;
-      display: flex;
-      flex-direction: row;
-      gap: 40px;
-      justify-content: center;
-
-      margin-top: 24px;
-      width: 100%;
-
-      .Tab_Page {
-        cursor: pointer;
-        height: 40px;
-
-        width: 80px;
-
-        &._selected {
-          background-color: #e0e0e0;
-          font-weight: 700;
-        }
-      }
-    }
-
-    .SubPageArea_Page {
+    // 리그 목록 컴포넌트
+    .LeagueList_Page {
       border-color: #000000;
       border-style: solid;
       border-width: 1px;
 
       display: flex;
-      justify-content: center;
+      flex-direction: column;
+      flex-shrink: 0;
+      gap: 24px;
+      margin-left: 160px;
+      width: fit-content;
+    } // END: UltimateLeaguePage/ LeagueList_Page
 
-      height: fit-content;
+    .LeagueTables_Page {
+      flex-shrink: 0;
 
-      margin-top: 24px;
-      
-      width: 1100px;
-    }
-  }
+      .Tab_Row_Page {
+        align-items: center;
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        justify-content: center;
+  
+        margin-top: 24px;
+        width: 100%;
+  
+        .Tab_Page {
+          cursor: pointer;
+          height: 40px;
+  
+          width: 80px;
+  
+          &._selected {
+            background-color: #e0e0e0;
+            font-weight: 700;
+          }
+        } // END: UltimateLeaguePage/ LeagueTables_Page/ Tab_Row_Page/ Tab_Page
+      } // END: UltimateLeaguePage/ LeagueTables_Page/ Tab_Row_Page
+  
+      .SubPageArea_Page {
+        border-color: #000000;
+        border-style: solid;
+        border-width: 1px;
+  
+        display: flex;
+        justify-content: center;
+  
+        height: fit-content;
+  
+        margin-top: 24px;
+        
+        width: 1100px;
+      } // END: UltimateLeaguePage/ LeagueTables_Page/ SubPageArea_Page
+    } // END: UltimateLeaguePage/ LeagueTables_Page
+  } // END: UltimateLeaguePage
 }
