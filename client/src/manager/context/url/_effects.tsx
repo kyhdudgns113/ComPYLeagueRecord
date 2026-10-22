@@ -67,7 +67,7 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           const gameNum = parseInt(splitArr[2])
           if (!isNaN(gameNum)) {
             setGameNum(gameNum)
-            resetStates({gameNum: false, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
+            resetStates({gameNum: false, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
           } // ::
           else {
             resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
