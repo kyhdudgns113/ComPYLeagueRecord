@@ -5,6 +5,7 @@ import {useRecordStates, useTeamBatterArr} from '@redux'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as B from '../../buttons'
 import * as OT from '@objectType'
 import * as R from '../../rows'
 import * as V from '@value'
@@ -84,8 +85,11 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
   return (
     <div className={`RecordUnit`} {...props}>
       <div hidden={isHidden}>
-        {/* 1. 타이틀 */}
-        <p className={`Title_Unit`}>{`[리그 ${leagueNum || ''}] 게임 ${gameNum || ''} 기록`}</p>
+        {/* 1. 타이틀행(with 버튼) */}
+        <div className={`TitleRow_Unit`}>
+          <p className={`Title_Unit`}>{`[리그 ${leagueNum || ''}] 게임 ${gameNum || ''} 기록`}</p>
+          <B.DeleteGameButton />
+        </div>
 
         {/* 2. 테이블: 타순별 투구 기록 */}
         <table className={`Table_Unit`}>

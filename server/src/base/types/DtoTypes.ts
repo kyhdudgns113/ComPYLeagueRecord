@@ -18,6 +18,11 @@ export type DTO_CreateGameInfo = {
   SPName: string
 }
 
+export type DTO_DeleteGameInfo = {
+  gameNum: number
+  leagueNum: number
+}
+
 export type DTO_CreateLeagueInfo = {
   description: string
   leagueNum: number

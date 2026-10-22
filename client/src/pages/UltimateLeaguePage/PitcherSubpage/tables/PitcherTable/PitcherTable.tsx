@@ -12,11 +12,11 @@ import * as OT from '@objectType'
 
 import './PitcherTable.scss'
 
-const RECORD_CELLS: {className: string; key: keyof OT.UltiPitcherRecordType; inputType: 'number' | 'text'}[] = [
+const RECORD_CELLS: {className: string; digits?: number; isCalc?: boolean; key: keyof OT.UltiPitcherRecordType; inputType: 'number' | 'text'}[] = [
   {className: 'td-gameNum', key: 'name', inputType: 'text'},
   {className: 'td-playNum', key: 'playNum', inputType: 'number'},
   {className: 'td-innings', key: 'inning', inputType: 'number'},
-  {className: 'td-era', key: 'era', inputType: 'number'},
+  {className: 'td-era', digits: 2, key: 'era', inputType: 'number'},
   {className: 'td-win', key: 'win', inputType: 'number'},
   {className: 'td-loss', key: 'lose', inputType: 'number'},
   {className: 'td-save', key: 'save', inputType: 'number'},
@@ -25,12 +25,53 @@ const RECORD_CELLS: {className: string; key: keyof OT.UltiPitcherRecordType; inp
   {className: 'td-complete', key: 'wanBong', inputType: 'number'},
   {className: 'td-perfect', key: 'wanTo', inputType: 'number'},
   {className: 'td-strikeout', key: 'strikeOut', inputType: 'number'},
-  {className: 'td-whip', key: 'whip', inputType: 'number'},
+  {className: 'td-whip', digits: 3, key: 'whip', inputType: 'number'},
   {className: 'td-homeRun', key: 'homeRun', inputType: 'number'},
   {className: 'td-earnedRun', key: 'ownLoseScore', inputType: 'number'},
-  {className: 'td-k9', key: 'kPer9', inputType: 'number'},
-  {className: 'td-hr9', key: 'homeRunPer9', inputType: 'number'},
+  {className: 'td-k9', digits: 3, isCalc: true, key: 'kPer9', inputType: 'number'},
+  {className: 'td-hr9', digits: 3, isCalc: true, key: 'homeRunPer9', inputType: 'number'},
 ]
+
+const roundTo = (value: number, digits: number) => {
+  const factor = 10 ** digits
+  return Math.round(value * factor) / factor
+}
+
+const calcPer9 = (count: number, inning: number) => {
+  if (inning <= 0) {
+    return 0
+  }
+
+  return roundTo((count * 9) / inning, 3)
+}
+
+const withCalcRates = (record: OT.UltiPitcherRecordType): OT.UltiPitcherRecordType => {
+  return {
+    ...record,
+    homeRunPer9: calcPer9(record.homeRun, record.inning),
+    kPer9: calcPer9(record.strikeOut, record.inning),
+  }
+}
+
+const withFixedStats = (record: OT.UltiPitcherRecordType): OT.UltiPitcherRecordType => {
+  return {
+    ...withCalcRates(record),
+    era: roundTo(Number(record.era) || 0, 2),
+    whip: roundTo(Number(record.whip) || 0, 3),
+  }
+}
+
+const formatCellValue = (value: string | number, digits?: number, hideZero?: boolean) => {
+  if (hideZero && typeof value === 'number' && value === 0) {
+    return ''
+  }
+
+  if (digits === undefined || typeof value !== 'number') {
+    return value
+  }
+
+  return value.toFixed(digits)
+}
 
 type PitcherTableProps = DivCommonProps & {
   pitcherTable: OT.UltiPitcherTableType
@@ -57,15 +98,15 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
           }
 
           if (inputType === 'text') {
-            return {...record, [key]: nextValue}
+            return withCalcRates({...record, [key]: nextValue})
           }
 
           if (nextValue === '') {
-            return {...record, [key]: 0}
+            return withCalcRates({...record, [key]: 0})
           }
 
           const nextNum = Number(nextValue)
-          return {...record, [key]: isNaN(nextNum) ? 0 : nextNum}
+          return withCalcRates({...record, [key]: isNaN(nextNum) ? 0 : nextNum})
         })
       })
     }
@@ -76,12 +117,14 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
       e.stopPropagation()
 
       if (!isEdit) {
-        setDraftArr(pitcherTable.recordArr.map(record => ({...record})))
+        setDraftArr(pitcherTable.recordArr.map(record => withCalcRates({...record})))
         setIsEdit(true)
         return
       }
 
-      updatePitcherTable(draftArr, pitcherTable.tableOId).then(res => {
+      const nextArr = draftArr.map(record => withFixedStats(record))
+
+      updatePitcherTable(nextArr, pitcherTable.tableOId).then(res => {
         if (res.isSuccess) {
           const {pitcherTableArr} = res
           setPitcherTableArr(pitcherTableArr)
@@ -197,7 +240,7 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
             >
               {RECORD_CELLS.map(cell => (
                 <td className={cell.className} key={cell.key}>
-                  {isEdit ? (
+                  {isEdit && !cell.isCalc ? (
                     <input
                       className={`Input_Table`}
                       onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
@@ -205,7 +248,7 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
                       value={record[cell.key]}
                     />
                   ) : (
-                    record[cell.key]
+                    formatCellValue(record[cell.key], cell.digits, !isEdit)
                   )}
                 </td>
               ))}

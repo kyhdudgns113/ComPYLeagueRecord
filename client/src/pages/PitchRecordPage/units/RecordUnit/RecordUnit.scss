@@ -11,16 +11,25 @@
     // width: 1110px;
     width: fit-content;
 
-    .Title_Unit {
-      font-size: 20px;
-      font-weight: 700;
+    .TitleRow_Unit {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 12px;
+      justify-content: center;
 
-      padding-bottom: 4px;
-      padding-top: 4px;
-
-      text-align: center;
-      user-select: none;
       width: 100%;
+
+      .Title_Unit {
+        font-size: 20px;
+        font-weight: 700;
+
+        padding-bottom: 4px;
+        padding-top: 4px;
+
+        text-align: center;
+        user-select: none;
+      }
     }
 
     .Table_Unit {

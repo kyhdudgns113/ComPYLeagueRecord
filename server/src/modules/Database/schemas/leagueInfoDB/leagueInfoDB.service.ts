@@ -58,6 +58,25 @@ export class LeagueInfoDBService {
     }
   }
 
+  async deleteGameInfo(where: string, dto: DTO.DTO_DeleteGameInfo) {
+    where = where + '/deleteGameInfo'
+
+    const {gameNum, leagueNum} = dto
+
+    try {
+      const deletedGame = await this.gameInfoDBModel.findOneAndDelete({gameNum, leagueNum})
+      if (!deletedGame) {
+        throw {gkdErrMsg: `[${where}] game is not found. leagueNum: ${leagueNum}, gameNum: ${gameNum}`, statusCode: 404}
+      }
+
+      return {game: toGameInfoType(deletedGame)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readGameInfoArr(where: string, dto: DTO.DTO_ReadGameInfoArr) {
     where = where + '/readGameInfoArr'
 

@@ -1,0 +1,16 @@
+.PitchRecordPage {
+  .RecordUnit {
+    .DeleteGameButton {
+      border: 1px solid #000000;
+      cursor: pointer;
+      height: 28px;
+
+      padding-left: 12px;
+      padding-right: 12px;
+
+      &:hover {
+        background-color: #f0f0f0;
+      }
+    }
+  }
+}

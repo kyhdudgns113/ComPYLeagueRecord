@@ -122,6 +122,33 @@ export class RecordService {
     }
   }
 
+  // DELETE AREA:
+  async deleteGame(leagueNumRaw: string, gameNumRaw: string) {
+    const where = '/record/deleteGame'
+    try {
+      const leagueNum = parseInt(leagueNumRaw)
+      const gameNum = parseInt(gameNumRaw)
+      if (isNaN(leagueNum) || isNaN(gameNum)) {
+        throw {
+          gkdErrMsg: `[${where}] leagueNum or gameNum is invalid: ${leagueNumRaw}, ${gameNumRaw}`,
+          statusCode: 400,
+        }
+      }
+
+      const dto: DTO.DTO_DeleteGameInfo = {gameNum, leagueNum}
+      await this.recordDBService.deleteRecordArr(where, {gameNum, leagueNum})
+      await this.leagueInfoDBService.deleteGameInfo(where, dto)
+      const {gameArr} = await this.leagueInfoDBService.readGameInfoArr(where, {leagueNum})
+      gameArr.sort((a, b) => b.gameNum - a.gameNum)
+
+      return {ok: true, body: {gameArr}, gkdErrMsg: '', statusCode: 200}
+      // ::
+    } catch (errObj) {
+      // ::
+      return U.getFailResponse(errObj)
+    }
+  }
+
   // PUT AREA:
   async updateRecord(data: HTTP.HTTP_UpdateRecord) {
     const where = '/record/updateRecord'

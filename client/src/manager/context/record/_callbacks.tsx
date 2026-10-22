@@ -14,6 +14,8 @@ type ContextType = {
 
   addGame: (data: HTTP.HTTP_AddGame) => Promise<LT.APIReturnType>,
 
+  deleteGame: (gameNum: number, leagueNum: number) => Promise<LT.APIReturnType>,
+
   updateRecord: (data: HTTP.HTTP_UpdateRecord) => Promise<LT.APIReturnType>,
 }
 // prettier-ignore
@@ -22,6 +24,8 @@ export const RecordCallbacksContext = createContext<ContextType>({
   getRecordArr: () => Promise.resolve({isSuccess: false, errMsg: `getRecordArr is not initialized`}),
 
   addGame: () => Promise.resolve({isSuccess: false, errMsg: `addGame is not initialized`}),
+
+  deleteGame: () => Promise.resolve({isSuccess: false, errMsg: `deleteGame is not initialized`}),
 
   updateRecord: () => Promise.resolve({isSuccess: false, errMsg: `updateRecord is not initialized`}),
 })
@@ -115,6 +119,34 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
       })
   }, [])
 
+  // DELETE AREA:
+  const deleteGame = useCallback(async (gameNum: number, leagueNum: number) => {
+    const url = `/record/deleteGame/${leagueNum}/${gameNum}`
+
+    return F.del(url, null)
+      .then(res => res.json())
+      .then(res => {
+        const {ok, body, statusCode, gkdErrMsg, message} = res
+        if (ok) {
+          const {gameArr} = body
+
+          if (!gameArr) {
+            return {isSuccess: false, errMsg: `Some arr is falsy\ngameArr: ${gameArr}`} as LT.APIReturnType
+          }
+
+          return {isSuccess: true, gameArr} as LT.APIReturnType
+        } // ::
+        else {
+          U.alertErrMsg(url, statusCode, gkdErrMsg, message)
+          return {isSuccess: false} as LT.APIReturnType
+        }
+      })
+      .catch(errObj => {
+        U.alertErrors(url, errObj)
+        return {isSuccess: false} as LT.APIReturnType
+      })
+  }, [])
+
   // PUT AREA:
   const updateRecord = useCallback(async (data: HTTP.HTTP_UpdateRecord) => {
     const url = `/record/updateRecord`
@@ -150,6 +182,8 @@ export const RecordCallbacksProvider: FC<PropsWithChildren> = ({children}) => {
     getRecordArr,
 
     addGame,
+
+    deleteGame,
 
     updateRecord,
   }

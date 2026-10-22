@@ -49,6 +49,20 @@ export class RecordDBService {
     }
   }
 
+  async deleteRecordArr(where: string, dto: DTO.DTO_ReadRecordArr) {
+    where = where + '/deleteRecordArr'
+
+    const {gameNum, leagueNum} = dto
+
+    try {
+      await this.recordArrDBModel.deleteOne({gameNum, leagueNum})
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readRecordArr(where: string, dto: DTO.DTO_ReadRecordArr) {
     where = where + '/readRecordArr'
 

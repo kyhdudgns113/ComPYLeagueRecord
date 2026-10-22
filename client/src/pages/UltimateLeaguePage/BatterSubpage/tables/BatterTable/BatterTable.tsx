@@ -12,19 +12,45 @@ import * as OT from '@objectType'
 
 import './BatterTable.scss'
 
-const RECORD_CELLS: {className: string; key: keyof OT.UltiBatterRecordType; inputType: 'number' | 'text'}[] = [
+const RECORD_CELLS: {className: string; digits?: number; key: keyof OT.UltiBatterRecordType; inputType: 'number' | 'text'}[] = [
   {className: 'td-gameNum', key: 'name', inputType: 'text'},
   {className: 'td-playNum', key: 'playNum', inputType: 'number'},
   {className: 'td-atBat', key: 'atBat', inputType: 'number'},
-  {className: 'td-avg', key: 'avg', inputType: 'number'},
+  {className: 'td-avg', digits: 3, key: 'avg', inputType: 'number'},
   {className: 'td-hit1', key: 'hit1', inputType: 'number'},
   {className: 'td-hit2', key: 'hit2', inputType: 'number'},
   {className: 'td-hit3', key: 'hit3', inputType: 'number'},
   {className: 'td-hit4', key: 'hit4', inputType: 'number'},
   {className: 'td-steal', key: 'steal', inputType: 'number'},
-  {className: 'td-slg', key: 'slg', inputType: 'number'},
-  {className: 'td-ops', key: 'ops', inputType: 'number'},
+  {className: 'td-slg', digits: 3, key: 'slg', inputType: 'number'},
+  {className: 'td-ops', digits: 3, key: 'ops', inputType: 'number'},
 ]
+
+const roundTo = (value: number, digits: number) => {
+  const factor = 10 ** digits
+  return Math.round(value * factor) / factor
+}
+
+const withFixedRates = (record: OT.UltiBatterRecordType): OT.UltiBatterRecordType => {
+  return {
+    ...record,
+    avg: roundTo(Number(record.avg) || 0, 3),
+    ops: roundTo(Number(record.ops) || 0, 3),
+    slg: roundTo(Number(record.slg) || 0, 3),
+  }
+}
+
+const formatCellValue = (value: string | number, digits?: number, hideZero?: boolean) => {
+  if (hideZero && typeof value === 'number' && value === 0) {
+    return ''
+  }
+
+  if (digits === undefined || typeof value !== 'number') {
+    return value
+  }
+
+  return value.toFixed(digits)
+}
 
 type BatterTableProps = DivCommonProps & {
   batterTable: OT.UltiBatterTableType
@@ -75,7 +101,9 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
         return
       }
 
-      updateBatterTable(draftArr, batterTable.tableOId).then(res => {
+      const nextArr = draftArr.map(record => withFixedRates(record))
+
+      updateBatterTable(nextArr, batterTable.tableOId).then(res => {
         if (res.isSuccess) {
           const {batterTableArr} = res
           setBatterTableArr(batterTableArr)
@@ -193,7 +221,7 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
                       value={record[cell.key]}
                     />
                   ) : (
-                    record[cell.key]
+                    formatCellValue(record[cell.key], cell.digits, true)
                   )}
                 </td>
               ))}
