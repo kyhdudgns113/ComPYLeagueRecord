@@ -12,6 +12,7 @@ export const Lefter: FC<LefterProps> = ({...props}) => {
     <div className={`Lefter`} {...props}>
       <R.SettingRow />
       <R.PitchRecordRow />
+      <R.UltimateSettingRow />
       <R.UltimateLeagueRow />
     </div>
   )

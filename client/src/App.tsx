@@ -31,6 +31,7 @@ function App() {
         </Route>
 
         <Route path="ultimateLeague" element={<P.UltimateLeaguePage />} />
+        <Route path="ultimateSetting" element={<P.UltimateSettingPage />} />
       </Route>
     </Routes>
   )
