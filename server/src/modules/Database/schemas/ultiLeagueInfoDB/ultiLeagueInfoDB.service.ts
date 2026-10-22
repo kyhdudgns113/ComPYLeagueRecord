@@ -35,6 +35,25 @@ export class UltiLeagueInfoDBService {
     }
   }
 
+  async deleteUltiLeagueInfo(where: string, dto: DTO.DTO_DeleteUltiLeague) {
+    where = where + '/deleteUltiLeagueInfo'
+
+    const {leagueNum} = dto
+
+    try {
+      const deletedLeague = await this.ultiLeagueInfoDBModel.findOneAndDelete({leagueNum})
+      if (!deletedLeague) {
+        throw {gkdErrMsg: `[${where}] league is not found. leagueNum: ${leagueNum}`, statusCode: 404}
+      }
+
+      return {league: toUltiLeagueInfoType(deletedLeague)}
+      // ::
+    } catch (errObj) {
+      // ::
+      throw errObj
+    }
+  }
+
   async readUltiLeagueInfoArr(where: string) {
     where = where + '/readUltiLeagueInfoArr'
 

@@ -88,6 +88,7 @@ export type UltiBatterRecordType = {
 export type UltiBatterTableType = {
   desc: string
   gameNum: number
+  leagueNum: number
   recordArr: UltiBatterRecordType[]
 }
 
@@ -125,6 +126,7 @@ export type UltiPitcherTableType = {
   gameNum: number
   leagueNum: number
   recordArr: UltiPitcherRecordType[]
+  tableOId: string
 }
 
 export type UltiLeagueInfoType = {

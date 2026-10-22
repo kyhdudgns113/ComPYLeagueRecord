@@ -221,7 +221,7 @@ export class BatterDBService {
     const {batterHand, batterOId, hasPressureSkill, name} = dto
 
     try {
-      const batterDB = await this.batterDBModel.findByIdAndUpdate(batterOId, {$set: {batterHand, hasPressureSkill, name}}, {new: true})
+      const batterDB = await this.batterDBModel.findByIdAndUpdate(batterOId, {$set: {batterHand, hasPressureSkill, name}}, {returnDocument: 'after'})
 
       if (!batterDB) {
         console.log(`[${where}] 수정이 되지 않았어요`)

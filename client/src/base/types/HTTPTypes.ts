@@ -31,8 +31,23 @@ export type HTTP_AddPitcher = {
   teamName: CT.Type_Team
 }
 
+export type HTTP_AddUltiBatterTable = {
+  gameNum: number
+  leagueNum: number
+}
+
 export type HTTP_AddUltiLeague = {
   description: string
+  leagueNum: number
+}
+
+export type HTTP_AddUltiPitcherRecord = {
+  name: string
+  tableOId: string
+}
+
+export type HTTP_AddUltiPitcherTable = {
+  gameNum: number
   leagueNum: number
 }
 
@@ -58,6 +73,11 @@ export type HTTP_MoveBatterInArr = {
   targetIdx: number
 
   teamName: CT.Type_Team
+}
+
+export type HTTP_UpdateUltiPitcherTable = {
+  recordArr: OT.UltiPitcherRecordType[]
+  tableOId: string
 }
 
 export type HTTP_UpdateRecord = {

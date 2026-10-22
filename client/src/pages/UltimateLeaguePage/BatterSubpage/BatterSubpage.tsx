@@ -1,6 +1,11 @@
+import {useUltimateBatterTableArr} from '@redux'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import {DeleteLeagueButton} from '../PitcherSubpage/buttons'
+
+import * as B from './buttons'
 import * as T from './tables'
 
 import './BatterSubpage.scss'
@@ -8,9 +13,21 @@ import './BatterSubpage.scss'
 type BatterSubpageProps = DivCommonProps
 
 export const BatterSubpage: FC<BatterSubpageProps> = ({...props}) => {
+  const batterTableArr = useUltimateBatterTableArr()
   return (
     <div className={`BatterSubpage`} {...props}>
-      <T.BatterTable />
+      {/* 1. 버튼 행 */}
+      <div className={`ButtonRow_SubPage`}>
+        <B.AddBatterTableButton />
+        <DeleteLeagueButton />
+      </div>
+
+      {/* 2. 테이블 목록 */}
+      <div className={`TableArr_SubPage`}>
+        {batterTableArr.map((batterTable, idx) => (
+          <T.BatterTable key={idx} batterTable={batterTable} />
+        ))}
+      </div>
     </div>
   )
 }

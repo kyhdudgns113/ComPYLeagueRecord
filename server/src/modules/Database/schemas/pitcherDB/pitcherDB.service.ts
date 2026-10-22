@@ -235,7 +235,7 @@ export class PitcherDBService {
     const {name, pitcherHand, pitcherOId} = dto
 
     try {
-      const pitcherDB = await this.pitcherDBModel.findByIdAndUpdate(pitcherOId, {$set: {name, pitcherHand}}, {new: true})
+      const pitcherDB = await this.pitcherDBModel.findByIdAndUpdate(pitcherOId, {$set: {name, pitcherHand}}, {returnDocument: 'after'})
 
       if (!pitcherDB) {
         console.log(`[${where}] 수정이 되지 않았어요`)

@@ -1,4 +1,6 @@
-import {useCallback, useState} from 'react'
+import {useCallback, useEffect, useState} from 'react'
+
+import {useUltimateLeagueNum} from '@redux'
 
 import {BatterSubpage} from './BatterSubpage'
 import {PitcherSubpage} from './PitcherSubpage'
@@ -15,7 +17,15 @@ type SubPageType = 'batter' | 'pitcher'
 type UltimateLeaguePageProps = DivCommonProps
 
 export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
+  const leagueNum = useUltimateLeagueNum()
+
+  const [isHidden, setIsHidden] = useState<boolean>(true)
   const [subPage, setSubPage] = useState<SubPageType>('pitcher')
+
+  // 자동 갱신: isHidden
+  useEffect(() => {
+    setIsHidden(leagueNum === null)
+  }, [leagueNum])
 
   const onClickTab = useCallback(
     (nextSubPage: SubPageType) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -33,7 +43,7 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
       </div>
 
       <div className={`LeagueTables_Page`}>
-        <div className={`Tab_Row_Page`}>
+        <div className={`Tab_Row_Page ${isHidden ? '_hidden' : ''}`}>
           <button className={`Tab_Page ${subPage === 'pitcher' ? '_selected' : ''}`} onClick={onClickTab('pitcher')} type="button">
             투수
           </button>
@@ -42,7 +52,7 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
           </button>
         </div>
 
-        <div className={`SubPageArea_Page`}>
+        <div className={`SubPageArea_Page ${isHidden ? '_hidden' : ''}`}>
           {subPage === 'pitcher' && <PitcherSubpage />}
           {subPage === 'batter' && <BatterSubpage />}
         </div>

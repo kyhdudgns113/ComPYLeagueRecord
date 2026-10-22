@@ -60,11 +60,14 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
       const leagueNum = parseInt(splitArr[1])
       if (!isNaN(leagueNum)) {
         setLeagueNum(leagueNum)
+        // 여기서는 resetState 안해도 된다.
+        // 어차피 바로 하단의 조건문에서 필요한만큼 수행한다.
 
         if (splitArr.length > 2) {
           const gameNum = parseInt(splitArr[2])
           if (!isNaN(gameNum)) {
             setGameNum(gameNum)
+            resetStates({gameNum: false, leagueNum: true, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})
           } // ::
           else {
             resetStates({gameNum: true, leagueNum: false, leagueNumSetting: true, leagueNumUlti: true, teamIdxSetting: true})

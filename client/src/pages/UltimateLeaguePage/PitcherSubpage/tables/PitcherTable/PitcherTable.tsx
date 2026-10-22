@@ -1,23 +1,172 @@
+import {useCallback, useState} from 'react'
+
+import {Icon} from '@component'
+import {useUltimateCallbacksContext} from '@context'
+import {useUltimateActions} from '@redux'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
+import * as B from './buttons'
 import * as OT from '@objectType'
 
 import './PitcherTable.scss'
+
+const RECORD_CELLS: {className: string; key: keyof OT.UltiPitcherRecordType; inputType: 'number' | 'text'}[] = [
+  {className: 'td-gameNum', key: 'name', inputType: 'text'},
+  {className: 'td-playNum', key: 'playNum', inputType: 'number'},
+  {className: 'td-innings', key: 'inning', inputType: 'number'},
+  {className: 'td-era', key: 'era', inputType: 'number'},
+  {className: 'td-win', key: 'win', inputType: 'number'},
+  {className: 'td-loss', key: 'lose', inputType: 'number'},
+  {className: 'td-save', key: 'save', inputType: 'number'},
+  {className: 'td-hold', key: 'hold', inputType: 'number'},
+  {className: 'td-blown', key: 'blown', inputType: 'number'},
+  {className: 'td-complete', key: 'wanBong', inputType: 'number'},
+  {className: 'td-perfect', key: 'wanTo', inputType: 'number'},
+  {className: 'td-strikeout', key: 'strikeOut', inputType: 'number'},
+  {className: 'td-whip', key: 'whip', inputType: 'number'},
+  {className: 'td-homeRun', key: 'homeRun', inputType: 'number'},
+  {className: 'td-earnedRun', key: 'ownLoseScore', inputType: 'number'},
+  {className: 'td-k9', key: 'kPer9', inputType: 'number'},
+  {className: 'td-hr9', key: 'homeRunPer9', inputType: 'number'},
+]
 
 type PitcherTableProps = DivCommonProps & {
   pitcherTable: OT.UltiPitcherTableType
 }
 
 export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) => {
+  const {setPitcherTableArr} = useUltimateActions()
+  const {updatePitcherTable} = useUltimateCallbacksContext()
+
+  const [isEdit, setIsEdit] = useState<boolean>(false)
+  const [draftArr, setDraftArr] = useState<OT.UltiPitcherRecordType[]>(pitcherTable.recordArr)
+  const [dragIdx, setDragIdx] = useState<number | null>(null)
+
+  const recordArr = isEdit ? draftArr : pitcherTable.recordArr
+
+  const onChangeCell = useCallback((recordIdx: number, key: keyof OT.UltiPitcherRecordType, inputType: 'number' | 'text') => {
+    return (e: React.ChangeEvent<HTMLInputElement>) => {
+      const nextValue = e.target.value
+
+      setDraftArr(prevArr => {
+        return prevArr.map((record, idx) => {
+          if (idx !== recordIdx) {
+            return record
+          }
+
+          if (inputType === 'text') {
+            return {...record, [key]: nextValue}
+          }
+
+          if (nextValue === '') {
+            return {...record, [key]: 0}
+          }
+
+          const nextNum = Number(nextValue)
+          return {...record, [key]: isNaN(nextNum) ? 0 : nextNum}
+        })
+      })
+    }
+  }, [])
+
+  const onClickModify = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+
+      if (!isEdit) {
+        setDraftArr(pitcherTable.recordArr.map(record => ({...record})))
+        setIsEdit(true)
+        return
+      }
+
+      updatePitcherTable(draftArr, pitcherTable.tableOId).then(res => {
+        if (res.isSuccess) {
+          const {pitcherTableArr} = res
+          setPitcherTableArr(pitcherTableArr)
+          setIsEdit(false)
+        } // ::
+        else {
+          if (res.errMsg) {
+            alert(`[PitcherTable] ${res.errMsg}`)
+          }
+        }
+      })
+    },
+    [draftArr, isEdit, pitcherTable.recordArr, pitcherTable.tableOId, setPitcherTableArr, updatePitcherTable]
+  )
+
+  const onDragStartRow = useCallback(
+    (recordIdx: number) => (e: React.DragEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      setDragIdx(recordIdx)
+      e.dataTransfer.effectAllowed = 'move'
+      e.dataTransfer.setData('text/plain', `${recordIdx}`)
+    },
+    []
+  )
+
+  const onDragOverRow = useCallback((e: React.DragEvent<HTMLTableRowElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+  }, [])
+
+  const onDropRow = useCallback(
+    (targetIdx: number) => (e: React.DragEvent<HTMLTableRowElement>) => {
+      e.preventDefault()
+      e.stopPropagation()
+
+      if (dragIdx === null || dragIdx === targetIdx) {
+        setDragIdx(null)
+        return
+      }
+
+      setDraftArr(prevArr => {
+        const nextArr = [...prevArr]
+        const [movedRecord] = nextArr.splice(dragIdx, 1)
+        nextArr.splice(targetIdx, 0, movedRecord)
+        return nextArr
+      })
+      setDragIdx(null)
+    },
+    [dragIdx]
+  )
+
+  const onDragEndRow = useCallback((e: React.DragEvent<HTMLTableCellElement>) => {
+    e.stopPropagation()
+    setDragIdx(null)
+  }, [])
+
+  const onClickDelete = useCallback(
+    (recordIdx: number) => (e: React.MouseEvent<HTMLButtonElement>) => {
+      e.stopPropagation()
+
+      const nextArr = recordArr.filter((_, idx) => idx !== recordIdx)
+
+      updatePitcherTable(nextArr, pitcherTable.tableOId).then(res => {
+        if (res.isSuccess) {
+          const {pitcherTableArr} = res
+          setPitcherTableArr(pitcherTableArr)
+          setDraftArr(nextArr)
+        } // ::
+        else {
+          if (res.errMsg) {
+            alert(`[PitcherTable] ${res.errMsg}`)
+          }
+        }
+      })
+    },
+    [pitcherTable.tableOId, recordArr, setPitcherTableArr, updatePitcherTable]
+  )
+
   return (
-    <div className={`PitcherTable`} {...props}>
-      {/* 1. 버튼 행? */}
-      {/* 2. 테이블 */}
+    <div className={`PitcherTable ${isEdit ? '_editing' : ''}`} {...props}>
+      {/* 1. 테이블 */}
       <table>
         <thead>
           <tr>
-            <th className={`th-gameNum`}>데스파이네'21</th>
+            <th className={`th-gameNum`}>{pitcherTable.gameNum}</th>
             <th className={`th-playNum`}>출전</th>
             <th className={`th-innings`}>이닝</th>
             <th className={`th-era`}>ERA</th>
@@ -34,9 +183,54 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
             <th className={`th-earnedRun`}>자책점</th>
             <th className={`th-k9`}>K/9</th>
             <th className={`th-hr9`}>홈런/9</th>
+            <th className={`th-drag`} />
+            <th className={`th-delete`} />
           </tr>
         </thead>
+        <tbody>
+          {recordArr.map((record, recordIdx) => (
+            <tr
+              className={`${dragIdx === recordIdx ? '_dragging' : ''}`}
+              key={recordIdx}
+              onDragOver={isEdit ? onDragOverRow : undefined}
+              onDrop={isEdit ? onDropRow(recordIdx) : undefined}
+            >
+              {RECORD_CELLS.map(cell => (
+                <td className={cell.className} key={cell.key}>
+                  {isEdit ? (
+                    <input
+                      className={`Input_Table`}
+                      onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
+                      type={cell.inputType}
+                      value={record[cell.key]}
+                    />
+                  ) : (
+                    record[cell.key]
+                  )}
+                </td>
+              ))}
+              <td
+                className={`td-drag`}
+                draggable={isEdit}
+                onDragEnd={isEdit ? onDragEndRow : undefined}
+                onDragStart={isEdit ? onDragStartRow(recordIdx) : undefined}
+              >
+                {isEdit && <Icon className={`DragIcon_Table`} iconName="drag_indicator" />}
+              </td>
+              <td className={`td-delete`}>
+                <B.DeletePitcherButton name={record.name} onClick={onClickDelete(recordIdx)} />
+              </td>
+            </tr>
+          ))}
+        </tbody>
       </table>
+
+      {/* 2. 버튼 행 */}
+      <div className={`ButtonRow_Table`}>
+        <B.AddPitcherButton tableOId={pitcherTable.tableOId} />
+        <B.ModifyButton isEdit={isEdit} onClick={onClickModify} />
+        <B.DeleteTableButton gameNum={pitcherTable.gameNum} tableOId={pitcherTable.tableOId} />
+      </div>
     </div>
   )
 }
