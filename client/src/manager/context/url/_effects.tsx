@@ -24,7 +24,7 @@ export const URLEffectsContext = createContext<ContextType>({})
 export const useURLEffectsContext = () => useContext(URLEffectsContext)
 
 export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
-  const {clearLefterTab, setLefterPitchRecord, setLefterSetting, setLefterUltimateLeague, setLefterUltimateSetting} = useBaseActions()
+  const {clearLefterTab, setLefterPitchRecord, setLefterSetting, setLefterUltimateLeague} = useBaseActions()
   const {clearGameNum, clearLeagueNum, setGameNum, setLeagueNum} = useRecordActions()
   const {clearLeagueNumSetting, clearTeamIdxSetting, setLeagueNumSetting, setTeamIdxSetting} = useSettingActions()
   const location = useLocation()
@@ -83,11 +83,6 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
     resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
   })
 
-  const processUltimateSetting = useEffectEvent(() => {
-    setLefterUltimateSetting()
-    resetStates({gameNum: true, leagueNum: true, leagueNumSetting: true, teamIdxSetting: true})
-  })
-
   const processSetting = useEffectEvent((splitArr: string[]) => {
     setLefterSetting()
     if (splitArr.length > 1) {
@@ -135,9 +130,6 @@ export const URLEffectsProvider: FC<PropsWithChildren> = ({children}) => {
           break
         case 'ultimateLeague':
           processUltimateLeague()
-          break
-        case 'ultimateSetting':
-          processUltimateSetting()
           break
         default:
           clearLefterTab()
