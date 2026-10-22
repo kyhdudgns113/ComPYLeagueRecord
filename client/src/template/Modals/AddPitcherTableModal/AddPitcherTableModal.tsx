@@ -15,27 +15,27 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
 
   const [gameLen, setGameLen] = useState<string>('')
 
-  const onClickSubmit = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
-      closeModal()
-    },
-    [closeModal]
-  )
+  const _submit = useCallback(() => {
+    closeModal()
+  }, [])
 
-  const onKeyDownModal = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      switch (e.key) {
-        case 'Enter':
-          closeModal()
-          break
-        case 'Escape':
-          closeModal()
-          break
-      }
-    },
-    [closeModal]
-  )
+  const onClickSubmit = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    _submit()
+  }, [])
+
+  const onKeyDownModal = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    switch (e.key) {
+      case 'Enter':
+        e.stopPropagation()
+        _submit()
+        break
+      case 'Escape':
+        e.stopPropagation()
+        closeModal()
+        break
+    }
+  }, [])
 
   return (
     <Modal className={`AddPitcherTableModal`} onClose={closeModal} onKeyDown={onKeyDownModal} {...props}>
@@ -45,14 +45,7 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
       {/* 2. 입력행: 경기수 */}
       <div className={`Input_Row_Modal`}>
         <p className={`Input_Label_Modal`}>경기수</p>
-        <input
-          autoFocus={true}
-          className={`Input_Modal`}
-          onChange={e => setGameLen(e.target.value)}
-          tabIndex={0}
-          type="number"
-          value={gameLen}
-        />
+        <input autoFocus={true} className={`Input_Modal`} onChange={e => setGameLen(e.target.value)} tabIndex={0} type="number" value={gameLen} />
       </div>
 
       {/* 3. 버튼 행 */}

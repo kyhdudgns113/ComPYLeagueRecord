@@ -123,5 +123,12 @@ export type UltiPitcherRecordType = {
 export type UltiPitcherTableType = {
   desc: string
   gameNum: number
+  leagueNum: number
   recordArr: UltiPitcherRecordType[]
+}
+
+export type UltiLeagueInfoType = {
+  createdAtNum: number // 서버가 전해줄때는 Date 가 아닌 number 로 전해준다. Date 는 Redux 에 저장이 안됨.
+  description: string
+  leagueNum: number
 }
