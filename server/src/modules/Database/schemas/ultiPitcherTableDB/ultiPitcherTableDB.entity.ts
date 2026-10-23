@@ -5,6 +5,9 @@ import * as OT from '@objectTye'
 
 @Schema()
 export class UltiPitcherTable extends Document {
+  @Prop({type: Date, default: new Date()})
+  createdAt!: Date
+
   @Prop({type: String, default: ''})
   desc: string = ''
 

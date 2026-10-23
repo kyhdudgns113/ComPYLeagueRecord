@@ -15,7 +15,7 @@
           th {
             border-color: #000000;
             border-style: solid;
-            border-bottom-width: 2px;
+            border-bottom-width: 4px;
             border-right-width: 1px;
             border-top-width: 0px;
             border-left-width: 0px;
@@ -23,6 +23,12 @@
             height: 24px;
   
             &.th-gameNum {
+              border-bottom-width: 2px;
+              border-right-width: 2px;
+              width: 110px;
+            }
+            &.th-createdAt {
+              border-right-width: 2px;
               width: 110px;
             }
             &.th-playNum {
@@ -110,6 +116,10 @@
             font-size: 14px;
             height: 24px;
             text-align: center;
+
+            &.td-name {
+              border-right-width: 2px;
+            }
 
             &.td-delete {
               padding-left: 2px;

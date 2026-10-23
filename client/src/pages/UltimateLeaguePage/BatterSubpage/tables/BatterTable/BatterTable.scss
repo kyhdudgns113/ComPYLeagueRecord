@@ -24,6 +24,12 @@
             height: 24px;
 
             &.th-gameNum {
+              border-bottom-width: 2px;
+              border-right-width: 2px;
+              width: 110px;
+            }
+            &.th-createdAt {
+              border-right-width: 2px;
               width: 110px;
             }
             &.th-playNum {
@@ -99,6 +105,10 @@
             font-size: 14px;
             height: 24px;
             text-align: center;
+
+            &.td-gameNum {
+              border-right-width: 2px;
+            }
 
             &.td-delete {
               padding-left: 2px;

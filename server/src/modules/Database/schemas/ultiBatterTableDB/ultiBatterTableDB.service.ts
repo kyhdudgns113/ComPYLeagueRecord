@@ -8,6 +8,7 @@ import * as OT from '@objectTye'
 
 const toUltiBatterTableType = (table: UltiBatterTable): OT.UltiBatterTableType => {
   return {
+    createdAtNum: table.createdAt.valueOf(),
     desc: table.desc,
     gameNum: table.gameNum,
     leagueNum: table.leagueNum,
@@ -74,11 +75,7 @@ export class UltiBatterTableDBService {
       }
 
       const nextRecord = makeEmptyBatterRecord(name, table.gameNum)
-      const updatedTable = await this.ultiBatterTableDBModel.findByIdAndUpdate(
-        tableOId,
-        {$push: {recordArr: nextRecord}},
-        {returnDocument: 'after'}
-      )
+      const updatedTable = await this.ultiBatterTableDBModel.findByIdAndUpdate(tableOId, {$push: {recordArr: nextRecord}}, {returnDocument: 'after'})
       if (!updatedTable) {
         throw {gkdErrMsg: `[${where}] table is not found. tableOId: ${tableOId}`, statusCode: 404}
       }

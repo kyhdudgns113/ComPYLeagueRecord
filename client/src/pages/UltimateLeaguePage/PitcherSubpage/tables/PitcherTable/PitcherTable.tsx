@@ -13,7 +13,7 @@ import * as OT from '@objectType'
 import './PitcherTable.scss'
 
 const RECORD_CELLS: {className: string; digits?: number; isCalc?: boolean; key: keyof OT.UltiPitcherRecordType; inputType: 'number' | 'text'}[] = [
-  {className: 'td-gameNum', key: 'name', inputType: 'text'},
+  {className: 'td-name', key: 'name', inputType: 'text'},
   {className: 'td-playNum', key: 'playNum', inputType: 'number'},
   {className: 'td-innings', key: 'inning', inputType: 'number'},
   {className: 'td-era', digits: 2, key: 'era', inputType: 'number'},
@@ -210,24 +210,59 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
         <thead>
           <tr>
             <th className={`th-gameNum`}>{pitcherTable.gameNum}</th>
-            <th className={`th-playNum`}>출전</th>
-            <th className={`th-innings`}>이닝</th>
-            <th className={`th-era`}>ERA</th>
-            <th className={`th-win`}>승</th>
-            <th className={`th-loss`}>패</th>
-            <th className={`th-save`}>세</th>
-            <th className={`th-hold`}>홀</th>
-            <th className={`th-blown`}>블</th>
-            <th className={`th-complete`}>완봉</th>
-            <th className={`th-perfect`}>완투</th>
-            <th className={`th-strikeout`}>삼진</th>
-            <th className={`th-whip`}>WHIP</th>
-            <th className={`th-homeRun`}>피홈런</th>
-            <th className={`th-earnedRun`}>자책점</th>
-            <th className={`th-k9`}>K/9</th>
-            <th className={`th-hr9`}>홈런/9</th>
-            <th className={`th-drag`} />
-            <th className={`th-delete`} />
+            <th className={`th-playNum`} rowSpan={2}>
+              출전
+            </th>
+            <th className={`th-innings`} rowSpan={2}>
+              이닝
+            </th>
+            <th className={`th-era`} rowSpan={2}>
+              ERA
+            </th>
+            <th className={`th-win`} rowSpan={2}>
+              승
+            </th>
+            <th className={`th-loss`} rowSpan={2}>
+              패
+            </th>
+            <th className={`th-save`} rowSpan={2}>
+              세
+            </th>
+            <th className={`th-hold`} rowSpan={2}>
+              홀
+            </th>
+            <th className={`th-blown`} rowSpan={2}>
+              블
+            </th>
+            <th className={`th-complete`} rowSpan={2}>
+              완봉
+            </th>
+            <th className={`th-perfect`} rowSpan={2}>
+              완투
+            </th>
+            <th className={`th-strikeout`} rowSpan={2}>
+              삼진
+            </th>
+            <th className={`th-whip`} rowSpan={2}>
+              WHIP
+            </th>
+            <th className={`th-homeRun`} rowSpan={2}>
+              피홈런
+            </th>
+            <th className={`th-earnedRun`} rowSpan={2}>
+              자책점
+            </th>
+            <th className={`th-k9`} rowSpan={2}>
+              K/9
+            </th>
+            <th className={`th-hr9`} rowSpan={2}>
+              홈런/9
+            </th>
+            <th className={`th-drag`} rowSpan={2} />
+            <th className={`th-delete`} rowSpan={2} />
+          </tr>
+          <tr>
+            <th className={`th-createdAt`}>{new Date(pitcherTable.createdAtNum).toLocaleDateString()}</th>
           </tr>
         </thead>
         <tbody>

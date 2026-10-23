@@ -8,6 +8,7 @@ import * as OT from '@objectTye'
 
 const toUltiPitcherTableType = (table: UltiPitcherTable): OT.UltiPitcherTableType => {
   return {
+    createdAtNum: table.createdAt.valueOf(),
     desc: table.desc,
     gameNum: table.gameNum,
     leagueNum: table.leagueNum,
@@ -80,11 +81,7 @@ export class UltiPitcherTableDBService {
       }
 
       const nextRecord = makeEmptyPitcherRecord(name, table.gameNum)
-      const updatedTable = await this.ultiPitcherTableDBModel.findByIdAndUpdate(
-        tableOId,
-        {$push: {recordArr: nextRecord}},
-        {returnDocument: 'after'}
-      )
+      const updatedTable = await this.ultiPitcherTableDBModel.findByIdAndUpdate(tableOId, {$push: {recordArr: nextRecord}}, {returnDocument: 'after'})
       if (!updatedTable) {
         throw {gkdErrMsg: `[${where}] table is not found. tableOId: ${tableOId}`, statusCode: 404}
       }

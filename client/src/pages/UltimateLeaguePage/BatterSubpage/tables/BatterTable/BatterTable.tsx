@@ -189,18 +189,41 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
         <thead>
           <tr>
             <th className={`th-gameNum`}>{batterTable.gameNum}</th>
-            <th className={`th-playNum`}>출전</th>
-            <th className={`th-atBat`}>타수</th>
-            <th className={`th-avg`}>타율</th>
-            <th className={`th-hit1`}>1루타</th>
-            <th className={`th-hit2`}>2루타</th>
-            <th className={`th-hit3`}>3루타</th>
-            <th className={`th-hit4`}>홈런</th>
-            <th className={`th-steal`}>도루</th>
-            <th className={`th-slg`}>장타</th>
-            <th className={`th-ops`}>OPS</th>
-            <th className={`th-drag`} />
-            <th className={`th-delete`} />
+            <th className={`th-playNum`} rowSpan={2}>
+              출전
+            </th>
+            <th className={`th-atBat`} rowSpan={2}>
+              타수
+            </th>
+            <th className={`th-avg`} rowSpan={2}>
+              타율
+            </th>
+            <th className={`th-hit1`} rowSpan={2}>
+              1루타
+            </th>
+            <th className={`th-hit2`} rowSpan={2}>
+              2루타
+            </th>
+            <th className={`th-hit3`} rowSpan={2}>
+              3루타
+            </th>
+            <th className={`th-hit4`} rowSpan={2}>
+              홈런
+            </th>
+            <th className={`th-steal`} rowSpan={2}>
+              도루
+            </th>
+            <th className={`th-slg`} rowSpan={2}>
+              장타
+            </th>
+            <th className={`th-ops`} rowSpan={2}>
+              OPS
+            </th>
+            <th className={`th-drag`} rowSpan={2} />
+            <th className={`th-delete`} rowSpan={2} />
+          </tr>
+          <tr>
+            <th className={`th-createdAt`}>{new Date(batterTable.createdAtNum).toLocaleDateString()}</th>
           </tr>
         </thead>
         <tbody>

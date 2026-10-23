@@ -86,6 +86,7 @@ export type UltiBatterRecordType = {
 }
 
 export type UltiBatterTableType = {
+  createdAtNum: number // 서버가 전해줄때는 Date 가 아닌 number 로 전해준다
   desc: string
   gameNum: number
   leagueNum: number
@@ -123,6 +124,7 @@ export type UltiPitcherRecordType = {
 }
 
 export type UltiPitcherTableType = {
+  createdAtNum: number // 서버가 전해줄때는 Date 가 아닌 number 로 전해준다
   desc: string
   gameNum: number
   leagueNum: number
