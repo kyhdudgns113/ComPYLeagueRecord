@@ -8,9 +8,7 @@ import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
 import * as CT from '@commonType'
-import * as E from './elements'
 import * as LT from '@localType'
-import * as P from './parts'
 import * as V from '@value'
 
 import './AddBatterModal.scss'
@@ -141,12 +139,14 @@ export const AddBatterModal: FC<AddBatterModalProps> = ({...props}) => {
       <p className={`Title_Modal`}>{`[리그 ${leagueNum || ''} ${teamName || ''}] ${addBatter_BatterClass || ''} 타자 추가`}</p>
 
       {/* 2. 입력행: 이름 */}
-      <E.InputRow label="이름">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>이름</p>
         <input autoFocus={true} className={`Input_Modal`} onChange={e => setName(e.target.value)} tabIndex={0} type="text" value={name} />
-      </E.InputRow>
+      </div>
 
       {/* 3. 입력행: 타격 유형 */}
-      <E.InputRow label="유형">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>유형</p>
         <select className={`Select_Modal`} onChange={e => setBatterHand(e.target.value as CT.Type_BatterHand)} value={batterHand}>
           {BATTER_HAND_ARR.map(hand => (
             <option key={hand} value={hand}>
@@ -154,10 +154,11 @@ export const AddBatterModal: FC<AddBatterModalProps> = ({...props}) => {
             </option>
           ))}
         </select>
-      </E.InputRow>
+      </div>
 
       {/* 4. 입력행: 위압감 */}
-      <E.InputRow label="위압감">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>위압감</p>
         <div
           className={`PressureToggle_Modal ${hasPressureSkill ? '_on' : ''}`}
           onClick={e => {
@@ -167,14 +168,20 @@ export const AddBatterModal: FC<AddBatterModalProps> = ({...props}) => {
         >
           {hasPressureSkill ? '있음' : '없음'}
         </div>
-      </E.InputRow>
+      </div>
 
       {/* 5. 버튼 행 */}
-      <P.ButtonRowPart
-        onClickCancel={closeModal}
-        onClickSubmit={onClickSubmit(leagueNum, teamIdx, name, batterHand, hasPressureSkill, addBatter_BatterClass)}
-        submitText="추가"
-      />
+      <div className={`Button_Row_Modal`}>
+        <button
+          className={`Button_Modal`}
+          onClick={onClickSubmit(leagueNum, teamIdx, name, batterHand, hasPressureSkill, addBatter_BatterClass)}
+        >
+          추가
+        </button>
+        <button className={`Button_Modal`} onClick={closeModal}>
+          취소
+        </button>
+      </div>
     </Modal>
   )
 }

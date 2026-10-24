@@ -7,9 +7,6 @@ import {useModalActions, useUltimateActions, useUltimateLeagueNum} from '@redux'
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
-import * as E from './elements'
-import * as P from './parts'
-
 import './AddPitcherTableModal.scss'
 
 type AddPitcherTableModalProps = ModalCommonProps
@@ -81,12 +78,20 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
       <p className={`Title_Modal`}>투수 기록 테이블 추가</p>
 
       {/* 2. 입력행: 경기수 */}
-      <E.InputRow label="경기수">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>경기수</p>
         <input autoFocus={true} className={`Input_Modal`} onChange={e => setGameLen(e.target.value)} tabIndex={0} type="number" value={gameLen} />
-      </E.InputRow>
+      </div>
 
       {/* 3. 버튼 행 */}
-      <P.ButtonRowPart onClickCancel={closeModal} onClickSubmit={onClickSubmit(gameLen, leagueNum)} submitText="추가" />
+      <div className={`Button_Row_Modal`}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(gameLen, leagueNum)} type="button">
+          추가
+        </button>
+        <button className={`Button_Modal`} onClick={closeModal} type="button">
+          취소
+        </button>
+      </div>
     </Modal>
   )
 }

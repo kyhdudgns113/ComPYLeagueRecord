@@ -8,9 +8,7 @@ import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
 import * as CT from '@commonType'
-import * as E from './elements'
 import * as LT from '@localType'
-import * as P from './parts'
 import * as V from '@value'
 
 import './AddPitcherModal.scss'
@@ -120,12 +118,14 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
       <p className={`Title_Modal`}>{`[리그 ${leagueNum || ''} ${teamName || ''}] ${addPitcher_PitcherType || ''} 투수 추가`}</p>
 
       {/* 2. 입력행: 이름 */}
-      <E.InputRow label="이름">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>이름</p>
         <input autoFocus={true} className={`Input_Modal`} onChange={e => setName(e.target.value)} tabIndex={0} type="text" value={name} />
-      </E.InputRow>
+      </div>
 
       {/* 3. 입력행: 투구 유형 */}
-      <E.InputRow label="유형">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>유형</p>
         <select className={`Select_Modal`} onChange={e => setPitcherHand(e.target.value as CT.Type_PitcherHand)} value={pitcherHand}>
           {PITCHER_HAND_ARR.map(hand => (
             <option key={hand} value={hand}>
@@ -133,14 +133,17 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
             </option>
           ))}
         </select>
-      </E.InputRow>
+      </div>
 
       {/* 4. 버튼 행 */}
-      <P.ButtonRowPart
-        onClickCancel={closeModal}
-        onClickSubmit={onClickSubmit(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType)}
-        submitText="추가"
-      />
+      <div className={`Button_Row_Modal`}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType)}>
+          추가
+        </button>
+        <button className={`Button_Modal`} onClick={closeModal}>
+          취소
+        </button>
+      </div>
     </Modal>
   )
 }

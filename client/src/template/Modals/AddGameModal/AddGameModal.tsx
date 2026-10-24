@@ -8,9 +8,7 @@ import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
 import * as CT from '@commonType'
-import * as E from './elements'
 import * as HTTP from '@httpType'
-import * as P from './parts'
 import * as V from '@value'
 
 import './AddGameModal.scss'
@@ -106,7 +104,8 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
       <p className={`Title_Modal`}>{`[리그 ${leagueNum || ''}] 게임 ${newGameNum} 추가`}</p>
 
       {/* 2. 입력행: 상대팀 */}
-      <E.InputRow label="상대팀">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>상대팀</p>
         <select className={`Select_Modal`} onChange={e => setEnemyTeam(e.target.value as CT.Type_Team)} tabIndex={0} value={enemyTeam}>
           {ENEMY_TEAM_ARR.map(teamName => (
             <option key={teamName} value={teamName}>
@@ -114,10 +113,11 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
             </option>
           ))}
         </select>
-      </E.InputRow>
+      </div>
 
       {/* 3. 입력행: 선발투수 */}
-      <E.InputRow label="선발투수">
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>선발투수</p>
         <select autoFocus={true} className={`Select_Modal`} onChange={e => setSPName(e.target.value)} tabIndex={0} value={SPName}>
           {SPArr.map(pitcher => (
             <option key={pitcher.pitcherOId} value={pitcher.name}>
@@ -125,10 +125,17 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
             </option>
           ))}
         </select>
-      </E.InputRow>
+      </div>
 
       {/* 4. 버튼 행 */}
-      <P.ButtonRowPart onClickCancel={closeModal} onClickSubmit={onClickSubmit(enemyTeam, leagueNum, SPName, gameArr.length)} submitText="추가" />
+      <div className={`Button_Row_Modal`}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(enemyTeam, leagueNum, SPName, gameArr.length)}>
+          추가
+        </button>
+        <button className={`Button_Modal`} onClick={closeModal}>
+          취소
+        </button>
+      </div>
     </Modal>
   )
 }

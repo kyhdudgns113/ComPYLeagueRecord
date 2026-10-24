@@ -4,6 +4,37 @@ import * as V from '@value'
 
 export const canStealFail = (nextResult: CT.Type_Result) => V.ON_BASE_RESULT_ARR.includes(nextResult)
 
+export const buildRecordElement = (params: {
+  batter: OT.BatterType | null
+  gameNum: number
+  isStealFail: boolean
+  leagueNum: number
+  order: number
+  pitchArr: OT.PitchType[]
+  pitcherName: string
+  record: OT.RecordElementType | null
+  result: CT.Type_Result
+  rotation: number
+}): OT.RecordElementType => {
+  const {batter, gameNum, isStealFail, leagueNum, order, pitchArr, pitcherName, record, result, rotation} = params
+
+  return {
+    batterClass: batter?.batterClass || record?.batterClass || '선발',
+    batterHand: batter?.batterHand || record?.batterHand || '우타',
+    batterName: batter?.name || record?.batterName || '',
+    batterOId: batter?.batterOId || record?.batterOId || '',
+    gameNum,
+    hasPressure: batter?.hasPressureSkill ?? record?.hasPressure ?? false,
+    isStealFail: canStealFail(result) && isStealFail,
+    leagueNum,
+    order,
+    pitchArr,
+    pitcherName,
+    result,
+    rotation,
+  }
+}
+
 export const isRecordedAtBat = (record: OT.RecordElementType | null) => {
   if (!record) {
     return false
