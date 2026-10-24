@@ -15,15 +15,15 @@ export const AddPitcherButton: FC<AddPitcherButtonProps> = ({tableOId, ...props}
   const {openAddUltiPitcherModal} = useModalActions()
 
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (tableOId: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       openAddUltiPitcherModal(tableOId)
     },
-    [openAddUltiPitcherModal, tableOId]
+    []
   )
 
   return (
-    <button className={`AddPitcherButton`} onClick={onClickButton} type="button" {...props}>
+    <button className={`AddPitcherButton`} onClick={onClickButton(tableOId)} type="button" {...props}>
       투수 추가
     </button>
   )

@@ -19,7 +19,7 @@ export const TabRowPart: FC<TabRowPartProps> = ({setTab, tab, ...props}) => {
       e.stopPropagation()
       setTab(nextTab)
     },
-    [setTab]
+    []
   )
 
   return (

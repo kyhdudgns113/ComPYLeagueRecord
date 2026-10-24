@@ -18,7 +18,7 @@ export const DeleteGameButton: FC<DeleteGameButtonProps> = ({...props}) => {
   const navigate = useNavigate()
 
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (gameNum: number | null, leagueNum: number | null) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
 
       if (leagueNum === null || gameNum === null) {
@@ -43,11 +43,11 @@ export const DeleteGameButton: FC<DeleteGameButtonProps> = ({...props}) => {
         }
       })
     },
-    [deleteGame, gameNum, leagueNum, navigate, setGameArr]
+    []
   )
 
   return (
-    <button className={`DeleteGameButton`} onClick={onClickButton} type="button" {...props}>
+    <button className={`DeleteGameButton`} onClick={onClickButton(gameNum, leagueNum)} type="button" {...props}>
       게임 삭제
     </button>
   )

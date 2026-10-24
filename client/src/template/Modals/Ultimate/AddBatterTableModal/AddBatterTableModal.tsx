@@ -45,7 +45,7 @@ export const AddBatterTableModal: FC<AddBatterTableModalProps> = ({...props}) =>
         }
       })
     },
-    [addBatterTable, closeModal, setBatterTableArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -53,7 +53,7 @@ export const AddBatterTableModal: FC<AddBatterTableModalProps> = ({...props}) =>
       e.stopPropagation()
       _submit(gameLen, leagueNum)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -69,7 +69,7 @@ export const AddBatterTableModal: FC<AddBatterTableModalProps> = ({...props}) =>
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   return (

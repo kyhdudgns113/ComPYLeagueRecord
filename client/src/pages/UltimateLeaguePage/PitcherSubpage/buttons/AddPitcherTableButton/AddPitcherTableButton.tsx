@@ -17,7 +17,7 @@ export const AddPitcherTableButton: FC<AddPitcherTableButtonProps> = ({...props}
       e.stopPropagation()
       openAddPitcherTableModal()
     },
-    [openAddPitcherTableModal]
+    []
   )
 
   return (

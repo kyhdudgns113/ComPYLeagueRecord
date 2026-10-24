@@ -22,7 +22,7 @@ export const AddPitcherButton: FC<AddPitcherButtonProps> = ({pitcherType, ...pro
       e.stopPropagation()
       openAddPitcherModal(pitcherType)
     },
-    [openAddPitcherModal]
+    []
   )
 
   return (

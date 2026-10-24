@@ -25,7 +25,7 @@ export const LeagueRow: FC<LeagueRowProps> = ({league, ...props}) => {
       e.stopPropagation()
       navigate(`/main/ultimateLeague/${nextLeagueNum}`)
     },
-    [navigate]
+    []
   )
 
   return (

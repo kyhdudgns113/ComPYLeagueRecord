@@ -23,7 +23,7 @@ export const LeagueUnit: FC<LeagueUnitProps> = ({...props}) => {
       e.stopPropagation()
       navigate('/main/setting')
     },
-    [navigate]
+    []
   )
 
   return (

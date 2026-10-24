@@ -36,7 +36,7 @@ export const AddUltiLeagueModal: FC<AddUltiLeagueModalProps> = ({...props}) => {
         }
       })
     },
-    [addLeague, closeModal, setLeagueArrUlti]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -44,7 +44,7 @@ export const AddUltiLeagueModal: FC<AddUltiLeagueModalProps> = ({...props}) => {
       e.stopPropagation()
       _submit(description, newLeagueNum)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -58,7 +58,7 @@ export const AddUltiLeagueModal: FC<AddUltiLeagueModalProps> = ({...props}) => {
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   return (

@@ -8,6 +8,7 @@ import type {DivCommonProps} from '@prop'
 
 import * as CT from '@commonType'
 import * as HTTP from '@httpType'
+import * as LT from '@localType'
 import * as O from '../../objects'
 import * as OT from '@objectType'
 import * as U from '@util'
@@ -37,7 +38,16 @@ export const RecordTabPart: FC<RecordTabPartProps> = ({...props}) => {
   const fallbackPitcherName = record?.pitcherName || game?.SPName || pitcherArr[0]?.name || ''
 
   const _savePitchArr = useCallback(
-    (nextPitchArr: OT.PitchType[], clearSelection: boolean) => {
+    (
+      nextPitchArr: OT.PitchType[],
+      clearSelection: boolean,
+      editRecord: LT.EditRecordPayload | null,
+      fallbackPitcherName: string,
+      gameNum: number | null,
+      leagueNum: number | null,
+      record: OT.RecordElementType | null,
+      recordArr: OT.RecordElementType[]
+    ) => {
       if (gameNum === null || leagueNum === null || !editRecord) {
         alert(`[RecordTabPart] gameNum or leagueNum is null`)
         return
@@ -85,7 +95,7 @@ export const RecordTabPart: FC<RecordTabPartProps> = ({...props}) => {
         }
       })
     },
-    [editRecord, fallbackPitcherName, gameNum, leagueNum, record, recordArr, setRecordArr, updateRecord]
+    []
   )
 
   const onClickLocation = useCallback(
@@ -105,30 +115,59 @@ export const RecordTabPart: FC<RecordTabPartProps> = ({...props}) => {
   )
 
   const onClickAddPitch = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
+    (
+      pitchArr: OT.PitchType[],
+      selectedBall: CT.Type_Pitch | null,
+      selectedLocation: CT.Type_Location | null,
+      editRecord: LT.EditRecordPayload | null,
+      fallbackPitcherName: string,
+      gameNum: number | null,
+      leagueNum: number | null,
+      record: OT.RecordElementType | null,
+      recordArr: OT.RecordElementType[]
+    ) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
 
-      if (!selectedBall || !selectedLocation) {
-        alert(`[RecordTabPart] 구종과 위치를 선택하세요`)
-        return
-      }
+        if (!selectedBall || !selectedLocation) {
+          alert(`[RecordTabPart] 구종과 위치를 선택하세요`)
+          return
+        }
 
-      _savePitchArr([...pitchArr, {ball: selectedBall, location: selectedLocation}], true)
-    },
-    [_savePitchArr, pitchArr, selectedBall, selectedLocation]
+        _savePitchArr(
+          [...pitchArr, {ball: selectedBall, location: selectedLocation}],
+          true,
+          editRecord,
+          fallbackPitcherName,
+          gameNum,
+          leagueNum,
+          record,
+          recordArr
+        )
+      },
+    []
   )
 
   const onClickRemoveLastPitch = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
+    (
+      pitchArr: OT.PitchType[],
+      editRecord: LT.EditRecordPayload | null,
+      fallbackPitcherName: string,
+      gameNum: number | null,
+      leagueNum: number | null,
+      record: OT.RecordElementType | null,
+      recordArr: OT.RecordElementType[]
+    ) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
 
-      if (pitchArr.length === 0) {
-        return
-      }
+        if (pitchArr.length === 0) {
+          return
+        }
 
-      _savePitchArr(pitchArr.slice(0, -1), false)
-    },
-    [_savePitchArr, pitchArr]
+        _savePitchArr(pitchArr.slice(0, -1), false, editRecord, fallbackPitcherName, gameNum, leagueNum, record, recordArr)
+      },
+    []
   )
 
   const initForm = useEffectEvent(() => {
@@ -145,7 +184,10 @@ export const RecordTabPart: FC<RecordTabPartProps> = ({...props}) => {
   return (
     <div className={`RecordTab_Modal`} {...props}>
       {/* 2. 투구 로그 */}
-      <O.PitchLogObject onClickRemoveLastPitch={onClickRemoveLastPitch} pitchArr={pitchArr} />
+      <O.PitchLogObject
+        onClickRemoveLastPitch={onClickRemoveLastPitch(pitchArr, editRecord, fallbackPitcherName, gameNum, leagueNum, record, recordArr)}
+        pitchArr={pitchArr}
+      />
 
       {/* 3. 존 판 */}
       <O.ZoneGridObject onClickLocation={onClickLocation} selectedLocation={selectedLocation} />
@@ -155,7 +197,11 @@ export const RecordTabPart: FC<RecordTabPartProps> = ({...props}) => {
 
       {/* 5. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickAddPitch} type="button">
+        <button
+          className={`Button_Modal`}
+          onClick={onClickAddPitch(pitchArr, selectedBall, selectedLocation, editRecord, fallbackPitcherName, gameNum, leagueNum, record, recordArr)}
+          type="button"
+        >
           추가
         </button>
         <button className={`Button_Modal`} onClick={closeModal} type="button">

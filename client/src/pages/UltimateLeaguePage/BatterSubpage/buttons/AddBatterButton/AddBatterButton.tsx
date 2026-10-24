@@ -15,15 +15,15 @@ export const AddBatterButton: FC<AddBatterButtonProps> = ({tableOId, ...props}) 
   const {openAddUltiBatterModal} = useModalActions()
 
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (tableOId: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
       openAddUltiBatterModal(tableOId)
     },
-    [openAddUltiBatterModal, tableOId]
+    []
   )
 
   return (
-    <button className={`AddBatterButton`} onClick={onClickButton} type="button" {...props}>
+    <button className={`AddBatterButton`} onClick={onClickButton(tableOId)} type="button" {...props}>
       타자 추가
     </button>
   )

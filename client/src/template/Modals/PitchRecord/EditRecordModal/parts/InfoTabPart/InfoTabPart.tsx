@@ -8,6 +8,8 @@ import type {DivCommonProps} from '@prop'
 
 import * as CT from '@commonType'
 import * as HTTP from '@httpType'
+import * as LT from '@localType'
+import * as OT from '@objectType'
 import * as U from '@util'
 import * as V from '@value'
 
@@ -45,48 +47,58 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
     null
 
   const onClickSaveInfo = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
+    (
+      editRecord: LT.EditRecordPayload | null,
+      gameNum: number | null,
+      isStealFail: boolean,
+      leagueNum: number | null,
+      pitcherName: string,
+      record: OT.RecordElementType | null,
+      result: CT.Type_Result,
+      selectedBatter: OT.BatterType | null
+    ) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
 
-      if (gameNum === null || leagueNum === null || !editRecord) {
-        alert(`[InfoTabPart] gameNum or leagueNum is null`)
-        return
-      }
-
-      const nextRecord = U.buildRecordElement({
-        batter: selectedBatter,
-        gameNum,
-        isStealFail,
-        leagueNum,
-        order: editRecord.order,
-        pitchArr: record?.pitchArr || [],
-        pitcherName,
-        record,
-        result,
-        rotation: editRecord.rotation,
-      })
-      const data: HTTP.HTTP_UpdateRecord = {
-        gameNum,
-        leagueNum,
-        order: editRecord.order,
-        record: nextRecord,
-        rotation: editRecord.rotation,
-      }
-
-      updateRecord(data).then(res => {
-        if (res.isSuccess) {
-          const {recordArr} = res
-          setRecordArr(recordArr)
-          closeModal()
-        } // ::
-        else {
-          if (res.errMsg) {
-            alert(`[InfoTabPart] ${res.errMsg}`)
-          }
+        if (gameNum === null || leagueNum === null || !editRecord) {
+          alert(`[InfoTabPart] gameNum or leagueNum is null`)
+          return
         }
-      })
-    },
-    [closeModal, editRecord, gameNum, isStealFail, leagueNum, pitcherName, record, result, selectedBatter, setRecordArr, updateRecord]
+
+        const nextRecord = U.buildRecordElement({
+          batter: selectedBatter,
+          gameNum,
+          isStealFail,
+          leagueNum,
+          order: editRecord.order,
+          pitchArr: record?.pitchArr || [],
+          pitcherName,
+          record,
+          result,
+          rotation: editRecord.rotation,
+        })
+        const data: HTTP.HTTP_UpdateRecord = {
+          gameNum,
+          leagueNum,
+          order: editRecord.order,
+          record: nextRecord,
+          rotation: editRecord.rotation,
+        }
+
+        updateRecord(data).then(res => {
+          if (res.isSuccess) {
+            const {recordArr} = res
+            setRecordArr(recordArr)
+            closeModal()
+          } // ::
+          else {
+            if (res.errMsg) {
+              alert(`[InfoTabPart] ${res.errMsg}`)
+            }
+          }
+        })
+      },
+    []
   )
 
   const onChangePitcher = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -107,7 +119,7 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
   }, [])
 
   const onClickStealFail = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (result: CT.Type_Result) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
 
       if (!U.canStealFail(result)) {
@@ -116,7 +128,7 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
 
       setIsStealFail(prev => !prev)
     },
-    [result]
+    []
   )
 
   const initForm = useEffectEvent(() => {
@@ -188,7 +200,7 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
         <button
           className={`StealFailToggle_Modal ${isStealFail ? '_on' : ''}`}
           disabled={!U.canStealFail(result)}
-          onClick={onClickStealFail}
+          onClick={onClickStealFail(result)}
           type="button"
         >
           {isStealFail ? '실패' : '없음'}
@@ -197,7 +209,11 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
 
       {/* 6. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSaveInfo} type="button">
+        <button
+          className={`Button_Modal`}
+          onClick={onClickSaveInfo(editRecord, gameNum, isStealFail, leagueNum, pitcherName, record, result, selectedBatter)}
+          type="button"
+        >
           추가
         </button>
         <button className={`Button_Modal`} onClick={closeModal} type="button">

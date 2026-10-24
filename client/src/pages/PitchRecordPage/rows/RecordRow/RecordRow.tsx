@@ -32,7 +32,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
 
       openModifyBatterModal(batter)
     },
-    [openModifyBatterModal]
+    []
   )
 
   const onClickRecord = useCallback(
@@ -41,7 +41,7 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
       const arg: LT.EditRecordPayload = {batter, order, record, rotation}
       openEditRecordModal(arg)
     },
-    [openEditRecordModal]
+    []
   )
 
   return (

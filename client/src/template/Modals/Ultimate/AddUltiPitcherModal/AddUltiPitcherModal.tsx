@@ -45,7 +45,7 @@ export const AddUltiPitcherModal: FC<AddUltiPitcherModalProps> = ({...props}) =>
         }
       })
     },
-    [addPitcherRecord, closeModal, setPitcherTableArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -53,7 +53,7 @@ export const AddUltiPitcherModal: FC<AddUltiPitcherModalProps> = ({...props}) =>
       e.stopPropagation()
       _submit(name, tableOId)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -69,7 +69,7 @@ export const AddUltiPitcherModal: FC<AddUltiPitcherModalProps> = ({...props}) =>
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   return (

@@ -25,7 +25,7 @@ export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
         closeModal()
       }
     },
-    [closeModal]
+    []
   )
 
   // 열린 타석이 바뀌면 기록 탭부터 다시 연다

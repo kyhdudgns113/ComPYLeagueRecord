@@ -18,7 +18,7 @@ export const AddUltiLeagueButton: FC<AddUltiLeagueButtonProps> = ({...props}) =>
       e.stopPropagation()
       openAddUltiLeagueModal()
     },
-    [openAddUltiLeagueModal]
+    []
   )
 
   return (

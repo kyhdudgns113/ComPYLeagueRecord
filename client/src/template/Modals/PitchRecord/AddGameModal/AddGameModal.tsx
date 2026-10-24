@@ -66,7 +66,7 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
         }
       })
     },
-    [addGame, closeModal, setGameArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -74,7 +74,7 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
       e.stopPropagation()
       _submit(enemyTeam, leagueNum, SPName, arrLen)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -88,7 +88,7 @@ export const AddGameModal: FC<AddGameModalProps> = ({...props}) => {
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   // 선발투수 목록이 생기면 기본값 채움

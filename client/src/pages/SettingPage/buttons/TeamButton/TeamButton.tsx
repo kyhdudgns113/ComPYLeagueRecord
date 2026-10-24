@@ -25,7 +25,7 @@ export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
       e.stopPropagation()
       navigate(`/main/setting/${leagueNum}/${teamIdx}`)
     },
-    [navigate]
+    []
   )
 
   // 리그·팀 바뀌면 선택 표시 초기화

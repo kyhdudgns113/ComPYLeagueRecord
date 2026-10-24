@@ -18,7 +18,7 @@ export const DeleteLeagueButton: FC<DeleteLeagueButtonProps> = ({...props}) => {
   const navigate = useNavigate()
 
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (leagueNum: number | null) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
 
       if (leagueNum === null) {
@@ -46,11 +46,11 @@ export const DeleteLeagueButton: FC<DeleteLeagueButtonProps> = ({...props}) => {
         }
       })
     },
-    [clearBatterTableArr, clearLeagueNumUlti, clearPitcherTableArr, deleteLeague, leagueNum, navigate, setLeagueArrUlti]
+    []
   )
 
   return (
-    <button className={`DeleteLeagueButton`} onClick={onClickButton} type="button" {...props}>
+    <button className={`DeleteLeagueButton`} onClick={onClickButton(leagueNum)} type="button" {...props}>
       리그 삭제
     </button>
   )

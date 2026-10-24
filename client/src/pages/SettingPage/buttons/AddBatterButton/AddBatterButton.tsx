@@ -22,7 +22,7 @@ export const AddBatterButton: FC<AddBatterButtonProps> = ({batterType, ...props}
       e.stopPropagation()
       openAddBatterModal(batterType)
     },
-    [openAddBatterModal]
+    []
   )
 
   return (

@@ -43,7 +43,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
         }
       })
     },
-    [addLeague, closeModal, setCP3DArr, setLeagueArr, setMainBatter3DArr, setRP3DArr, setSP3DArr, setSubBatter3DArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -51,7 +51,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
       e.stopPropagation()
       _submit(description, newLeagueNum)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -65,7 +65,7 @@ export const AddLeagueModal: FC<AddLeagueModalProps> = ({...props}) => {
           break
       }
     },
-    [_submit]
+    []
   )
 
   return (

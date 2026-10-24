@@ -45,7 +45,7 @@ export const AddUltiBatterModal: FC<AddUltiBatterModalProps> = ({...props}) => {
         }
       })
     },
-    [addBatterRecord, closeModal, setBatterTableArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -53,7 +53,7 @@ export const AddUltiBatterModal: FC<AddUltiBatterModalProps> = ({...props}) => {
       e.stopPropagation()
       _submit(name, tableOId)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -69,7 +69,7 @@ export const AddUltiBatterModal: FC<AddUltiBatterModalProps> = ({...props}) => {
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   return (

@@ -45,7 +45,7 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
         }
       })
     },
-    [addPitcherTable, closeModal, setPitcherTableArr]
+    []
   )
 
   const onClickSubmit = useCallback(
@@ -53,7 +53,7 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
       e.stopPropagation()
       _submit(gameLen, leagueNum)
     },
-    [_submit]
+    []
   )
 
   const onKeyDownModal = useCallback(
@@ -69,7 +69,7 @@ export const AddPitcherTableModal: FC<AddPitcherTableModalProps> = ({...props}) 
           break
       }
     },
-    [_submit, closeModal]
+    []
   )
 
   return (

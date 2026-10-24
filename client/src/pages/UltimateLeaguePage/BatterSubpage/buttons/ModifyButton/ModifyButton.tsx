@@ -1,25 +1,73 @@
 import {useCallback} from 'react'
 
+import {useUltimateCallbacksContext} from '@context'
+import {useUltimateActions} from '@redux'
+
 import type {FC} from 'react'
+import type {Setter} from '@localType'
 import type {ButtonCommonProps} from '@prop'
+
+import * as OT from '@objectType'
 
 import './ModifyButton.scss'
 
-type ModifyButtonProps = ButtonCommonProps & {
-  isEdit: boolean
+const roundTo = (value: number, digits: number) => {
+  const factor = 10 ** digits
+  return Math.round(value * factor) / factor
 }
 
-export const ModifyButton: FC<ModifyButtonProps> = ({isEdit, onClick, ...props}) => {
+const withFixedRates = (record: OT.UltiBatterRecordType): OT.UltiBatterRecordType => {
+  return {
+    ...record,
+    avg: roundTo(Number(record.avg) || 0, 3),
+    ops: roundTo(Number(record.ops) || 0, 3),
+    slg: roundTo(Number(record.slg) || 0, 3),
+  }
+}
+
+type ModifyButtonProps = ButtonCommonProps & {
+  batterTable: OT.UltiBatterTableType
+  draftArr: OT.UltiBatterRecordType[]
+  isEdit: boolean
+  setDraftArr: Setter<OT.UltiBatterRecordType[]>
+  setIsEdit: Setter<boolean>
+}
+
+export const ModifyButton: FC<ModifyButtonProps> = ({batterTable, draftArr, isEdit, setDraftArr, setIsEdit, ...props}) => {
+  const {setBatterTableArr} = useUltimateActions()
+  const {updateBatterTable} = useUltimateCallbacksContext()
+
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation()
-      onClick?.(e)
-    },
-    [onClick]
+    (isEdit: boolean, draftArr: OT.UltiBatterRecordType[], batterTable: OT.UltiBatterTableType) =>
+      (e: React.MouseEvent<HTMLButtonElement>) => {
+        e.stopPropagation()
+
+        if (!isEdit) {
+          setDraftArr(batterTable.recordArr.map(record => ({...record})))
+          setIsEdit(true)
+          return
+        }
+
+        const nextArr = draftArr.map(record => withFixedRates(record))
+
+        updateBatterTable(nextArr, batterTable.tableOId).then(res => {
+          if (res.isSuccess) {
+            const {batterTableArr} = res
+            setBatterTableArr(batterTableArr)
+            setIsEdit(false)
+          } // ::
+          else {
+            if (res.errMsg) {
+              alert(`[ModifyButton] ${res.errMsg}`)
+            }
+          }
+        })
+      },
+    []
   )
 
   return (
-    <button className={`ModifyButton ${isEdit ? '_editing' : ''}`} onClick={onClickButton} type="button" {...props}>
+    <button className={`ModifyButton ${isEdit ? '_editing' : ''}`} onClick={onClickButton(isEdit, draftArr, batterTable)} type="button" {...props}>
       {isEdit ? '완료' : '수정'}
     </button>
   )

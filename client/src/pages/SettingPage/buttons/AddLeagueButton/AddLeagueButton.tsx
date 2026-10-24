@@ -18,7 +18,7 @@ export const AddLeagueButton: FC<AddLeagueButtonProps> = ({...props}) => {
       e.stopPropagation()
       openAddLeagueModal()
     },
-    [openAddLeagueModal]
+    []
   )
 
   return (

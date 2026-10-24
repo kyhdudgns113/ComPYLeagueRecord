@@ -25,7 +25,7 @@ export const AddGameButton: FC<AddGameButtonProps> = ({...props}) => {
 
       openAddGameModal()
     },
-    [openAddGameModal]
+    []
   )
 
   return (

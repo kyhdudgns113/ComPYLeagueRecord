@@ -30,7 +30,15 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
   const [hasPressureSkill, setHasPressureSkill] = useState<boolean>(modifyBatter?.hasPressureSkill || false)
 
   const _submit = useCallback(
-    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) => {
+    (
+      batter: OT.BatterType | null,
+      name: string,
+      batterHand: CT.Type_BatterHand,
+      hasPressureSkill: boolean,
+      gameArr: OT.GameInfoType[],
+      gameNum: number | null,
+      recordArr: OT.RecordElementType[]
+    ) => {
       if (!batter) {
         alert(`[ModifyBatterModal] batter is null`)
         return
@@ -89,24 +97,40 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
         }
       })
     },
-    [closeModal, gameArr, gameNum, modifyBatterApi, recordArr, setRecordArr, setTeamMainBatterArr, setTeamSubBatterArr]
+    []
   )
 
   const onClickSubmit = useCallback(
-    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) =>
+    (
+        batter: OT.BatterType | null,
+        name: string,
+        batterHand: CT.Type_BatterHand,
+        hasPressureSkill: boolean,
+        gameArr: OT.GameInfoType[],
+        gameNum: number | null,
+        recordArr: OT.RecordElementType[]
+      ) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        _submit(batter, name, batterHand, hasPressureSkill)
+        _submit(batter, name, batterHand, hasPressureSkill, gameArr, gameNum, recordArr)
       },
     []
   )
 
   const onKeyDownModal = useCallback(
-    (batter: OT.BatterType | null, name: string, batterHand: CT.Type_BatterHand, hasPressureSkill: boolean) =>
+    (
+        batter: OT.BatterType | null,
+        name: string,
+        batterHand: CT.Type_BatterHand,
+        hasPressureSkill: boolean,
+        gameArr: OT.GameInfoType[],
+        gameNum: number | null,
+        recordArr: OT.RecordElementType[]
+      ) =>
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         switch (e.key) {
           case 'Enter':
-            _submit(batter, name, batterHand, hasPressureSkill)
+            _submit(batter, name, batterHand, hasPressureSkill, gameArr, gameNum, recordArr)
             break
           case 'Escape':
             closeModal()
@@ -120,7 +144,7 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
     <Modal
       className={`ModifyBatterModal`}
       onClose={closeModal}
-      onKeyDown={onKeyDownModal(modifyBatter, name, batterHand, hasPressureSkill)}
+      onKeyDown={onKeyDownModal(modifyBatter, name, batterHand, hasPressureSkill, gameArr, gameNum, recordArr)}
       {...props}
     >
       {/* 1. 타이틀 */}
@@ -162,7 +186,7 @@ export const ModifyBatterModal: FC<ModifyBatterModalProps> = ({...props}) => {
 
       {/* 5. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(modifyBatter, name, batterHand, hasPressureSkill)}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(modifyBatter, name, batterHand, hasPressureSkill, gameArr, gameNum, recordArr)}>
           수정
         </button>
         <button className={`Button_Modal`} onClick={closeModal}>

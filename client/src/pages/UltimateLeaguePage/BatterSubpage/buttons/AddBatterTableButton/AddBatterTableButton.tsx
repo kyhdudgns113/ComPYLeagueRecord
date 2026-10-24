@@ -17,7 +17,7 @@ export const AddBatterTableButton: FC<AddBatterTableButtonProps> = ({...props}) 
       e.stopPropagation()
       openAddBatterTableModal()
     },
-    [openAddBatterTableModal]
+    []
   )
 
   return (

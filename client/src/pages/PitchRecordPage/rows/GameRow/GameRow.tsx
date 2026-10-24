@@ -24,7 +24,7 @@ export const GameRow: FC<GameRowProps> = ({game, ...props}) => {
       e.stopPropagation()
       navigate(`/main/pitchRecord/${nextLeagueNum}/${nextGameNum}`)
     },
-    [navigate]
+    []
   )
 
   return (

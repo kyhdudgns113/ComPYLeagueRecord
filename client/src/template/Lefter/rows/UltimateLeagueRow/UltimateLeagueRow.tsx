@@ -19,7 +19,7 @@ export const UltimateLeagueRow: FC<UltimateLeagueRowProps> = ({...props}) => {
     e.stopPropagation()
 
     navigate('/main/ultimateLeague')
-  }, [navigate])
+  }, [])
 
   return (
     <div className={`UltimateLeagueRow ${lefterTab === 'UltimateLeague' && '_selected'}`} onClick={onClickRow} {...props}>

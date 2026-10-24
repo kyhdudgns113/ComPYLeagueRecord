@@ -6,26 +6,27 @@ import {useUltimateActions} from '@redux'
 import type {FC} from 'react'
 import type {ButtonCommonProps} from '@prop'
 
+import * as OT from '@objectType'
+
 import './DeleteTableButton.scss'
 
 type DeleteTableButtonProps = ButtonCommonProps & {
-  gameNum: number
-  tableOId: string
+  batterTable: OT.UltiBatterTableType
 }
 
-export const DeleteTableButton: FC<DeleteTableButtonProps> = ({gameNum, tableOId, ...props}) => {
+export const DeleteTableButton: FC<DeleteTableButtonProps> = ({batterTable, ...props}) => {
   const {setBatterTableArr} = useUltimateActions()
   const {deleteBatterTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
+    (batterTable: OT.UltiBatterTableType) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
 
-      if (!confirm(`경기수 ${gameNum} 테이블을 삭제할까요?`)) {
+      if (!confirm(`경기수 ${batterTable.gameNum} 테이블을 삭제할까요?`)) {
         return
       }
 
-      deleteBatterTable(tableOId).then(res => {
+      deleteBatterTable(batterTable.tableOId).then(res => {
         if (res.isSuccess) {
           const {batterTableArr} = res
           setBatterTableArr(batterTableArr)
@@ -37,11 +38,11 @@ export const DeleteTableButton: FC<DeleteTableButtonProps> = ({gameNum, tableOId
         }
       })
     },
-    [deleteBatterTable, gameNum, setBatterTableArr, tableOId]
+    []
   )
 
   return (
-    <button className={`DeleteTableButton`} onClick={onClickButton} type="button" {...props}>
+    <button className={`DeleteTableButton`} onClick={onClickButton(batterTable)} type="button" {...props}>
       테이블 삭제
     </button>
   )
