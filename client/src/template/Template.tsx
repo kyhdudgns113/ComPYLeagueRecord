@@ -9,7 +9,9 @@ import {Lefter} from './Lefter'
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
-import * as M from './Modals'
+import * as PR from './Modals/PitchRecord'
+import * as S from './Modals/Setting'
+import * as U from './Modals/Ultimate'
 
 import './Template.scss'
 
@@ -35,18 +37,20 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       <Footer />
 
       {/* 4. 모달 영역 */}
-      {modalType === 'AddBatter' && <M.AddBatterModal />}
-      {modalType === 'AddBatterTable' && <M.AddBatterTableModal />}
-      {modalType === 'AddGame' && <M.AddGameModal />}
-      {modalType === 'AddLeague' && <M.AddLeagueModal />}
-      {modalType === 'AddPitcher' && <M.AddPitcherModal />}
-      {modalType === 'AddPitcherTable' && <M.AddPitcherTableModal />}
-      {modalType === 'AddUltiBatter' && <M.AddUltiBatterModal />}
-      {modalType === 'AddUltiLeague' && <M.AddUltiLeagueModal />}
-      {modalType === 'AddUltiPitcher' && <M.AddUltiPitcherModal />}
-      {modalType === 'EditRecord' && <M.EditRecordModal />}
-      {modalType === 'ModifyBatter' && <M.ModifyBatterModal />}
-      {modalType === 'ModifyPitcher' && <M.ModifyPitcherModal />}
+      {modalType === 'AddGame' && <PR.AddGameModal />}
+      {modalType === 'EditRecord' && <PR.EditRecordModal />}
+
+      {modalType === 'AddBatter' && <S.AddBatterModal />}
+      {modalType === 'AddLeague' && <S.AddLeagueModal />}
+      {modalType === 'AddPitcher' && <S.AddPitcherModal />}
+      {modalType === 'ModifyBatter' && <S.ModifyBatterModal />}
+      {modalType === 'ModifyPitcher' && <S.ModifyPitcherModal />}
+
+      {modalType === 'AddBatterTable' && <U.AddBatterTableModal />}
+      {modalType === 'AddPitcherTable' && <U.AddPitcherTableModal />}
+      {modalType === 'AddUltiBatter' && <U.AddUltiBatterModal />}
+      {modalType === 'AddUltiLeague' && <U.AddUltiLeagueModal />}
+      {modalType === 'AddUltiPitcher' && <U.AddUltiPitcherModal />}
     </div>
   )
 }
