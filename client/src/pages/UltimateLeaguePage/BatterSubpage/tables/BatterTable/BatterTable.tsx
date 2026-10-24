@@ -12,18 +12,24 @@ import * as OT from '@objectType'
 
 import './BatterTable.scss'
 
-const RECORD_CELLS: {className: string; digits?: number; key: keyof OT.UltiBatterRecordType; inputType: 'number' | 'text'}[] = [
+const RECORD_CELLS: {
+  className: string
+  digits?: number
+  key: keyof OT.UltiBatterRecordType
+  inputType: 'number' | 'text'
+  showZeroWhenPlayed?: boolean
+}[] = [
   {className: 'td-gameNum', key: 'name', inputType: 'text'},
   {className: 'td-playNum', key: 'playNum', inputType: 'number'},
-  {className: 'td-atBat', key: 'atBat', inputType: 'number'},
-  {className: 'td-avg', digits: 3, key: 'avg', inputType: 'number'},
-  {className: 'td-hit1', key: 'hit1', inputType: 'number'},
-  {className: 'td-hit2', key: 'hit2', inputType: 'number'},
-  {className: 'td-hit3', key: 'hit3', inputType: 'number'},
-  {className: 'td-hit4', key: 'hit4', inputType: 'number'},
+  {className: 'td-atBat', key: 'atBat', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-avg', digits: 3, key: 'avg', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-hit1', key: 'hit1', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-hit2', key: 'hit2', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-hit3', key: 'hit3', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-hit4', key: 'hit4', inputType: 'number', showZeroWhenPlayed: true},
   {className: 'td-steal', key: 'steal', inputType: 'number'},
-  {className: 'td-slg', digits: 3, key: 'slg', inputType: 'number'},
-  {className: 'td-ops', digits: 3, key: 'ops', inputType: 'number'},
+  {className: 'td-slg', digits: 3, key: 'slg', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-ops', digits: 3, key: 'ops', inputType: 'number', showZeroWhenPlayed: true},
 ]
 
 const roundTo = (value: number, digits: number) => {
@@ -244,7 +250,7 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
                       value={record[cell.key]}
                     />
                   ) : (
-                    formatCellValue(record[cell.key], cell.digits, true)
+                    formatCellValue(record[cell.key], cell.digits, !(cell.showZeroWhenPlayed && record.playNum !== 0))
                   )}
                 </td>
               ))}

@@ -1,9 +1,9 @@
-import * as S from './src/base/secret'
-
 import path from 'node:path'
+import {defineConfig} from 'vite'
 import {fileURLToPath} from 'node:url'
 import react from '@vitejs/plugin-react'
-import {defineConfig} from 'vite'
+
+import * as S from './src/base/secret/index.ts'
 
 const root = path.dirname(fileURLToPath(import.meta.url))
 

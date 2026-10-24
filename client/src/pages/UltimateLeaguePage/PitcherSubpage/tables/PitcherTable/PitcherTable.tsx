@@ -12,11 +12,18 @@ import * as OT from '@objectType'
 
 import './PitcherTable.scss'
 
-const RECORD_CELLS: {className: string; digits?: number; isCalc?: boolean; key: keyof OT.UltiPitcherRecordType; inputType: 'number' | 'text'}[] = [
+const RECORD_CELLS: {
+  className: string
+  digits?: number
+  isCalc?: boolean
+  key: keyof OT.UltiPitcherRecordType
+  inputType: 'number' | 'text'
+  showZeroWhenPlayed?: boolean
+}[] = [
   {className: 'td-name', key: 'name', inputType: 'text'},
   {className: 'td-playNum', key: 'playNum', inputType: 'number'},
-  {className: 'td-innings', key: 'inning', inputType: 'number'},
-  {className: 'td-era', digits: 2, key: 'era', inputType: 'number'},
+  {className: 'td-innings', key: 'inning', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-era', digits: 2, key: 'era', inputType: 'number', showZeroWhenPlayed: true},
   {className: 'td-win', key: 'win', inputType: 'number'},
   {className: 'td-loss', key: 'lose', inputType: 'number'},
   {className: 'td-save', key: 'save', inputType: 'number'},
@@ -24,12 +31,12 @@ const RECORD_CELLS: {className: string; digits?: number; isCalc?: boolean; key: 
   {className: 'td-blown', key: 'blown', inputType: 'number'},
   {className: 'td-complete', key: 'wanBong', inputType: 'number'},
   {className: 'td-perfect', key: 'wanTo', inputType: 'number'},
-  {className: 'td-strikeout', key: 'strikeOut', inputType: 'number'},
-  {className: 'td-whip', digits: 3, key: 'whip', inputType: 'number'},
-  {className: 'td-homeRun', key: 'homeRun', inputType: 'number'},
-  {className: 'td-earnedRun', key: 'ownLoseScore', inputType: 'number'},
-  {className: 'td-k9', digits: 3, isCalc: true, key: 'kPer9', inputType: 'number'},
-  {className: 'td-hr9', digits: 3, isCalc: true, key: 'homeRunPer9', inputType: 'number'},
+  {className: 'td-strikeout', key: 'strikeOut', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-whip', digits: 3, key: 'whip', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-homeRun', key: 'homeRun', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-earnedRun', key: 'ownLoseScore', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-k9', digits: 3, isCalc: true, key: 'kPer9', inputType: 'number', showZeroWhenPlayed: true},
+  {className: 'td-hr9', digits: 3, isCalc: true, key: 'homeRunPer9', inputType: 'number', showZeroWhenPlayed: true},
 ]
 
 const roundTo = (value: number, digits: number) => {
@@ -266,40 +273,48 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
           </tr>
         </thead>
         <tbody>
-          {recordArr.map((record, recordIdx) => (
-            <tr
-              className={`${dragIdx === recordIdx ? '_dragging' : ''} rowIdx-${recordIdx} ${recordIdx > 10 && `_etcPitcher`}`}
-              key={recordIdx}
-              onDragOver={isEdit ? onDragOverRow : undefined}
-              onDrop={isEdit ? onDropRow(recordIdx) : undefined}
-            >
-              {RECORD_CELLS.map(cell => (
-                <td className={cell.className} key={cell.key}>
-                  {isEdit && !cell.isCalc ? (
-                    <input
-                      className={`Input_Table`}
-                      onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
-                      type={cell.inputType}
-                      value={record[cell.key]}
-                    />
-                  ) : (
-                    formatCellValue(record[cell.key], cell.digits, !isEdit)
-                  )}
-                </td>
-              ))}
-              <td
-                className={`td-drag`}
-                draggable={isEdit}
-                onDragEnd={isEdit ? onDragEndRow : undefined}
-                onDragStart={isEdit ? onDragStartRow(recordIdx) : undefined}
+          {recordArr.map((record, recordIdx) => {
+            const displayRecord = withCalcRates(record)
+
+            return (
+              <tr
+                className={`${dragIdx === recordIdx ? '_dragging' : ''} rowIdx-${recordIdx} ${recordIdx > 10 && `_etcPitcher`}`}
+                key={recordIdx}
+                onDragOver={isEdit ? onDragOverRow : undefined}
+                onDrop={isEdit ? onDropRow(recordIdx) : undefined}
               >
-                {isEdit && <Icon className={`DragIcon_Table`} iconName="drag_indicator" />}
-              </td>
-              <td className={`td-delete`}>
-                <B.DeletePitcherButton name={record.name} onClick={onClickDelete(recordIdx)} />
-              </td>
-            </tr>
-          ))}
+                {RECORD_CELLS.map(cell => (
+                  <td className={cell.className} key={cell.key}>
+                    {isEdit && !cell.isCalc ? (
+                      <input
+                        className={`Input_Table`}
+                        onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
+                        type={cell.inputType}
+                        value={record[cell.key]}
+                      />
+                    ) : (
+                      formatCellValue(
+                        displayRecord[cell.key],
+                        cell.digits,
+                        !isEdit && !(cell.showZeroWhenPlayed && record.playNum !== 0)
+                      )
+                    )}
+                  </td>
+                ))}
+                <td
+                  className={`td-drag`}
+                  draggable={isEdit}
+                  onDragEnd={isEdit ? onDragEndRow : undefined}
+                  onDragStart={isEdit ? onDragStartRow(recordIdx) : undefined}
+                >
+                  {isEdit && <Icon className={`DragIcon_Table`} iconName="drag_indicator" />}
+                </td>
+                <td className={`td-delete`}>
+                  <B.DeletePitcherButton name={record.name} onClick={onClickDelete(recordIdx)} />
+                </td>
+              </tr>
+            )
+          })}
         </tbody>
       </table>
 
