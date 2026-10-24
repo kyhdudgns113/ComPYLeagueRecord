@@ -1,7 +1,8 @@
 import {Injectable} from '@nestjs/common'
 import {InjectModel} from '@nestjs/mongoose'
-import {___CopyMe} from './_CopyMe.entity'
 import {Model} from 'mongoose'
+
+import {___CopyMe} from './_CopyMe.entity'
 
 @Injectable()
 export class ___CopyMeService {

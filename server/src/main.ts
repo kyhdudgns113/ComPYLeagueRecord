@@ -1,6 +1,8 @@
-import {CorsOptions} from '@nestjs/common/interfaces/external/cors-options.interface'
 import {NestFactory} from '@nestjs/core'
+
 import {AppModule} from './app.module'
+
+import type {CorsOptions} from '@nestjs/common/interfaces/external/cors-options.interface'
 
 import * as S from '@secret'
 

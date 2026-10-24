@@ -1,7 +1,8 @@
 import {Injectable} from '@nestjs/common'
 import {InjectModel} from '@nestjs/mongoose'
-import {GameInfo, LeagueInfo} from './leagueInfoDB.entity'
 import {Model} from 'mongoose'
+
+import {GameInfo, LeagueInfo} from './leagueInfoDB.entity'
 
 import * as DTO from '@dtoType'
 import * as OT from '@objectTye'

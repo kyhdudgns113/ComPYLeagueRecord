@@ -225,6 +225,48 @@ export const Foo: FC<FooProps> = ({...props}) => {
 - JSX 주석으로 구역을 나눈다 (`{/* 1. 타이틀 */}`)
 - 상위 스타일로  sufficed 하면 하위 scss import 를 생략하고 주석으로 이유를 남긴다.
 
+컴포넌트 함수 본문 순서. 없는 항목은 생략한다. return(JSX) 은 가급적 맨 마지막.
+
+선언:
+
+1. Redux 에서 불러올 state, action
+2. Context 에서 불러올 state, action
+3. `useState`
+4. 그 외 훅 (`useNavigate` 등)
+5. 내부적으로 쓸 변수
+6. `CSSProperties` 변수 (잘 안 씀)
+
+함수 / 이펙트:
+
+1. 공통적으로 쓸 함수
+2. 이벤트 리스너 — 변수명에 이벤트 종류부터 적는다 (`onClickButton`)
+3. `useEffect` — 상단에 뭐 하는 건지 한 줄 주석
+
+```tsx
+export const Foo: FC<FooProps> = ({...props}) => {
+  const {modalType} = useModalStates()
+  const {closeModal} = useModalActions()
+  const {getLeagueArr} = useSettingCallbacksContext()
+
+  const [isOpen, setIsOpen] = useState(false)
+  const navigate = useNavigate()
+
+  const onClickRow = useCallback((e: React.MouseEvent<HTMLDivElement>) => {
+    e.stopPropagation()
+    navigate('/main/setting')
+  }, [navigate])
+
+  // 리그 목록 불러오기
+  useEffect(() => {
+    getLeagueArr()
+  }, [getLeagueArr])
+
+  return (
+    <div className={`Foo`} {...props} />
+  )
+}
+```
+
 barrel 로 묶고 별칭으로 쓴다. `import * as` 그룹은 `as` 별칭 알파벳순.
 
 ```ts

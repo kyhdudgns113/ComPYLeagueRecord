@@ -1,5 +1,6 @@
 import {Module} from '@nestjs/common'
 import {MongooseModule} from '@nestjs/mongoose'
+
 import {UltiBatterTable, UltiBatterTableSchema} from './ultiBatterTableDB.entity'
 import {UltiBatterTableDBService} from './ultiBatterTableDB.service'
 

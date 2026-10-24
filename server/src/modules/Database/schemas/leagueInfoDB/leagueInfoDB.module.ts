@@ -1,5 +1,6 @@
 import {Module} from '@nestjs/common'
 import {MongooseModule} from '@nestjs/mongoose'
+
 import {GameInfo, GameInfoSchema, LeagueInfo, LeagueInfoSchema} from './leagueInfoDB.entity'
 import {LeagueInfoDBService} from './leagueInfoDB.service'
 
