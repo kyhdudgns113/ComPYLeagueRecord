@@ -16,6 +16,7 @@ export const GameUnit: FC<GameUnitProps> = ({...props}) => {
   const {gameArr, leagueNum} = useRecordStates()
   const [isHidden, setIsHidden] = useState<boolean>(true)
 
+  // 리그 미선택시 숨김
   useEffect(() => {
     setIsHidden(leagueNum === null)
   }, [leagueNum])

@@ -12,7 +12,6 @@ import * as V from '@value'
 
 import './RecordUnit.scss'
 
-const ORDER_ARR = [1, 2, 3, 4, 5, 6, 7, 8, 9]
 const RESULT_OUT_COUNT: Partial<Record<NonNullable<OT.RecordElementType['result']>, number>> = {
   땅볼: 1,
   뜬공: 1,
@@ -43,7 +42,7 @@ const getInningEndKeySet = (recordArr: OT.RecordElementType[]) => {
   let outs = 0
 
   for (let rotation = 1; rotation <= maxRotation; rotation++) {
-    for (const order of ORDER_ARR) {
+    for (const order of V.ORDER_ARR) {
       const record = recordArr.find(item => item.order === order && item.rotation === rotation) || null
       const outCount = getRecordOutCount(record)
 
@@ -73,11 +72,12 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
   const teamIdx = game ? V.TEAM_IDX_MAP[game.enemyTeam] : -1
   const starterArr = useTeamBatterArr(leagueNum ?? -1, teamIdx, '선발')
 
-  const lineupArr = ORDER_ARR.map((_, orderIdx) => starterArr[orderIdx] || V.NULL_BATTER_OBJ())
+  const lineupArr = V.ORDER_ARR.map((_, orderIdx) => starterArr[orderIdx] || V.NULL_BATTER_OBJ())
   const maxRotation = Math.max(0, ...recordArr.map(record => record.rotation || 0))
   const atBatLen = Math.max(6, maxRotation)
   const inningEndKeySet = useMemo(() => getInningEndKeySet(recordArr), [recordArr])
 
+  // 게임 미선택시 숨김
   useEffect(() => {
     setIsHidden(gameNum === null)
   }, [gameNum])
@@ -124,7 +124,7 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
           </thead>
           <tbody>
             {lineupArr.map((batter, orderIdx) => {
-              const order = ORDER_ARR[orderIdx]
+              const order = V.ORDER_ARR[orderIdx]
               return (
                 <R.RecordRow
                   key={order}

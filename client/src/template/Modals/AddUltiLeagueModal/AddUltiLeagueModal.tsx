@@ -7,6 +7,9 @@ import {useModalActions, useUltimateActions, useUltimateLeagueArr} from '@redux'
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
+import * as E from './elements'
+import * as P from './parts'
+
 import './AddUltiLeagueModal.scss'
 
 type AddUltiLeagueModalProps = ModalCommonProps
@@ -67,8 +70,7 @@ export const AddUltiLeagueModal: FC<AddUltiLeagueModalProps> = ({...props}) => {
       <p className={`Title_Modal`}>{`얼티리그 ${newLeagueNum} 추가`}</p>
 
       {/* 2. 입력행: 설명 */}
-      <div className={`Input_Row_Modal`}>
-        <p className={`Input_Label_Modal`}>설명</p>
+      <E.InputRow label="설명">
         <input
           autoFocus={true}
           className={`Input_Modal`}
@@ -77,17 +79,10 @@ export const AddUltiLeagueModal: FC<AddUltiLeagueModalProps> = ({...props}) => {
           type="text"
           value={description}
         />
-      </div>
+      </E.InputRow>
 
       {/* 3. 버튼 행 */}
-      <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(description, newLeagueNum)} type="button">
-          추가
-        </button>
-        <button className={`Button_Modal`} onClick={closeModal} type="button">
-          취소
-        </button>
-      </div>
+      <P.ButtonRowPart onClickCancel={closeModal} onClickSubmit={onClickSubmit(description, newLeagueNum)} submitText="추가" />
     </Modal>
   )
 }

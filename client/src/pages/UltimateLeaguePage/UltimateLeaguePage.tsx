@@ -22,11 +22,6 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
   const [isHidden, setIsHidden] = useState<boolean>(true)
   const [subPage, setSubPage] = useState<SubPageType>('pitcher')
 
-  // 자동 갱신: isHidden
-  useEffect(() => {
-    setIsHidden(leagueNum === null)
-  }, [leagueNum])
-
   const onClickTab = useCallback(
     (nextSubPage: SubPageType) => (e: React.MouseEvent<HTMLButtonElement>) => {
       e.stopPropagation()
@@ -34,6 +29,11 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
     },
     []
   )
+
+  // 자동 갱신: isHidden
+  useEffect(() => {
+    setIsHidden(leagueNum === null)
+  }, [leagueNum])
 
   return (
     <div className={`UltimateLeaguePage`} {...props}>

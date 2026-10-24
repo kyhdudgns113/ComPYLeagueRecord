@@ -21,13 +21,11 @@ type BatterTableProps = DivCommonProps & {
 export const BatterTable: FC<BatterTableProps> = ({batterType, ...props}) => {
   const {setTeamMainBatterArr, setTeamSubBatterArr} = useBatterActions()
   const {clearMovedBatter} = useSettingActions()
-  const {moveBatterInArr} = useSettingCallbacksContext()
-
   const leagueNum = useLeagueNumSetting()
   const movedBatter = useMovedBatter()
   const teamIdx = useTeamIdxSetting()
-
   const batterArr = useTeamBatterArr(leagueNum ?? -1, teamIdx ?? -1, batterType)
+  const {moveBatterInArr} = useSettingCallbacksContext()
 
   const onDropList = useCallback(
     (moveBatter: OT.BatterType | null, batterArrLen: number, batterType: CT.Type_BatterClass, teamIdx: number | null) =>

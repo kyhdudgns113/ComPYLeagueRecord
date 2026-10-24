@@ -16,9 +16,8 @@ type TeamButtonProps = ButtonCommonProps & {
 }
 
 export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
-  const [isSelected, setIsSelected] = useState<boolean>(false)
-
   const leagueNumSetting = useLeagueNumSetting()
+  const [isSelected, setIsSelected] = useState<boolean>(false)
   const navigate = useNavigate()
 
   const onClickButton = useCallback(
@@ -29,6 +28,7 @@ export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
     [navigate]
   )
 
+  // 리그·팀 바뀌면 선택 표시 초기화
   useEffect(() => {
     setIsSelected(false)
   }, [leagueNumSetting, teamIdx])

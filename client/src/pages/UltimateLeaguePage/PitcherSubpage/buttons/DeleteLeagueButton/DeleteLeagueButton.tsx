@@ -13,9 +13,9 @@ type DeleteLeagueButtonProps = ButtonCommonProps
 
 export const DeleteLeagueButton: FC<DeleteLeagueButtonProps> = ({...props}) => {
   const leagueNum = useUltimateLeagueNum()
-  const navigate = useNavigate()
   const {clearBatterTableArr, clearLeagueNumUlti, clearPitcherTableArr, setLeagueArrUlti} = useUltimateActions()
   const {deleteLeague} = useUltimateCallbacksContext()
+  const navigate = useNavigate()
 
   const onClickButton = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {

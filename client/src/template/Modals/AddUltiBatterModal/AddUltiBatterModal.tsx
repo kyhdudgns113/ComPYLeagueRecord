@@ -7,6 +7,9 @@ import {useModalActions, useModalStates, useUltimateActions} from '@redux'
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
 
+import * as E from './elements'
+import * as P from './parts'
+
 import './AddUltiBatterModal.scss'
 
 type AddUltiBatterModalProps = ModalCommonProps
@@ -78,20 +81,12 @@ export const AddUltiBatterModal: FC<AddUltiBatterModalProps> = ({...props}) => {
       <p className={`Title_Modal`}>타자 추가</p>
 
       {/* 2. 입력행: 이름 */}
-      <div className={`Input_Row_Modal`}>
-        <p className={`Input_Label_Modal`}>이름</p>
+      <E.InputRow label="이름">
         <input autoFocus={true} className={`Input_Modal`} onChange={e => setName(e.target.value)} tabIndex={0} type="text" value={name} />
-      </div>
+      </E.InputRow>
 
       {/* 3. 버튼 행 */}
-      <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(name, addUltiBatter_TableOId)} type="button">
-          추가
-        </button>
-        <button className={`Button_Modal`} onClick={closeModal} type="button">
-          취소
-        </button>
-      </div>
+      <P.ButtonRowPart onClickCancel={closeModal} onClickSubmit={onClickSubmit(name, addUltiBatter_TableOId)} submitText="추가" />
     </Modal>
   )
 }

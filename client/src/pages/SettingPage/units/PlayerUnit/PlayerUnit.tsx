@@ -38,6 +38,7 @@ export const PlayerUnit: FC<PlayerUnitProps> = ({...props}) => {
     }
   }, [leagueNumSetting, teamIdxSetting])
 
+  // 선택된 팀 이름
   useEffect(() => {
     if (teamIdxSetting !== null) {
       setTeamName(V.TEAM_NAME[teamIdxSetting])

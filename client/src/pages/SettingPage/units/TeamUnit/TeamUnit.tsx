@@ -13,12 +13,12 @@ import './TeamUnit.scss'
 type TeamUnitProps = DivCommonProps
 
 export const TeamUnit: FC<TeamUnitProps> = ({...props}) => {
-  const [isHidden, setIsHidden] = useState<boolean>(true)
-
   const leagueNumSetting = useLeagueNumSetting()
+  const [isHidden, setIsHidden] = useState<boolean>(true)
 
   const halfLen = Math.floor(V.TEAM_IDX_ARR.length / 2)
 
+  // 리그 미선택시 숨김
   useEffect(() => {
     setIsHidden(leagueNumSetting === null || leagueNumSetting === undefined)
   }, [leagueNumSetting])

@@ -13,9 +13,9 @@ type DeleteGameButtonProps = ButtonCommonProps
 
 export const DeleteGameButton: FC<DeleteGameButtonProps> = ({...props}) => {
   const {gameNum, leagueNum} = useRecordStates()
-  const navigate = useNavigate()
   const {setGameArr} = useRecordActions()
   const {deleteGame} = useRecordCallbacksContext()
+  const navigate = useNavigate()
 
   const onClickButton = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {

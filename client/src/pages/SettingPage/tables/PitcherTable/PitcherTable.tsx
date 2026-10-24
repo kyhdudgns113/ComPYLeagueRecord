@@ -21,13 +21,11 @@ type PitcherTableProps = DivCommonProps & {
 export const PitcherTable: FC<PitcherTableProps> = ({pitcherType, ...props}) => {
   const {setTeamCPArr, setTeamRPArr, setTeamSPArr} = usePitcherActions()
   const {clearMovedPitcher} = useSettingActions()
-  const {movePitcherInArr} = useSettingCallbacksContext()
-
   const leagueNum = useLeagueNumSetting()
   const movedPitcher = useMovedPitcher()
   const teamIdx = useTeamIdxSetting()
-
   const pitcherArr = useTeamPitcherArr(leagueNum ?? -1, teamIdx ?? -1, pitcherType)
+  const {movePitcherInArr} = useSettingCallbacksContext()
 
   const onDropList = useCallback(
     (movePitcher: OT.PitcherType | null, pitcherArrLen: number, pitcherType: CT.Type_Pitcher, teamIdx: number | null) =>
