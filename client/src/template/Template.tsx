@@ -2,8 +2,8 @@ import {Outlet} from 'react-router-dom'
 
 import {useModalStates} from '@redux'
 
-import {Header} from './Header'
 import {Footer} from './Footer'
+import {Header} from './Header'
 import {Lefter} from './Lefter'
 
 import type {FC} from 'react'

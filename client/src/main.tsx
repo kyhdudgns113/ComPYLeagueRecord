@@ -1,6 +1,6 @@
 import {createRoot} from 'react-dom/client'
-import {BrowserRouter} from 'react-router-dom'
 import {Provider} from 'react-redux'
+import {BrowserRouter} from 'react-router-dom'
 
 import {RecordProvider, SettingProvider, UltimateProvider, URLProvider} from '@context'
 import {store} from '@redux'

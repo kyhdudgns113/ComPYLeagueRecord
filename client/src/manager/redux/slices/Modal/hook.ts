@@ -1,4 +1,5 @@
 import {useAppSelector, useAppDispatch} from '@redux'
+
 import {ModalSlice} from './slice'
 
 import * as CT from '@commonType'

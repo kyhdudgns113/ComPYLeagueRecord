@@ -1,4 +1,5 @@
 import {useAppSelector, useAppDispatch} from '@redux'
+
 import {SettingSlice} from './slice'
 
 import * as OT from '@objectType'

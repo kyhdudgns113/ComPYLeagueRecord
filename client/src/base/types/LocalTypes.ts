@@ -1,7 +1,7 @@
+import type {Dispatch, SetStateAction} from 'react'
+
 import * as CT from '@commonType'
 import * as OT from '@objectType'
-
-import type {Dispatch, SetStateAction} from 'react'
 
 export type APIReturnType = {
   isSuccess: boolean

@@ -1,9 +1,9 @@
 import {useUltimateBatterTableArr} from '@redux'
 
+import {DeleteLeagueButton} from '../PitcherSubpage/buttons'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
-
-import {DeleteLeagueButton} from '../PitcherSubpage/buttons'
 
 import * as B from './buttons'
 import * as T from './tables'

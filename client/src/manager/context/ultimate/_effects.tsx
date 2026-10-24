@@ -1,8 +1,10 @@
 import {createContext, useContext, useEffect} from 'react'
 
-import type {FC, PropsWithChildren} from 'react'
-import {useUltimateCallbacksContext} from './_callbacks'
 import {useUltimateActions, useUltimateLeagueNum} from '@redux'
+
+import {useUltimateCallbacksContext} from './_callbacks'
+
+import type {FC, PropsWithChildren} from 'react'
 
 // prettier-ignore
 type ContextType = {}

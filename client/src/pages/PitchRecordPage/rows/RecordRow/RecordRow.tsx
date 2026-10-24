@@ -5,6 +5,7 @@ import {useModalActions} from '@redux'
 import type {FC} from 'react'
 import type {TableRowCommonProps} from '@prop'
 
+import * as LT from '@localType'
 import * as OT from '@objectType'
 import * as U from '@util'
 
@@ -37,7 +38,8 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
   const onClickRecord = useCallback(
     (batter: OT.BatterType, order: number, record: OT.RecordElementType | null, rotation: number) => (e: React.MouseEvent<HTMLTableCellElement>) => {
       e.stopPropagation()
-      openEditRecordModal({batter, order, record, rotation})
+      const arg: LT.EditRecordPayload = {batter, order, record, rotation}
+      openEditRecordModal(arg)
     },
     [openEditRecordModal]
   )

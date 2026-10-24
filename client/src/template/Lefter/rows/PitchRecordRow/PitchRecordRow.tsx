@@ -1,11 +1,12 @@
 import {useCallback} from 'react'
 import {useNavigate} from 'react-router-dom'
 
+import {useBaseStates} from '@redux'
+
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
 
 import './PitchRecordRow.scss'
-import {useBaseStates} from '@redux'
 
 type PitchRecordRowProps = DivCommonProps
 

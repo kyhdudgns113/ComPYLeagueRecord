@@ -1,7 +1,7 @@
-import * as R from './rows'
-
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
+
+import * as R from './rows'
 
 import './Lefter.scss'
 
