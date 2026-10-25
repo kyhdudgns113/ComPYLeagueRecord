@@ -13,9 +13,10 @@ import * as OT from '@objectType'
 
 type GameRowProps = TableRowCommonProps & {
   game: OT.GameInfoType
+  sameTeamNext?: boolean
 }
 
-export const GameRow: FC<GameRowProps> = ({game, ...props}) => {
+export const GameRow: FC<GameRowProps> = ({game, sameTeamNext, ...props}) => {
   const {gameNum, leagueNum} = useRecordStates()
   const navigate = useNavigate()
 
@@ -28,7 +29,11 @@ export const GameRow: FC<GameRowProps> = ({game, ...props}) => {
   )
 
   return (
-    <tr className={`GameRow ${gameNum === game.gameNum ? '_selected' : ''}`} onClick={onClickRow(leagueNum || game.leagueNum, game.gameNum)} {...props}>
+    <tr
+      className={`GameRow ${gameNum === game.gameNum ? '_selected' : ''} ${sameTeamNext ? '_sameTeamNext' : ''} _team-${game.enemyTeam}`}
+      onClick={onClickRow(leagueNum || game.leagueNum, game.gameNum)}
+      {...props}
+    >
       <td className={`td-number`}>{game.gameNum}</td>
       <td className={`td-enemyTeam`}>{game.enemyTeam}</td>
       <td className={`td-SPName`}>{game.SPName}</td>

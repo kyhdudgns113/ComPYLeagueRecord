@@ -1,0 +1,44 @@
+@use './values.scss' as v;
+
+@mixin surfaces {
+  &._team-KT {
+    background-color: v.$Team_KT_BG;
+    color: v.$Team_KT_TEXT;
+  }
+  &._team-기아 {
+    background-color: v.$Team_KIA_BG;
+    color: v.$Team_KIA_TEXT;
+  }
+  &._team-삼성 {
+    background-color: v.$Team_SAMSUNG_BG;
+    color: v.$Team_SAMSUNG_TEXT;
+  }
+  &._team-두산 {
+    background-color: v.$Team_DOOSAN_BG;
+    color: v.$Team_DOOSAN_TEXT;
+  }
+  &._team-SSG {
+    background-color: v.$Team_SSG_BG;
+    color: v.$Team_SSG_TEXT;
+  }
+  &._team-LG {
+    background-color: v.$Team_LG_BG;
+    color: v.$Team_LG_TEXT;
+  }
+  &._team-롯데 {
+    background-color: v.$Team_LOTTE_BG;
+    color: v.$Team_LOTTE_TEXT;
+  }
+  &._team-한화 {
+    background-color: v.$Team_HANHWA_BG;
+    color: v.$Team_HANHWA_TEXT;
+  }
+  &._team-NC {
+    background-color: v.$Team_NC_BG;
+    color: v.$Team_NC_TEXT;
+  }
+  &._team-키움 {
+    background-color: v.$Team_KIWOOM_BG;
+    color: v.$Team_KIWOOM_TEXT;
+  }
+}

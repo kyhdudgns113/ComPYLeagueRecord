@@ -1,6 +1,10 @@
+@use '../../../../base/styles/teams.scss' as team;
+
 .SettingPage {
   .TeamUnit {
     .TeamButton {
+      @include team.surfaces;
+
       border-color: #000000;
       border-radius: 10px;
       border-style: solid;
@@ -10,16 +14,18 @@
       cursor: pointer;
       height: 50px;
 
-      transition: background-color 0.2s ease;
+      transition: filter 0.2s ease;
       width: 50px;
 
       &:hover {
-        background-color: #d0d0d0;
+        filter: brightness(1.12);
       }
 
       &._selected {
         font-size: 20px;
         font-weight: 700;
+        outline: 2px solid #ffffff;
+        outline-offset: -2px;
       }
     }
   }

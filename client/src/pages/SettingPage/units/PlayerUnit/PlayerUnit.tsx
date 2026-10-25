@@ -50,7 +50,7 @@ export const PlayerUnit: FC<PlayerUnitProps> = ({...props}) => {
 
   return (
     <div className={`PlayerUnit`} {...props}>
-      <p className={`Title_Unit ${isHidden ? 'hidden' : ''}`}>{`${teamName} 선수 명단`}</p>
+      <p className={`Title_Unit ${isHidden ? 'hidden' : ''} ${teamName ? `_team-${teamName}` : ''}`}>{`${teamName} 선수 명단`}</p>
       <div className={`Container_Unit ${isHidden ? 'hidden' : ''}`}>
         {isMyTeam && (
           <Fragment>

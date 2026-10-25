@@ -1,3 +1,5 @@
+@use '../../../../base/styles/teams.scss' as team;
+
 .PitchRecordPage {
   .RecordUnit {
     align-items: center;
@@ -21,6 +23,8 @@
       width: 100%;
 
       .Title_Unit {
+        @include team.surfaces;
+
         font-size: 20px;
         font-weight: 700;
 

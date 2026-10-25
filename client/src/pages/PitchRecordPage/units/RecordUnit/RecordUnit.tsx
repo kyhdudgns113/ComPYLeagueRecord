@@ -87,7 +87,7 @@ export const RecordUnit: FC<RecordUnitProps> = ({...props}) => {
       <div hidden={isHidden}>
         {/* 1. 타이틀행(with 버튼) */}
         <div className={`TitleRow_Unit`}>
-          <p className={`Title_Unit`}>{`[리그 ${leagueNum || ''}] 게임 ${gameNum || ''} 기록`}</p>
+          <p className={`Title_Unit ${game?.enemyTeam ? `_team-${game.enemyTeam}` : ''}`}>{`[리그 ${leagueNum || ''}] 게임 ${gameNum || ''} 기록`}</p>
           <B.DeleteGameButton />
         </div>
 

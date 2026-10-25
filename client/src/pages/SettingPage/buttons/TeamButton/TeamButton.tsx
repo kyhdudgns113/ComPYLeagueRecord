@@ -34,7 +34,11 @@ export const TeamButton: FC<TeamButtonProps> = ({teamIdx, ...props}) => {
   }, [leagueNumSetting, teamIdx])
 
   return (
-    <button className={`TeamButton ${isSelected ? '_selected' : ''}`} onClick={onClickButton(leagueNumSetting, teamIdx)} {...props}>
+    <button
+      className={`TeamButton ${isSelected ? '_selected' : ''} _team-${V.TEAM_NAME[teamIdx]}`}
+      onClick={onClickButton(leagueNumSetting, teamIdx)}
+      {...props}
+    >
       {V.TEAM_NAME[teamIdx]}
     </button>
   )

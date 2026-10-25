@@ -1,3 +1,5 @@
+@use '../../../../base/styles/teams.scss' as team;
+
 .SettingPage {
   .PlayerUnit {
 
@@ -8,9 +10,14 @@
     width: 520px;
 
     .Title_Unit {
+      @include team.surfaces;
+
+      box-sizing: border-box;
       font-size: 24px;
       font-weight: 600;
       margin-bottom: 16px;
+      padding-bottom: 4px;
+      padding-top: 4px;
 
       text-align: center;
       width: 100%;

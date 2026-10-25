@@ -1,3 +1,5 @@
+@use '../../../../base/styles/teams.scss' as team;
+
 .PitchRecordPage {
   .GameUnit {
     align-items: center;
@@ -74,6 +76,8 @@
 
       tbody {
         tr {
+          @include team.surfaces;
+
           cursor: pointer;
 
           td {
@@ -86,15 +90,24 @@
 
             font-size: 14px;
 
+            padding-top: 1px;
+            padding-bottom: 1px;
+
             text-align: center;
           }
 
+          &._sameTeamNext td {
+            border-bottom-width: 1px;
+          }
+
           &:hover {
-            background-color: #d0d0d0;
+            filter: brightness(2);
           }
 
           &._selected {
-            background-color: #c8e0ff;
+            font-weight: 700;
+            outline: 2px solid #ffffff;
+            outline-offset: -2px;
           }
         }
       }

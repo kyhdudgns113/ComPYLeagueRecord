@@ -41,7 +41,8 @@ export const GameUnit: FC<GameUnitProps> = ({...props}) => {
           </thead>
           <tbody>
             {gameArr.map((game, gameIdx) => {
-              return <R.GameRow key={gameIdx} game={game} />
+              const sameTeamNext = gameArr[gameIdx + 1]?.enemyTeam === game.enemyTeam
+              return <R.GameRow key={gameIdx} game={game} sameTeamNext={sameTeamNext} />
             })}
           </tbody>
         </table>
