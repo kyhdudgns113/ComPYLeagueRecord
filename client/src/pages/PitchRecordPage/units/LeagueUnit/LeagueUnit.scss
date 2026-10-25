@@ -73,11 +73,11 @@
             text-align: center;
           }
 
-          &:hover {
+          &:hover td {
             background-color: #5a5a5a;
           }
 
-          &._selected {
+          &._selected td {
             background-color: #5a92c9;
           }
         }

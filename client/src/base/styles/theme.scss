@@ -16,6 +16,12 @@ html._theme-light {
   --theme-record-hover: #{v.$Theme_Light_RECORD_HOVER};
   --theme-record-inning-end: #{v.$Theme_Light_RECORD_INNING_END};
   --theme-record-inning-end-hover: #{v.$Theme_Light_RECORD_INNING_END_HOVER};
+  --theme-table-head: #{v.$Theme_Table_HEAD};
+  --theme-table-body: #{v.$Theme_Table_BODY};
+  --theme-table-etc: #{v.$Theme_Table_ETC};
+  --theme-table-text: #{v.$Theme_Table_TEXT};
+  --theme-table-inning-end: #{v.$Theme_Table_INNING_END};
+  --theme-table-inning-end-hover: #{v.$Theme_Table_INNING_END_HOVER};
 
   color-scheme: light;
 }
@@ -36,6 +42,12 @@ html._theme-dark {
   --theme-record-hover: #{v.$Theme_Dark_RECORD_HOVER};
   --theme-record-inning-end: #{v.$Theme_Dark_RECORD_INNING_END};
   --theme-record-inning-end-hover: #{v.$Theme_Dark_RECORD_INNING_END_HOVER};
+  --theme-table-head: #{v.$Theme_Table_HEAD};
+  --theme-table-body: #{v.$Theme_Table_BODY};
+  --theme-table-etc: #{v.$Theme_Table_ETC};
+  --theme-table-text: #{v.$Theme_Table_TEXT};
+  --theme-table-inning-end: #{v.$Theme_Table_INNING_END};
+  --theme-table-inning-end-hover: #{v.$Theme_Table_INNING_END_HOVER};
 
   color-scheme: dark;
 }
@@ -46,6 +58,18 @@ body,
   background-color: var(--theme-bg, #{v.$Theme_Light_BG});
   color: var(--theme-text, #{v.$Theme_Light_TEXT});
   min-height: 100%;
+}
+
+table {
+  thead th {
+    background-color: var(--theme-table-head);
+    color: var(--theme-table-text);
+  }
+
+  tbody td {
+    background-color: var(--theme-table-body);
+    color: var(--theme-table-text);
+  }
 }
 
 html._theme-dark {

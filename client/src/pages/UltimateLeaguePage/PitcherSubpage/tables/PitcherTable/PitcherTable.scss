@@ -16,8 +16,8 @@
       border-style: solid;
       border-width: 4px;
       thead {
-        background-color: #6b6b6b;
-        color: #000000;
+        background-color: var(--theme-table-head);
+        color: var(--theme-table-text);
   
         font-size: 14px;
   
@@ -99,8 +99,8 @@
         }
       }
       tbody {
-        background-color: #9c9c9c;
-        color: #000000;
+        background-color: var(--theme-table-body);
+        color: var(--theme-table-text);
 
         tr {
           &._dragging {
@@ -115,18 +115,18 @@
           }
 
           &._etcPitcher td {
-            background-color: #d0d0d0;
+            background-color: var(--theme-table-etc);
           }
 
           td {
-            background-color: #9c9c9c;
+            background-color: var(--theme-table-body);
             border-color: var(--theme-line);
             border-style: solid;
             border-bottom-width: 1px;
             border-right-width: 1px;
             border-top-width: 0px;
             border-left-width: 0px;
-            color: #000000;
+            color: var(--theme-table-text);
   
             font-size: 14px;
             height: 24px;
@@ -212,12 +212,12 @@
     }
 
     .Memo_Table {
-      background-color: #9c9c9c;
+      background-color: var(--theme-table-body);
       border-color: var(--theme-line);
       border-style: solid;
       border-width: 4px;
       box-sizing: border-box;
-      color: #000000;
+      color: var(--theme-table-text);
       display: flex;
       flex-direction: column;
       grid-column: 2;

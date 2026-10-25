@@ -126,21 +126,21 @@
               width: 24px;
 
               &:hover {
-                background-color: #f0f0f0;
+                background-color: #c0c0c0;
               }
             }
             &.td-name {
               width: 90px;
 
               &:hover {
-                background-color: #f0f0f0;
+                background-color: #c0c0c0;
               }
             }
             &.td-hand {
               width: 24px;
 
               &:hover {
-                background-color: #f0f0f0;
+                background-color: #c0c0c0;
               }
             }
             &.td-pressure {
@@ -148,12 +148,13 @@
               width: 24px;
 
               &:hover {
-                background-color: #f0f0f0;
+                background-color: #c0c0c0;
               }
             }
 
             &.td-pitch {
-              background-color: var(--theme-record);
+              background-color: var(--theme-table-body);
+              color: var(--theme-table-text);
               cursor: pointer;
               font-size: 12px;
               padding-left: 4px;
@@ -178,28 +179,30 @@
               }
 
               &:hover {
-                background-color: var(--theme-record-hover);
+                background-color: #c0c0c0;
               }
             }
 
             &.td-result {
-              background-color: var(--theme-record);
+              background-color: var(--theme-table-body);
               border-right-width: 3px;
+              color: var(--theme-table-text);
               cursor: pointer;
               font-size: 13px;
               font-weight: 700;
               width: 32px;
 
               &:hover {
-                background-color: var(--theme-record-hover);
+                background-color: #c0c0c0;
               }
 
             }
             &._inningEnd {
-              background-color: var(--theme-record-inning-end);
+              background-color: var(--theme-table-inning-end);
+              color: var(--theme-table-text);
 
               &:hover {
-                background-color: var(--theme-record-inning-end-hover);
+                background-color: var(--theme-table-inning-end-hover);
               }
             }
           }

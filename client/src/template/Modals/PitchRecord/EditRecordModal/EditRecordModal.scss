@@ -166,12 +166,20 @@
       }
 
       .Select_Modal {
+        background-color: #9c9c9c;
         border: 1px solid #ccc;
         box-sizing: border-box;
+        color: #000000;
         height: 40px;
         padding-left: 8px;
         padding-right: 8px;
         width: 100%;
+
+        option,
+        optgroup {
+          background-color: #9c9c9c;
+          color: #000000;
+        }
       }
 
       .StealFailToggle_Modal {
@@ -278,6 +286,17 @@ html._theme-dark {
       }
 
       .Input_Row_Modal {
+        .Select_Modal {
+          background-color: #9c9c9c;
+          color: #000000;
+
+          option,
+          optgroup {
+            background-color: #9c9c9c;
+            color: #000000;
+          }
+        }
+
         .StealFailToggle_Modal {
           &:hover:not(:disabled) {
             background-color: #333333;
