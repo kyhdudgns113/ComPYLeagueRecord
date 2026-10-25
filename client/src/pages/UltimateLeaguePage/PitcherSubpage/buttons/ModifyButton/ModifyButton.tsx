@@ -4,7 +4,7 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter} from '@localType'
+import type {Setter, UltiPitcherDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
 import * as OT from '@objectType'
@@ -13,11 +13,11 @@ import * as U from '@util'
 import './ModifyButton.scss'
 
 type ModifyButtonProps = ButtonCommonProps & {
-  draftArr: OT.UltiPitcherRecordType[]
+  draftArr: UltiPitcherDraftType[]
   draftDesc: string
   isEdit: boolean
   pitcherTable: OT.UltiPitcherTableType
-  setDraftArr: Setter<OT.UltiPitcherRecordType[]>
+  setDraftArr: Setter<UltiPitcherDraftType[]>
   setDraftDesc: Setter<string>
   setIsEdit: Setter<boolean>
 }
@@ -36,18 +36,18 @@ export const ModifyButton: FC<ModifyButtonProps> = ({
   const {updatePitcherTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (isEdit: boolean, draftArr: OT.UltiPitcherRecordType[], draftDesc: string, pitcherTable: OT.UltiPitcherTableType) =>
+    (isEdit: boolean, draftArr: UltiPitcherDraftType[], draftDesc: string, pitcherTable: OT.UltiPitcherTableType) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
         if (!isEdit) {
-          setDraftArr(pitcherTable.recordArr.map(record => U.withUltiPitcherCalcRates({...record})))
+          setDraftArr(pitcherTable.recordArr.map(record => U.toUltiPitcherDraft(record)))
           setDraftDesc(pitcherTable.desc || '')
           setIsEdit(true)
           return
         }
 
-        const nextArr = draftArr.map(record => U.withUltiPitcherFixedStats(record))
+        const nextArr = draftArr.map(record => U.withUltiPitcherFixedStats(U.fromUltiPitcherDraft(record)))
 
         updatePitcherTable(nextArr, pitcherTable.tableOId, draftDesc).then(res => {
           if (res.isSuccess) {

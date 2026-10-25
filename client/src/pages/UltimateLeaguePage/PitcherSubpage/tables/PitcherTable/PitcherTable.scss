@@ -147,6 +147,10 @@
             height: 24px;
             text-align: center;
 
+            &._calc {
+              font-style: italic;
+            }
+
             &.td-name {
               border-right-width: 2px;
               // cursor: pointer;

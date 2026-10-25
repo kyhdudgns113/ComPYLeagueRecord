@@ -4,7 +4,7 @@ import {Icon} from '@component'
 import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter} from '@localType'
+import type {Setter, UltiBatterDraftType} from '@localType'
 import type {TableRowCommonProps} from '@prop'
 
 import * as B from '../../buttons'
@@ -17,11 +17,11 @@ import * as V from '@value'
 type BatterRecordRowProps = TableRowCommonProps & {
   dragIdx: number | null
   isEdit: boolean
-  record: OT.UltiBatterRecordType
-  recordArr: OT.UltiBatterRecordType[]
+  record: OT.UltiBatterRecordType | UltiBatterDraftType
+  recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[]
   recordIdx: number
   setDragIdx: Setter<number | null>
-  setDraftArr: Setter<OT.UltiBatterRecordType[]>
+  setDraftArr: Setter<UltiBatterDraftType[]>
   tableOId: string
 }
 
@@ -37,6 +37,8 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
   ...props
 }) => {
   const {openEditUltiRecordDescModal} = useModalActions()
+  const numericRecord = U.fromUltiBatterDraft(record)
+  const displayRecord = U.withUltiBatterCalcRates(numericRecord)
 
   const onChangeCell = useCallback(
     (recordIdx: number, key: keyof OT.UltiBatterRecordType, inputType: 'number' | 'text') => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -48,16 +50,18 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
             return item
           }
 
+          const nextItem = {...item, [key]: nextValue}
+
           if (inputType === 'text') {
-            return {...item, [key]: nextValue}
+            return nextItem
           }
 
-          if (nextValue === '') {
-            return {...item, [key]: 0}
+          const calc = U.withUltiBatterCalcRates(U.fromUltiBatterDraft(nextItem))
+          return {
+            ...nextItem,
+            avg: String(calc.avg),
+            slg: String(calc.slg),
           }
-
-          const nextNum = Number(nextValue)
-          return {...item, [key]: isNaN(nextNum) ? 0 : nextNum}
         })
       })
     },
@@ -122,19 +126,19 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
     >
       {V.ULTI_BATTER_RECORD_CELLS.map(cell => (
         <td
-          className={cell.className}
+          className={`${cell.className} ${cell.isCalc ? '_calc' : ''}`}
           key={cell.key}
           onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
         >
-          {isEdit ? (
+          {isEdit && !cell.isCalc ? (
             <input
               className={`Input_Table`}
               onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
-              type={cell.inputType}
+              type="text"
               value={record[cell.key]}
             />
           ) : (
-            U.formatCellValue(record[cell.key], cell.digits, !(cell.showZeroWhenPlayed && record.playNum !== 0))
+            U.formatCellValue(displayRecord[cell.key], cell.digits, !isEdit && !(cell.showZeroWhenPlayed && numericRecord.playNum !== 0))
           )}
         </td>
       ))}

@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import type {FC} from 'react'
+import type {UltiBatterDraftType} from '@localType'
 import type {DivCommonProps} from '@prop'
 
 import * as B from '../../buttons'
@@ -15,7 +16,7 @@ type BatterTableProps = DivCommonProps & {
 
 export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [draftArr, setDraftArr] = useState<OT.UltiBatterRecordType[]>(batterTable.recordArr)
+  const [draftArr, setDraftArr] = useState<UltiBatterDraftType[]>([])
   const [draftDesc, setDraftDesc] = useState<string>(batterTable.desc || '')
   const [dragIdx, setDragIdx] = useState<number | null>(null)
 
@@ -44,7 +45,7 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
               타율
             </th>
             <th className={`th-hit1`} rowSpan={2}>
-              1루타
+              안타
             </th>
             <th className={`th-hit2`} rowSpan={2}>
               2루타
@@ -92,11 +93,7 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
       <div className={`Memo_Table`}>
         <p className={`Title_Table`}>메모</p>
         <div className={`Content_Table`}>
-          {isEdit ? (
-            <textarea className={`Input_Table`} onChange={onChangeDesc} value={draftDesc} />
-          ) : (
-            <p className={`TableDesc_Table`}>{desc}</p>
-          )}
+          {isEdit ? <textarea className={`Input_Table`} onChange={onChangeDesc} value={draftDesc} /> : <p className={`TableDesc_Table`}>{desc}</p>}
         </div>
       </div>
 
@@ -112,6 +109,7 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
           setDraftDesc={setDraftDesc}
           setIsEdit={setIsEdit}
         />
+        {isEdit && <B.CancelButton setIsEdit={setIsEdit} />}
         <B.DeleteTableButton batterTable={batterTable} />
       </div>
     </div>

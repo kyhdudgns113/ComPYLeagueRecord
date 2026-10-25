@@ -32,4 +32,12 @@ export type EditUltiRecordDescPayload = {
 export type PageTeamType = CT.Type_Team | ''
 export type ThemeModeType = 'dark' | 'light'
 
+export type UltiBatterDraftType = {
+  [K in keyof OT.UltiBatterRecordType]: OT.UltiBatterRecordType[K] extends number ? string : OT.UltiBatterRecordType[K]
+}
+
+export type UltiPitcherDraftType = {
+  [K in keyof OT.UltiPitcherRecordType]: OT.UltiPitcherRecordType[K] extends number ? string : OT.UltiPitcherRecordType[K]
+}
+
 export type Setter<T> = Dispatch<SetStateAction<T>>

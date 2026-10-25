@@ -4,18 +4,19 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter} from '@localType'
+import type {Setter, UltiBatterDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
 import * as OT from '@objectType'
+import * as U from '@util'
 
 import './DeleteBatterButton.scss'
 
 type DeleteBatterButtonProps = ButtonCommonProps & {
   name: string
-  recordArr: OT.UltiBatterRecordType[]
+  recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[]
   recordIdx: number
-  setDraftArr: Setter<OT.UltiBatterRecordType[]>
+  setDraftArr: Setter<UltiBatterDraftType[]>
   tableOId: string
 }
 
@@ -24,7 +25,7 @@ export const DeleteBatterButton: FC<DeleteBatterButtonProps> = ({name, recordArr
   const {updateBatterTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (name: string, recordArr: OT.UltiBatterRecordType[], recordIdx: number, tableOId: string) =>
+    (name: string, recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[], recordIdx: number, tableOId: string) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
@@ -33,12 +34,13 @@ export const DeleteBatterButton: FC<DeleteBatterButtonProps> = ({name, recordArr
         }
 
         const nextArr = recordArr.filter((_, idx) => idx !== recordIdx)
+        const nextSaved = nextArr.map(record => U.fromUltiBatterDraft(record))
 
-        updateBatterTable(nextArr, tableOId).then(res => {
+        updateBatterTable(nextSaved, tableOId).then(res => {
           if (res.isSuccess) {
             const {batterTableArr} = res
             setBatterTableArr(batterTableArr)
-            setDraftArr(nextArr)
+            setDraftArr(nextSaved.map(record => U.toUltiBatterDraft(record)))
           } // ::
           else {
             if (res.errMsg) {

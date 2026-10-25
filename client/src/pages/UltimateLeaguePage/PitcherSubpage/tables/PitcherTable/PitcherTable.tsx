@@ -1,6 +1,7 @@
 import {useCallback, useState} from 'react'
 
 import type {FC} from 'react'
+import type {UltiPitcherDraftType} from '@localType'
 import type {DivCommonProps} from '@prop'
 
 import * as B from '../../buttons'
@@ -15,7 +16,7 @@ type PitcherTableProps = DivCommonProps & {
 
 export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [draftArr, setDraftArr] = useState<OT.UltiPitcherRecordType[]>(pitcherTable.recordArr)
+  const [draftArr, setDraftArr] = useState<UltiPitcherDraftType[]>([])
   const [draftDesc, setDraftDesc] = useState<string>(pitcherTable.desc || '')
   const [dragIdx, setDragIdx] = useState<number | null>(null)
 
@@ -130,6 +131,7 @@ export const PitcherTable: FC<PitcherTableProps> = ({pitcherTable, ...props}) =>
           setDraftDesc={setDraftDesc}
           setIsEdit={setIsEdit}
         />
+        {isEdit && <B.CancelButton setIsEdit={setIsEdit} />}
         <B.DeleteTableButton pitcherTable={pitcherTable} />
       </div>
     </div>

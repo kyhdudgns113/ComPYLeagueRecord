@@ -1,5 +1,6 @@
 export * from './AddBatterButton'
 export * from './AddBatterTableButton'
+export * from './CancelButton'
 export * from './DeleteBatterButton'
 export * from './DeleteTableButton'
 export * from './ModifyButton'

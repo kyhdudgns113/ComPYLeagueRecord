@@ -4,7 +4,7 @@ import {Icon} from '@component'
 import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter} from '@localType'
+import type {Setter, UltiPitcherDraftType} from '@localType'
 import type {TableRowCommonProps} from '@prop'
 
 import * as B from '../../buttons'
@@ -17,11 +17,11 @@ import * as V from '@value'
 type PitcherRecordRowProps = TableRowCommonProps & {
   dragIdx: number | null
   isEdit: boolean
-  record: OT.UltiPitcherRecordType
-  recordArr: OT.UltiPitcherRecordType[]
+  record: OT.UltiPitcherRecordType | UltiPitcherDraftType
+  recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[]
   recordIdx: number
   setDragIdx: Setter<number | null>
-  setDraftArr: Setter<OT.UltiPitcherRecordType[]>
+  setDraftArr: Setter<UltiPitcherDraftType[]>
   tableOId: string
 }
 
@@ -37,7 +37,8 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
   ...props
 }) => {
   const {openEditUltiRecordDescModal} = useModalActions()
-  const displayRecord = U.withUltiPitcherCalcRates(record)
+  const numericRecord = U.fromUltiPitcherDraft(record)
+  const displayRecord = U.withUltiPitcherCalcRates(numericRecord)
 
   const onChangeCell = useCallback(
     (recordIdx: number, key: keyof OT.UltiPitcherRecordType, inputType: 'number' | 'text') => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,16 +50,19 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
             return item
           }
 
+          const nextItem = {...item, [key]: nextValue}
+
           if (inputType === 'text') {
-            return U.withUltiPitcherCalcRates({...item, [key]: nextValue})
+            return nextItem
           }
 
-          if (nextValue === '') {
-            return U.withUltiPitcherCalcRates({...item, [key]: 0})
+          const calc = U.withUltiPitcherCalcRates(U.fromUltiPitcherDraft(nextItem))
+          return {
+            ...nextItem,
+            era: String(calc.era),
+            kPer9: String(calc.kPer9),
+            homeRunPer9: String(calc.homeRunPer9),
           }
-
-          const nextNum = Number(nextValue)
-          return U.withUltiPitcherCalcRates({...item, [key]: isNaN(nextNum) ? 0 : nextNum})
         })
       })
     },
@@ -123,7 +127,7 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
     >
       {V.ULTI_PITCHER_RECORD_CELLS.map(cell => (
         <td
-          className={cell.className}
+          className={`${cell.className} ${cell.isCalc ? '_calc' : ''}`}
           key={cell.key}
           onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
         >
@@ -131,7 +135,7 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
             <input
               className={`Input_Table`}
               onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
-              type={cell.inputType}
+              type="text"
               value={record[cell.key]}
             />
           ) : (

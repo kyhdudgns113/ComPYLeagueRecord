@@ -4,18 +4,19 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter} from '@localType'
+import type {Setter, UltiPitcherDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
 import * as OT from '@objectType'
+import * as U from '@util'
 
 import './DeletePitcherButton.scss'
 
 type DeletePitcherButtonProps = ButtonCommonProps & {
   name: string
-  recordArr: OT.UltiPitcherRecordType[]
+  recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[]
   recordIdx: number
-  setDraftArr: Setter<OT.UltiPitcherRecordType[]>
+  setDraftArr: Setter<UltiPitcherDraftType[]>
   tableOId: string
 }
 
@@ -24,7 +25,7 @@ export const DeletePitcherButton: FC<DeletePitcherButtonProps> = ({name, recordA
   const {updatePitcherTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (name: string, recordArr: OT.UltiPitcherRecordType[], recordIdx: number, tableOId: string) =>
+    (name: string, recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[], recordIdx: number, tableOId: string) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
@@ -33,12 +34,13 @@ export const DeletePitcherButton: FC<DeletePitcherButtonProps> = ({name, recordA
         }
 
         const nextArr = recordArr.filter((_, idx) => idx !== recordIdx)
+        const nextSaved = nextArr.map(record => U.fromUltiPitcherDraft(record))
 
-        updatePitcherTable(nextArr, tableOId).then(res => {
+        updatePitcherTable(nextSaved, tableOId).then(res => {
           if (res.isSuccess) {
             const {pitcherTableArr} = res
             setPitcherTableArr(pitcherTableArr)
-            setDraftArr(nextArr)
+            setDraftArr(nextSaved.map(record => U.toUltiPitcherDraft(record)))
           } // ::
           else {
             if (res.errMsg) {
