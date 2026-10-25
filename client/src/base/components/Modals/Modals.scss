@@ -23,6 +23,20 @@ $SAKURA_BORDER: #ffc0cb;
     flex-direction: column;
     height: fit-content;
     width: fit-content;
+
+    input:not([type='checkbox']):not([type='radio']),
+    select,
+    textarea {
+      background-color: var(--theme-table-body, #9c9c9c);
+      color: var(--theme-table-text, #000000);
+      color-scheme: light;
+    }
+
+    select option,
+    select optgroup {
+      background-color: var(--theme-table-body, #9c9c9c);
+      color: var(--theme-table-text, #000000);
+    }
   }
 }
 
