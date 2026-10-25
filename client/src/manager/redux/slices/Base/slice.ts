@@ -7,11 +7,21 @@ import * as LT from '@localType'
 interface BaseState {
   lefterTab: LT.LefterTabType
   pageTeamName: LT.PageTeamType
+  themeMode: LT.ThemeModeType
+}
+
+const readThemeMode = (): LT.ThemeModeType => {
+  try {
+    return localStorage.getItem('themeMode') === 'dark' ? 'dark' : 'light'
+  } catch {
+    return 'light'
+  }
 }
 
 const initialState: BaseState = {
   lefterTab: null,
   pageTeamName: '',
+  themeMode: readThemeMode(),
 }
 
 export const BaseSlice = createSlice({
@@ -23,6 +33,12 @@ export const BaseSlice = createSlice({
     },
     setPageTeamName: (state, action: PayloadAction<LT.PageTeamType>) => {
       state.pageTeamName = action.payload
+    },
+    setThemeMode: (state, action: PayloadAction<LT.ThemeModeType>) => {
+      state.themeMode = action.payload
+    },
+    toggleThemeMode: state => {
+      state.themeMode = state.themeMode === 'dark' ? 'light' : 'dark'
     },
   },
 })

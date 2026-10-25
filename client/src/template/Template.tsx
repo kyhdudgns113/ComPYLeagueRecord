@@ -1,6 +1,8 @@
+import {useEffect} from 'react'
 import {Outlet} from 'react-router-dom'
 
-import {useModalStates} from '@redux'
+import {useBaseStates, useModalStates} from '@redux'
+import {writeStringP} from '@util'
 
 import {Footer} from './Footer'
 import {Header} from './Header'
@@ -18,10 +20,18 @@ import './Template.scss'
 type TemplateProps = DivCommonProps
 
 export const Template: FC<TemplateProps> = ({...props}) => {
+  const {themeMode} = useBaseStates()
   const {modalType} = useModalStates()
 
+  // html 테마 클래스와 localStorage 동기화
+  useEffect(() => {
+    document.documentElement.classList.remove('_theme-dark', '_theme-light')
+    document.documentElement.classList.add(`_theme-${themeMode}`)
+    writeStringP('themeMode', themeMode)
+  }, [themeMode])
+
   return (
-    <div className={`Template`} {...props}>
+    <div className={`Template _theme-${themeMode}`} {...props}>
       {/* 1. 헤더 */}
       <Header />
 

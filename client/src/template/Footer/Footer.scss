@@ -4,7 +4,9 @@
   .Footer {
     align-items: center;
 
-    background-color: #EEEEEE;
+    background-color: var(--theme-footer);
+    border-color: var(--theme-line);
+    color: var(--theme-text);
 
     // border-color: v.$SAKURA_BORDER;
     border-style: solid;

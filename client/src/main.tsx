@@ -8,6 +8,10 @@ import {store} from '@redux'
 import App from './App.tsx'
 
 import './base/styles/index.css'
+import './base/styles/theme.scss'
+
+const storedTheme = localStorage.getItem('themeMode') === 'dark' ? 'dark' : 'light'
+document.documentElement.classList.add(`_theme-${storedTheme}`)
 
 createRoot(document.getElementById('root')!).render(
   <BrowserRouter>

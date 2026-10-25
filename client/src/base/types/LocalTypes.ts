@@ -24,5 +24,6 @@ export type EditRecordPayload = {
 }
 
 export type PageTeamType = CT.Type_Team | ''
+export type ThemeModeType = 'dark' | 'light'
 
 export type Setter<T> = Dispatch<SetStateAction<T>>

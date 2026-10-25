@@ -3,9 +3,10 @@
 .Template {
   .Header {
     align-items: center;
+    background-color: var(--theme-header);
 
     // border-color: v.$SAKURA_BORDER;
-    border-color: #000000;
+    border-color: var(--theme-line);
     border-style: solid;
     border-bottom-width: 2px;
     border-left-width: 0px;
@@ -17,6 +18,8 @@
     height: 100px;
 
     justify-content: center;
+
+    position: relative;
 
     // Tempalte 에서 양옆 10px 정도를 잘랐다
     width: 100%;

@@ -1,0 +1,41 @@
+.Template {
+  .Header {
+    .ThemeButton {
+      align-items: center;
+      background-color: var(--theme-surface);
+      border-color: var(--theme-line);
+      border-radius: 8px;
+      border-style: solid;
+      border-width: 2px;
+      color: var(--theme-text);
+      cursor: pointer;
+      display: flex;
+      flex-direction: row;
+      gap: 6px;
+
+      padding-bottom: 6px;
+      padding-left: 10px;
+      padding-right: 10px;
+      padding-top: 6px;
+
+      position: absolute;
+      right: 24px;
+      top: 50%;
+      transform: translateY(-50%);
+
+      &:hover {
+        filter: brightness(1.12);
+      }
+
+      .ThemeIcon_Button {
+        font-size: 22px;
+      }
+
+      .ThemeLabel_Button {
+        font-size: 14px;
+        font-weight: 700;
+        user-select: none;
+      }
+    }
+  }
+}

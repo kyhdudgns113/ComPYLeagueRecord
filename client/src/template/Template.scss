@@ -2,6 +2,8 @@
 
 .Template {
   align-items: center;
+  background-color: var(--theme-bg);
+  color: var(--theme-text);
 
   display: flex;
   flex-direction: column;
