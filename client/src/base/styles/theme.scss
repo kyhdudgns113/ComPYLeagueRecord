@@ -18,7 +18,9 @@ html._theme-light {
   --theme-record-inning-end-hover: #{v.$Theme_Light_RECORD_INNING_END_HOVER};
   --theme-table-head: #{v.$Theme_Table_HEAD};
   --theme-table-body: #{v.$Theme_Table_BODY};
+  --theme-table-hover: #{v.$Theme_Table_HOVER};
   --theme-table-etc: #{v.$Theme_Table_ETC};
+  --theme-table-etc-hover: #{v.$Theme_Table_ETC_HOVER};
   --theme-table-text: #{v.$Theme_Table_TEXT};
   --theme-table-inning-end: #{v.$Theme_Table_INNING_END};
   --theme-table-inning-end-hover: #{v.$Theme_Table_INNING_END_HOVER};
@@ -44,7 +46,9 @@ html._theme-dark {
   --theme-record-inning-end-hover: #{v.$Theme_Dark_RECORD_INNING_END_HOVER};
   --theme-table-head: #{v.$Theme_Table_HEAD};
   --theme-table-body: #{v.$Theme_Table_BODY};
+  --theme-table-hover: #{v.$Theme_Table_HOVER};
   --theme-table-etc: #{v.$Theme_Table_ETC};
+  --theme-table-etc-hover: #{v.$Theme_Table_ETC_HOVER};
   --theme-table-text: #{v.$Theme_Table_TEXT};
   --theme-table-inning-end: #{v.$Theme_Table_INNING_END};
   --theme-table-inning-end-hover: #{v.$Theme_Table_INNING_END_HOVER};
@@ -70,6 +74,11 @@ table {
     background-color: var(--theme-table-body);
     color: var(--theme-table-text);
   }
+}
+
+.Input_Table {
+  color: var(--theme-table-text);
+  color-scheme: light;
 }
 
 html._theme-dark {

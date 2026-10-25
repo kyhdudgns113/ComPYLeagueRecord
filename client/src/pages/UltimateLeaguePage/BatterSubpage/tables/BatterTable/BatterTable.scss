@@ -107,6 +107,16 @@
             background-color: var(--theme-table-etc);
           }
 
+          &:hover td,
+          &:focus-within td {
+            background-color: var(--theme-table-hover);
+          }
+
+          &._etcBatter:hover td,
+          &._etcBatter:focus-within td {
+            background-color: var(--theme-table-etc-hover);
+          }
+
           td {
             background-color: var(--theme-table-body);
             border-color: var(--theme-line);
@@ -117,13 +127,18 @@
             border-left-width: 0px;
             color: var(--theme-table-text);
 
+            &:focus-within {
+              outline: 2px solid #000000;
+              outline-offset: -2px;
+            }
+
             font-size: 14px;
             height: 24px;
             text-align: center;
 
             &.td-gameNum {
               border-right-width: 2px;
-              cursor: pointer;
+              // cursor: pointer;
             }
 
             &.td-delete {
@@ -147,6 +162,7 @@
               border: none;
               box-shadow: none;
               box-sizing: border-box;
+              color: var(--theme-table-text);
               font-family: inherit;
               font-size: inherit;
               height: 100%;
@@ -181,7 +197,7 @@
               }
 
               &.td-drag:hover {
-                background-color: #c0c0c0;
+                background-color: var(--theme-table-hover);
               }
             }
           }
@@ -238,6 +254,7 @@
           background-color: transparent;
           border: none;
           box-sizing: border-box;
+          color: var(--theme-table-text);
           font-family: inherit;
           font-size: inherit;
           height: 100%;
