@@ -65,7 +65,14 @@ export const RecordRow: FC<RecordRowProps> = ({atBatArr, batter, inningEndKeySet
               className={`td-pitch ${inningEndKeySet.has(`${order}-${atBatIdx + 1}`) ? '_inningEnd' : ''}`}
               onClick={onClickRecord(batter, order, record, atBatIdx + 1)}
             >
-              {record ? record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ') : ''}
+              {record ? (
+                <>
+                  <span className={`PitcherInitial_Row`}>{record.pitcherName.slice(0, 1)}</span>
+                  {record.pitchArr.map(pitch => U.convertPitchMark(pitch)).join(' ')}
+                </>
+              ) : (
+                ''
+              )}
             </td>
             <td
               className={`td-result ${inningEndKeySet.has(`${order}-${atBatIdx + 1}`) ? '_inningEnd' : ''}`}

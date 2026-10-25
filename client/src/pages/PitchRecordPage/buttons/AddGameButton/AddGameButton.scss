@@ -14,7 +14,7 @@
         transform: translateY(-50%);
 
         .AddGameIcon_Button {
-          border-color: #000000;
+          border-color: var(--theme-line);
           border-radius: 8px;
           border-style: solid;
           border-width: 2px;

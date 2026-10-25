@@ -222,3 +222,76 @@
     }
   }
 }
+
+html._theme-dark {
+  .Template {
+    .MODAL_Contents.EditRecordModal {
+      .Tab_Row_Modal {
+        .Tab_Modal {
+          &.selected {
+            background-color: #3d3d3d;
+          }
+
+          &:hover:not(.selected) {
+            background-color: #333333;
+          }
+        }
+      }
+
+      .PitchLog_Row_Modal {
+        .PitchLog_Modal {
+          background-color: #1f1f1f;
+          border-color: #555555;
+        }
+
+        .RemoveLast_Modal {
+          &:hover:not(:disabled) {
+            background-color: #333333;
+          }
+        }
+      }
+
+      .Zone_Grid_Modal {
+        .Zone_Row_Modal {
+          .Zone_Cell_Modal {
+            &.ball {
+              background-color: #5c5c5c;
+            }
+
+            &.strike {
+              background-color: #2c2c2c;
+            }
+
+            &.selected {
+              background-color: #9ec5e8;
+            }
+          }
+        }
+      }
+
+      .PitchType_Grid_Modal {
+        .PitchType_Modal {
+          &:hover:not(.selected) {
+            background-color: #333333;
+          }
+        }
+      }
+
+      .Input_Row_Modal {
+        .StealFailToggle_Modal {
+          &:hover:not(:disabled) {
+            background-color: #333333;
+          }
+        }
+      }
+
+      .Button_Row_Modal {
+        .Button_Modal {
+          &:hover {
+            background-color: #333333;
+          }
+        }
+      }
+    }
+  }
+}

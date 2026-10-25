@@ -9,7 +9,13 @@ html._theme-light {
   --theme-lefter: #{v.$SAKURA_BG_30};
   --theme-lefter-border: #{v.$SAKURA_BORDER};
   --theme-lefter-hover: #{v.$SAKURA_BG};
-  --theme-line: #000000;
+  --theme-line: #{v.$Theme_Light_LINE};
+  --theme-modal: #{v.$Theme_Light_MODAL};
+  --theme-modal-backdrop: rgba(0, 0, 0, 0.5);
+  --theme-record: #{v.$Theme_Light_RECORD};
+  --theme-record-hover: #{v.$Theme_Light_RECORD_HOVER};
+  --theme-record-inning-end: #{v.$Theme_Light_RECORD_INNING_END};
+  --theme-record-inning-end-hover: #{v.$Theme_Light_RECORD_INNING_END_HOVER};
 
   color-scheme: light;
 }
@@ -23,7 +29,13 @@ html._theme-dark {
   --theme-lefter: #{v.$Theme_Dark_LEFTER};
   --theme-lefter-border: #{v.$Theme_Dark_LEFTER_BORDER};
   --theme-lefter-hover: #{v.$Theme_Dark_LEFTER_HOVER};
-  --theme-line: #666666;
+  --theme-line: #{v.$Theme_Dark_LINE};
+  --theme-modal: #{v.$Theme_Dark_MODAL};
+  --theme-modal-backdrop: rgba(0, 0, 0, 0.7);
+  --theme-record: #{v.$Theme_Dark_RECORD};
+  --theme-record-hover: #{v.$Theme_Dark_RECORD_HOVER};
+  --theme-record-inning-end: #{v.$Theme_Dark_RECORD_INNING_END};
+  --theme-record-inning-end-hover: #{v.$Theme_Dark_RECORD_INNING_END_HOVER};
 
   color-scheme: dark;
 }
@@ -34,4 +46,24 @@ body,
   background-color: var(--theme-bg, #{v.$Theme_Light_BG});
   color: var(--theme-text, #{v.$Theme_Light_TEXT});
   min-height: 100%;
+}
+
+html._theme-dark {
+  button:not(.Zone_Cell_Modal):not(.PitchType_Modal):not(.TeamButton):not(._editing):not(._on) {
+    background-color: v.$Theme_Dark_BUTTON;
+    color: v.$Theme_Dark_BUTTON_TEXT;
+
+    * {
+      color: inherit;
+    }
+
+    &:hover:not(:disabled) {
+      background-color: v.$Theme_Dark_BUTTON_HOVER;
+      filter: none;
+
+      * {
+        background-color: v.$Theme_Dark_BUTTON_HOVER;
+      }
+    }
+  }
 }

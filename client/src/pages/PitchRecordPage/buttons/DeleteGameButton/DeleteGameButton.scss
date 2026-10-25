@@ -1,7 +1,7 @@
 .PitchRecordPage {
   .RecordUnit {
     .DeleteGameButton {
-      border: 1px solid #000000;
+      border: 1px solid var(--theme-line);
       cursor: pointer;
       height: 28px;
 
