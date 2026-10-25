@@ -61,6 +61,7 @@ export const Template: FC<TemplateProps> = ({...props}) => {
       {modalType === 'AddUltiBatter' && <U.AddUltiBatterModal />}
       {modalType === 'AddUltiLeague' && <U.AddUltiLeagueModal />}
       {modalType === 'AddUltiPitcher' && <U.AddUltiPitcherModal />}
+      {modalType === 'EditUltiRecordDesc' && <U.EditUltiRecordDescModal />}
     </div>
   )
 }

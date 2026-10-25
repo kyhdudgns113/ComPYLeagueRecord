@@ -13,6 +13,7 @@ interface ModalState {
   addUltiBatter_TableOId: string | null
   addUltiPitcher_TableOId: string | null
   editRecord: LT.EditRecordPayload | null
+  editUltiRecordDesc: LT.EditUltiRecordDescPayload | null
   modifyBatter: OT.BatterType | null
   modifyPitcher: OT.PitcherType | null
 }
@@ -25,6 +26,7 @@ const initialState: ModalState = {
   addUltiBatter_TableOId: null,
   addUltiPitcher_TableOId: null,
   editRecord: null,
+  editUltiRecordDesc: null,
   modifyBatter: null,
   modifyPitcher: null,
 }
@@ -35,6 +37,7 @@ const clearModalExtras = (state: ModalState) => {
   state.addUltiBatter_TableOId = null
   state.addUltiPitcher_TableOId = null
   state.editRecord = null
+  state.editUltiRecordDesc = null
   state.modifyBatter = null
   state.modifyPitcher = null
 }
@@ -92,6 +95,11 @@ export const ModalSlice = createSlice({
       state.modalType = 'EditRecord'
       clearModalExtras(state)
       state.editRecord = action.payload
+    },
+    openEditUltiRecordDescModal: (state, action: PayloadAction<LT.EditUltiRecordDescPayload>) => {
+      state.modalType = 'EditUltiRecordDesc'
+      clearModalExtras(state)
+      state.editUltiRecordDesc = action.payload
     },
     openModifyBatterModal: (state, action: PayloadAction<OT.BatterType>) => {
       state.modalType = 'ModifyBatter'

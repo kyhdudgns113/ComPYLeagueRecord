@@ -123,6 +123,7 @@
 
             &.td-gameNum {
               border-right-width: 2px;
+              cursor: pointer;
             }
 
             &.td-delete {
@@ -175,6 +176,10 @@
         tbody {
           tr {
             td {
+              &.td-gameNum {
+                cursor: text;
+              }
+
               &.td-drag:hover {
                 background-color: #c0c0c0;
               }

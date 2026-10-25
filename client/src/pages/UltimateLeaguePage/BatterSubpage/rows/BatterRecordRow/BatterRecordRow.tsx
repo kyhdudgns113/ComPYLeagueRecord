@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 
 import {Icon} from '@component'
+import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
 import type {Setter} from '@localType'
@@ -35,6 +36,8 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
   tableOId,
   ...props
 }) => {
+  const {openEditUltiRecordDescModal} = useModalActions()
+
   const onChangeCell = useCallback(
     (recordIdx: number, key: keyof OT.UltiBatterRecordType, inputType: 'number' | 'text') => (e: React.ChangeEvent<HTMLInputElement>) => {
       const nextValue = e.target.value
@@ -102,6 +105,14 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
     setDragIdx(null)
   }, [])
 
+  const onDoubleClickName = useCallback(
+    (recordIdx: number, tableOId: string) => (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      openEditUltiRecordDescModal({kind: 'batter', recordIdx, tableOId})
+    },
+    []
+  )
+
   return (
     <tr
       className={`BatterRecordRow ${dragIdx === recordIdx ? '_dragging' : ''} rowIdx-${recordIdx} ${recordIdx > 8 ? '_etcBatter' : ''}`}
@@ -110,7 +121,11 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
       {...props}
     >
       {V.ULTI_BATTER_RECORD_CELLS.map(cell => (
-        <td className={cell.className} key={cell.key}>
+        <td
+          className={cell.className}
+          key={cell.key}
+          onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
+        >
           {isEdit ? (
             <input
               className={`Input_Table`}

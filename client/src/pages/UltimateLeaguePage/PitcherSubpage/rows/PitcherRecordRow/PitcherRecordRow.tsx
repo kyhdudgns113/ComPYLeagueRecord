@@ -1,6 +1,7 @@
 import {useCallback} from 'react'
 
 import {Icon} from '@component'
+import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
 import type {Setter} from '@localType'
@@ -35,6 +36,7 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
   tableOId,
   ...props
 }) => {
+  const {openEditUltiRecordDescModal} = useModalActions()
   const displayRecord = U.withUltiPitcherCalcRates(record)
 
   const onChangeCell = useCallback(
@@ -104,6 +106,14 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
     setDragIdx(null)
   }, [])
 
+  const onDoubleClickName = useCallback(
+    (recordIdx: number, tableOId: string) => (e: React.MouseEvent<HTMLTableCellElement>) => {
+      e.stopPropagation()
+      openEditUltiRecordDescModal({kind: 'pitcher', recordIdx, tableOId})
+    },
+    []
+  )
+
   return (
     <tr
       className={`PitcherRecordRow ${dragIdx === recordIdx ? '_dragging' : ''} rowIdx-${recordIdx} ${recordIdx > 10 && `_etcPitcher`}`}
@@ -112,7 +122,11 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
       {...props}
     >
       {V.ULTI_PITCHER_RECORD_CELLS.map(cell => (
-        <td className={cell.className} key={cell.key}>
+        <td
+          className={cell.className}
+          key={cell.key}
+          onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
+        >
           {isEdit && !cell.isCalc ? (
             <input
               className={`Input_Table`}
