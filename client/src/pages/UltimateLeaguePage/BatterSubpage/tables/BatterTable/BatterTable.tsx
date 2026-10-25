@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useCallback, useState} from 'react'
 
 import type {FC} from 'react'
 import type {DivCommonProps} from '@prop'
@@ -16,9 +16,16 @@ type BatterTableProps = DivCommonProps & {
 export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
   const [isEdit, setIsEdit] = useState<boolean>(false)
   const [draftArr, setDraftArr] = useState<OT.UltiBatterRecordType[]>(batterTable.recordArr)
+  const [draftDesc, setDraftDesc] = useState<string>(batterTable.desc || '')
   const [dragIdx, setDragIdx] = useState<number | null>(null)
 
   const recordArr = isEdit ? draftArr : batterTable.recordArr
+  const desc = isEdit ? draftDesc : batterTable.desc || ''
+
+  const onChangeDesc = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    e.stopPropagation()
+    setDraftDesc(e.target.value)
+  }, [])
 
   return (
     <div className={`BatterTable ${isEdit ? '_editing' : ''}`} {...props}>
@@ -81,10 +88,30 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
         </tbody>
       </table>
 
-      {/* 2. 버튼 행 */}
+      {/* 2. 메모창 */}
+      <div className={`Memo_Table`}>
+        <p className={`Title_Table`}>메모</p>
+        <div className={`Content_Table`}>
+          {isEdit ? (
+            <textarea className={`Input_Table`} onChange={onChangeDesc} value={draftDesc} />
+          ) : (
+            <p className={`TableDesc_Table`}>{desc}</p>
+          )}
+        </div>
+      </div>
+
+      {/* 3. 버튼 행 */}
       <div className={`ButtonRow_Table`}>
         <B.AddBatterButton tableOId={batterTable.tableOId} />
-        <B.ModifyButton batterTable={batterTable} draftArr={draftArr} isEdit={isEdit} setDraftArr={setDraftArr} setIsEdit={setIsEdit} />
+        <B.ModifyButton
+          batterTable={batterTable}
+          draftArr={draftArr}
+          draftDesc={draftDesc}
+          isEdit={isEdit}
+          setDraftArr={setDraftArr}
+          setDraftDesc={setDraftDesc}
+          setIsEdit={setIsEdit}
+        />
         <B.DeleteTableButton batterTable={batterTable} />
       </div>
     </div>

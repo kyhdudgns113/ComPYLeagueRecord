@@ -126,10 +126,15 @@ export class UltiBatterTableDBService {
   async updateUltiBatterTable(where: string, dto: DTO.DTO_UpdateUltiBatterTable) {
     where = where + '/updateUltiBatterTable'
 
-    const {recordArr, tableOId} = dto
+    const {desc, recordArr, tableOId} = dto
 
     try {
-      const updatedTable = await this.ultiBatterTableDBModel.findByIdAndUpdate(tableOId, {$set: {recordArr}}, {returnDocument: 'after'})
+      const $set: {desc?: string; recordArr: OT.UltiBatterRecordType[]} = {recordArr}
+      if (desc !== undefined) {
+        $set.desc = desc
+      }
+
+      const updatedTable = await this.ultiBatterTableDBModel.findByIdAndUpdate(tableOId, {$set}, {returnDocument: 'after'})
       if (!updatedTable) {
         throw {gkdErrMsg: `[${where}] table is not found. tableOId: ${tableOId}`, statusCode: 404}
       }

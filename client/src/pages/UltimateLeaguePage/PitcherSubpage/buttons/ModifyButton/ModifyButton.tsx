@@ -14,30 +14,42 @@ import './ModifyButton.scss'
 
 type ModifyButtonProps = ButtonCommonProps & {
   draftArr: OT.UltiPitcherRecordType[]
+  draftDesc: string
   isEdit: boolean
   pitcherTable: OT.UltiPitcherTableType
   setDraftArr: Setter<OT.UltiPitcherRecordType[]>
+  setDraftDesc: Setter<string>
   setIsEdit: Setter<boolean>
 }
 
-export const ModifyButton: FC<ModifyButtonProps> = ({draftArr, isEdit, pitcherTable, setDraftArr, setIsEdit, ...props}) => {
+export const ModifyButton: FC<ModifyButtonProps> = ({
+  draftArr,
+  draftDesc,
+  isEdit,
+  pitcherTable,
+  setDraftArr,
+  setDraftDesc,
+  setIsEdit,
+  ...props
+}) => {
   const {setPitcherTableArr} = useUltimateActions()
   const {updatePitcherTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (isEdit: boolean, draftArr: OT.UltiPitcherRecordType[], pitcherTable: OT.UltiPitcherTableType) =>
+    (isEdit: boolean, draftArr: OT.UltiPitcherRecordType[], draftDesc: string, pitcherTable: OT.UltiPitcherTableType) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
         if (!isEdit) {
           setDraftArr(pitcherTable.recordArr.map(record => U.withUltiPitcherCalcRates({...record})))
+          setDraftDesc(pitcherTable.desc || '')
           setIsEdit(true)
           return
         }
 
         const nextArr = draftArr.map(record => U.withUltiPitcherFixedStats(record))
 
-        updatePitcherTable(nextArr, pitcherTable.tableOId).then(res => {
+        updatePitcherTable(nextArr, pitcherTable.tableOId, draftDesc).then(res => {
           if (res.isSuccess) {
             const {pitcherTableArr} = res
             setPitcherTableArr(pitcherTableArr)
@@ -54,7 +66,12 @@ export const ModifyButton: FC<ModifyButtonProps> = ({draftArr, isEdit, pitcherTa
   )
 
   return (
-    <button className={`ModifyButton ${isEdit ? '_editing' : ''}`} onClick={onClickButton(isEdit, draftArr, pitcherTable)} type="button" {...props}>
+    <button
+      className={`ModifyButton ${isEdit ? '_editing' : ''}`}
+      onClick={onClickButton(isEdit, draftArr, draftDesc, pitcherTable)}
+      type="button"
+      {...props}
+    >
       {isEdit ? '완료' : '수정'}
     </button>
   )

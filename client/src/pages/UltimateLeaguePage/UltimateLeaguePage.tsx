@@ -44,11 +44,11 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
 
       <div className={`LeagueTables_Page`}>
         <div className={`Tab_Row_Page ${isHidden ? '_hidden' : ''}`}>
-          <button className={`Tab_Page ${subPage === 'pitcher' ? '_selected' : ''}`} onClick={onClickTab('pitcher')} type="button">
-            투수
-          </button>
           <button className={`Tab_Page ${subPage === 'batter' ? '_selected' : ''}`} onClick={onClickTab('batter')} type="button">
             타자
+          </button>
+          <button className={`Tab_Page ${subPage === 'pitcher' ? '_selected' : ''}`} onClick={onClickTab('pitcher')} type="button">
+            투수
           </button>
         </div>
 

@@ -88,11 +88,13 @@ export type DTO_ReadUltiPitcherTableArr = {
 }
 
 export type DTO_UpdateUltiBatterTable = {
+  desc?: string
   recordArr: OT.UltiBatterRecordType[]
   tableOId: string
 }
 
 export type DTO_UpdateUltiPitcherTable = {
+  desc?: string
   recordArr: OT.UltiPitcherRecordType[]
   tableOId: string
 }

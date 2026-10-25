@@ -81,11 +81,13 @@ export type HTTP_MoveBatterInArr = {
 }
 
 export type HTTP_UpdateUltiBatterTable = {
+  desc?: string
   recordArr: OT.UltiBatterRecordType[]
   tableOId: string
 }
 
 export type HTTP_UpdateUltiPitcherTable = {
+  desc?: string
   recordArr: OT.UltiPitcherRecordType[]
   tableOId: string
 }

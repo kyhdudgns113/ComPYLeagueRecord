@@ -1,7 +1,16 @@
 .UltimateLeaguePage {
   .PitcherTable {
+    align-items: stretch;
+    column-gap: 16px;
+    display: grid;
+    grid-template-columns: auto 240px;
+    grid-template-rows: auto auto;
     margin-top: 16px;
+    width: fit-content;
+
     table {
+      grid-column: 1;
+      grid-row: 1;
       border-collapse: collapse;
       border-color: #000000;
       border-style: solid;
@@ -184,10 +193,61 @@
       display: flex;
       flex-direction: row;
       gap: 8px;
+      grid-column: 1;
+      grid-row: 2;
       justify-content: center;
       margin-top: 8px;
       width: 100%;
     }
 
+    .Memo_Table {
+      background-color: #ffffff;
+      border-color: #000000;
+      border-style: solid;
+      border-width: 4px;
+      box-sizing: border-box;
+      color: #000000;
+      display: flex;
+      flex-direction: column;
+      grid-column: 2;
+      grid-row: 1;
+      height: 100%;
+      min-width: 200px;
+      padding: 8px;
+      width: 240px;
+
+      .Title_Table {
+        font-size: 14px;
+        font-weight: 700;
+        margin: 0 0 8px;
+      }
+
+      .Content_Table {
+        flex: 1;
+        font-size: 13px;
+        min-height: 0;
+        overflow-y: auto;
+        white-space: pre-wrap;
+        word-break: break-word;
+
+        .TableDesc_Table {
+          margin: 0;
+        }
+
+        .Input_Table {
+          background-color: transparent;
+          border: none;
+          box-sizing: border-box;
+          font-family: inherit;
+          font-size: inherit;
+          height: 100%;
+          margin: 0;
+          outline: none;
+          padding: 0;
+          resize: none;
+          width: 100%;
+        }
+      }
+    }
   }
 }

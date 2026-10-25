@@ -7,8 +7,6 @@
     justify-content: flex-start;
     max-width: 100%;
     min-width: 0;
-    overflow-x: auto;
-    overflow-y: auto;
     width: 100%;
 
     // 리그 목록 컴포넌트
@@ -23,13 +21,19 @@
     } // END: UltimateLeaguePage/ LeagueList_Page
 
     .LeagueTables_Page {
+      display: flex;
+      flex-direction: column;
       flex-shrink: 0;
+      height: 100%;
+      width: fit-content;
 
       .Tab_Row_Page {
         align-items: center;
         display: flex;
         flex-direction: row;
+        flex-shrink: 0;
         gap: 40px;
+        height: 100px;
         justify-content: center;
   
         margin-top: 24px;
@@ -53,17 +57,21 @@
       } // END: UltimateLeaguePage/ LeagueTables_Page/ Tab_Row_Page
   
       .SubPageArea_Page {
-  
+
+        border-color: #000000;
+        border-style: solid;
+        border-width: 4px;
+
+        box-sizing: border-box;
         display: flex;
+        flex: 1;
         justify-content: center;
-  
-        height: 600px;
-  
-        margin-top: 24px;
-        overflow-y: auto;
-        padding-bottom: 40px;
-        
-        width: 1100px;
+
+        min-height: 0;
+        overflow-y: scroll;
+        // padding-bottom: 40px; // 야기서 설정해도 안먹히네
+        padding-top: 20px;
+        width: fit-content;
 
         &._hidden {
           display: none;

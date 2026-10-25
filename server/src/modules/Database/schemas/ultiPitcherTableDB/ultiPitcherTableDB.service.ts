@@ -132,10 +132,15 @@ export class UltiPitcherTableDBService {
   async updateUltiPitcherTable(where: string, dto: DTO.DTO_UpdateUltiPitcherTable) {
     where = where + '/updateUltiPitcherTable'
 
-    const {recordArr, tableOId} = dto
+    const {desc, recordArr, tableOId} = dto
 
     try {
-      const updatedTable = await this.ultiPitcherTableDBModel.findByIdAndUpdate(tableOId, {$set: {recordArr}}, {returnDocument: 'after'})
+      const $set: {desc?: string; recordArr: OT.UltiPitcherRecordType[]} = {recordArr}
+      if (desc !== undefined) {
+        $set.desc = desc
+      }
+
+      const updatedTable = await this.ultiPitcherTableDBModel.findByIdAndUpdate(tableOId, {$set}, {returnDocument: 'after'})
       if (!updatedTable) {
         throw {gkdErrMsg: `[${where}] table is not found. tableOId: ${tableOId}`, statusCode: 404}
       }

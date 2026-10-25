@@ -24,8 +24,8 @@ type ContextType = {
   deleteLeague: (leagueNum: number) => Promise<LT.APIReturnType>,
   deletePitcherTable: (tableOId: string) => Promise<LT.APIReturnType>,
 
-  updateBatterTable: (recordArr: OT.UltiBatterRecordType[], tableOId: string) => Promise<LT.APIReturnType>,
-  updatePitcherTable: (recordArr: OT.UltiPitcherRecordType[], tableOId: string) => Promise<LT.APIReturnType>,
+  updateBatterTable: (recordArr: OT.UltiBatterRecordType[], tableOId: string, desc?: string) => Promise<LT.APIReturnType>,
+  updatePitcherTable: (recordArr: OT.UltiPitcherRecordType[], tableOId: string, desc?: string) => Promise<LT.APIReturnType>,
 }
 // prettier-ignore
 export const UltimateCallbacksContext = createContext<ContextType>({
@@ -374,9 +374,10 @@ export const UltimateCallbacksProvider: FC<PropsWithChildren> = ({children}) => 
   }, [])
 
   // PUT AREA:
-  const updateBatterTable = useCallback(async (recordArr: OT.UltiBatterRecordType[], tableOId: string) => {
+  const updateBatterTable = useCallback(async (recordArr: OT.UltiBatterRecordType[], tableOId: string, desc?: string) => {
     const url = `/ultimate/updateBatterTable`
     const data: HTTP.HTTP_UpdateUltiBatterTable = {
+      desc,
       recordArr,
       tableOId,
     }
@@ -405,9 +406,10 @@ export const UltimateCallbacksProvider: FC<PropsWithChildren> = ({children}) => 
       })
   }, [])
 
-  const updatePitcherTable = useCallback(async (recordArr: OT.UltiPitcherRecordType[], tableOId: string) => {
+  const updatePitcherTable = useCallback(async (recordArr: OT.UltiPitcherRecordType[], tableOId: string, desc?: string) => {
     const url = `/ultimate/updatePitcherTable`
     const data: HTTP.HTTP_UpdateUltiPitcherTable = {
+      desc,
       recordArr,
       tableOId,
     }

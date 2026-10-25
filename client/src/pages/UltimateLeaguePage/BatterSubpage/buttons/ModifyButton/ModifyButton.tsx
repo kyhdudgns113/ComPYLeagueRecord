@@ -28,29 +28,41 @@ const withFixedRates = (record: OT.UltiBatterRecordType): OT.UltiBatterRecordTyp
 type ModifyButtonProps = ButtonCommonProps & {
   batterTable: OT.UltiBatterTableType
   draftArr: OT.UltiBatterRecordType[]
+  draftDesc: string
   isEdit: boolean
   setDraftArr: Setter<OT.UltiBatterRecordType[]>
+  setDraftDesc: Setter<string>
   setIsEdit: Setter<boolean>
 }
 
-export const ModifyButton: FC<ModifyButtonProps> = ({batterTable, draftArr, isEdit, setDraftArr, setIsEdit, ...props}) => {
+export const ModifyButton: FC<ModifyButtonProps> = ({
+  batterTable,
+  draftArr,
+  draftDesc,
+  isEdit,
+  setDraftArr,
+  setDraftDesc,
+  setIsEdit,
+  ...props
+}) => {
   const {setBatterTableArr} = useUltimateActions()
   const {updateBatterTable} = useUltimateCallbacksContext()
 
   const onClickButton = useCallback(
-    (isEdit: boolean, draftArr: OT.UltiBatterRecordType[], batterTable: OT.UltiBatterTableType) =>
+    (isEdit: boolean, draftArr: OT.UltiBatterRecordType[], draftDesc: string, batterTable: OT.UltiBatterTableType) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
         if (!isEdit) {
           setDraftArr(batterTable.recordArr.map(record => ({...record})))
+          setDraftDesc(batterTable.desc || '')
           setIsEdit(true)
           return
         }
 
         const nextArr = draftArr.map(record => withFixedRates(record))
 
-        updateBatterTable(nextArr, batterTable.tableOId).then(res => {
+        updateBatterTable(nextArr, batterTable.tableOId, draftDesc).then(res => {
           if (res.isSuccess) {
             const {batterTableArr} = res
             setBatterTableArr(batterTableArr)
@@ -67,7 +79,12 @@ export const ModifyButton: FC<ModifyButtonProps> = ({batterTable, draftArr, isEd
   )
 
   return (
-    <button className={`ModifyButton ${isEdit ? '_editing' : ''}`} onClick={onClickButton(isEdit, draftArr, batterTable)} type="button" {...props}>
+    <button
+      className={`ModifyButton ${isEdit ? '_editing' : ''}`}
+      onClick={onClickButton(isEdit, draftArr, draftDesc, batterTable)}
+      type="button"
+      {...props}
+    >
       {isEdit ? '완료' : '수정'}
     </button>
   )

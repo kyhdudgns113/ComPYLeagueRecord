@@ -162,6 +162,7 @@ export class UltimateService {
       }
 
       const dto: DTO.DTO_UpdateUltiBatterTable = {
+        desc: data.desc,
         recordArr: data.recordArr,
         tableOId: data.tableOId,
       }
@@ -188,6 +189,7 @@ export class UltimateService {
       }
 
       const dto: DTO.DTO_UpdateUltiPitcherTable = {
+        desc: data.desc,
         recordArr: data.recordArr,
         tableOId: data.tableOId,
       }

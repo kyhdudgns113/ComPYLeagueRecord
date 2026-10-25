@@ -1,3 +1,5 @@
+@use '../../../base/styles/tables.scss' as t;
+
 .UltimateLeaguePage {
   .PitcherSubpage {
     align-items: center;
@@ -6,7 +8,11 @@
     gap: 24px;
     height: fit-content;
     min-height: 100%;
-    width: 100%;
+    
+    padding-right: 20px;
+    padding-bottom: 22px;
+
+    width: t.$ULTIMATE_SUBPAGE_WIDTH;
 
     .ButtonRow_SubPage {
       display: flex;
