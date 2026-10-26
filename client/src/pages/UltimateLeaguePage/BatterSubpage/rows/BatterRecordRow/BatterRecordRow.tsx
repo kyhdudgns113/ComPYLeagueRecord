@@ -138,7 +138,7 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
               value={record[cell.key]}
             />
           ) : (
-            U.formatCellValue(displayRecord[cell.key], cell.digits, !isEdit && !(cell.showZeroWhenPlayed && numericRecord.playNum !== 0))
+            U.formatCellValue(displayRecord[cell.key], cell.digits, !isEdit && !(cell.showZeroWhenPlayed && numericRecord.atBat !== 0))
           )}
         </td>
       ))}

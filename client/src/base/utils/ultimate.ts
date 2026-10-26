@@ -96,7 +96,7 @@ const toDraftValue = (value: number, hideZero: boolean) => {
 }
 
 export const toUltiBatterDraft = (record: OT.UltiBatterRecordType): LT.UltiBatterDraftType => {
-  const played = record.playNum !== 0
+  const played = record.atBat !== 0
   const draft = {...record} as unknown as LT.UltiBatterDraftType
 
   V.ULTI_BATTER_RECORD_CELLS.forEach(cell => {

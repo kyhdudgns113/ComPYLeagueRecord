@@ -20,7 +20,7 @@ export const UltimateLeaguePage: FC<UltimateLeaguePageProps> = ({...props}) => {
   const leagueNum = useUltimateLeagueNum()
 
   const [isHidden, setIsHidden] = useState<boolean>(true)
-  const [subPage, setSubPage] = useState<SubPageType>('pitcher')
+  const [subPage, setSubPage] = useState<SubPageType>('batter')
 
   const onClickTab = useCallback(
     (nextSubPage: SubPageType) => (e: React.MouseEvent<HTMLButtonElement>) => {
