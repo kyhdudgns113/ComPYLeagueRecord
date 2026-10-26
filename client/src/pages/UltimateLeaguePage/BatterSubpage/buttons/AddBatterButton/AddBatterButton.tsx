@@ -5,14 +5,15 @@ import {useModalActions} from '@redux'
 import type {FC} from 'react'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
+
 import './AddBatterButton.scss'
 
-type AddBatterButtonProps = ButtonCommonProps & {
-  tableOId: string
-}
+type AddBatterButtonProps = ButtonCommonProps
 
-export const AddBatterButton: FC<AddBatterButtonProps> = ({tableOId, ...props}) => {
+export const AddBatterButton: FC<AddBatterButtonProps> = ({...props}) => {
   const {openAddUltiBatterModal} = useModalActions()
+  const {batterTable} = C.useBatterTableContext()
 
   const onClickButton = useCallback(
     (tableOId: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,7 +24,7 @@ export const AddBatterButton: FC<AddBatterButtonProps> = ({tableOId, ...props}) 
   )
 
   return (
-    <button className={`AddBatterButton`} onClick={onClickButton(tableOId)} type="button" {...props}>
+    <button className={`AddBatterButton`} onClick={onClickButton(batterTable.tableOId)} type="button" {...props}>
       타자 추가
     </button>
   )

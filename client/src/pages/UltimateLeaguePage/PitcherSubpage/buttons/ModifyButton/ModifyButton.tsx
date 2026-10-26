@@ -4,36 +4,21 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiPitcherDraftType} from '@localType'
+import type {UltiPitcherDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 
 import './ModifyButton.scss'
 
-type ModifyButtonProps = ButtonCommonProps & {
-  draftArr: UltiPitcherDraftType[]
-  draftDesc: string
-  isEdit: boolean
-  pitcherTable: OT.UltiPitcherTableType
-  setDraftArr: Setter<UltiPitcherDraftType[]>
-  setDraftDesc: Setter<string>
-  setIsEdit: Setter<boolean>
-}
+type ModifyButtonProps = ButtonCommonProps
 
-export const ModifyButton: FC<ModifyButtonProps> = ({
-  draftArr,
-  draftDesc,
-  isEdit,
-  pitcherTable,
-  setDraftArr,
-  setDraftDesc,
-  setIsEdit,
-  ...props
-}) => {
+export const ModifyButton: FC<ModifyButtonProps> = ({...props}) => {
   const {setPitcherTableArr} = useUltimateActions()
   const {updatePitcherTable} = useUltimateCallbacksContext()
+  const {draftArr, draftDesc, isEdit, pitcherTable, setDraftArr, setDraftDesc, setIsEdit} = C.usePitcherTableContext()
 
   const onClickButton = useCallback(
     (isEdit: boolean, draftArr: UltiPitcherDraftType[], draftDesc: string, pitcherTable: OT.UltiPitcherTableType) =>

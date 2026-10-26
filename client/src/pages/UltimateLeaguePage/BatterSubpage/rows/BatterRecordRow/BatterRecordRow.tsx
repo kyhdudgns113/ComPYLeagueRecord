@@ -4,10 +4,10 @@ import {Icon} from '@component'
 import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiBatterDraftType} from '@localType'
 import type {TableRowCommonProps} from '@prop'
 
 import * as B from '../../buttons'
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 import * as V from '@value'
@@ -15,30 +15,18 @@ import * as V from '@value'
 // 스타일은 상위 컴포넌트인 BatterTable.scss 에 있다
 
 type BatterRecordRowProps = TableRowCommonProps & {
-  dragIdx: number | null
-  isEdit: boolean
-  record: OT.UltiBatterRecordType | UltiBatterDraftType
-  recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[]
   recordIdx: number
-  setDragIdx: Setter<number | null>
-  setDraftArr: Setter<UltiBatterDraftType[]>
-  tableOId: string
 }
 
-export const BatterRecordRow: FC<BatterRecordRowProps> = ({
-  dragIdx,
-  isEdit,
-  record,
-  recordArr,
-  recordIdx,
-  setDragIdx,
-  setDraftArr,
-  tableOId,
-  ...props
-}) => {
+export const BatterRecordRow: FC<BatterRecordRowProps> = ({recordIdx, ...props}) => {
   const {openEditUltiRecordDescModal} = useModalActions()
+  const {batterTable, dragIdx, isEdit, prevTable, recordArr, setDragIdx, setDraftArr, showCompare} = C.useBatterTableContext()
+
+  const record = recordArr[recordIdx]
+  const prevRecord = prevTable?.recordArr.find(item => item.name === record.name) || null
   const numericRecord = U.fromUltiBatterDraft(record)
-  const displayRecord = U.withUltiBatterCalcRates(numericRecord)
+  const displayRecord = showCompare ? U.diffUltiBatterRecord(numericRecord, prevRecord) : U.withUltiBatterCalcRates(numericRecord)
+  const tableOId = batterTable.tableOId
 
   const onChangeCell = useCallback(
     (recordIdx: number, key: keyof OT.UltiBatterRecordType, inputType: 'number' | 'text') => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -124,24 +112,30 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
       onDrop={isEdit ? onDropRow(dragIdx, recordIdx) : undefined}
       {...props}
     >
-      {V.ULTI_BATTER_RECORD_CELLS.map(cell => (
-        <td
-          className={`${cell.className} ${cell.isCalc ? '_calc' : ''}`}
-          key={cell.key}
-          onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
-        >
-          {isEdit && !cell.isCalc ? (
-            <input
-              className={`Input_Table`}
-              onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
-              type="text"
-              value={record[cell.key]}
-            />
-          ) : (
-            U.formatCellValue(displayRecord[cell.key], cell.digits, !isEdit && !(cell.showZeroWhenPlayed && numericRecord.atBat !== 0))
-          )}
-        </td>
-      ))}
+      {V.ULTI_BATTER_RECORD_CELLS.map(cell => {
+        const cellValue = displayRecord[cell.key]
+        const rateDiff = showCompare && cell.digits !== undefined && typeof cellValue === 'number' ? cellValue : 0
+        const hideZero = showCompare ? true : !isEdit && !(cell.showZeroWhenPlayed && numericRecord.atBat !== 0)
+
+        return (
+          <td
+            className={`${cell.className} ${cell.isCalc ? '_calc' : ''} ${rateDiff > 0 ? '_diffUp' : ''} ${rateDiff < 0 ? '_diffDown' : ''}`}
+            key={cell.key}
+            onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
+          >
+            {isEdit && !cell.isCalc ? (
+              <input
+                className={`Input_Table`}
+                onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
+                type="text"
+                value={record[cell.key]}
+              />
+            ) : (
+              U.formatCellValue(cellValue, cell.digits, hideZero)
+            )}
+          </td>
+        )
+      })}
       <td
         className={`td-drag`}
         draggable={isEdit}
@@ -151,13 +145,7 @@ export const BatterRecordRow: FC<BatterRecordRowProps> = ({
         {isEdit && <Icon className={`DragIcon_Table`} iconName="drag_indicator" />}
       </td>
       <td className={`td-delete`}>
-        <B.DeleteBatterButton
-          name={record.name}
-          recordArr={recordArr}
-          recordIdx={recordIdx}
-          setDraftArr={setDraftArr}
-          tableOId={tableOId}
-        />
+        <B.DeleteBatterButton recordIdx={recordIdx} />
       </td>
     </tr>
   )

@@ -1,10 +1,10 @@
-import {useCallback, useState} from 'react'
+import {useCallback} from 'react'
 
 import type {FC} from 'react'
-import type {UltiBatterDraftType} from '@localType'
 import type {DivCommonProps} from '@prop'
 
 import * as B from '../../buttons'
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as R from '../../rows'
 
@@ -12,16 +12,19 @@ import './BatterTable.scss'
 
 type BatterTableProps = DivCommonProps & {
   batterTable: OT.UltiBatterTableType
+  prevTable: OT.UltiBatterTableType | null
 }
 
-export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
-  const [isEdit, setIsEdit] = useState<boolean>(false)
-  const [draftArr, setDraftArr] = useState<UltiBatterDraftType[]>([])
-  const [draftDesc, setDraftDesc] = useState<string>(batterTable.desc || '')
-  const [dragIdx, setDragIdx] = useState<number | null>(null)
+export const BatterTable: FC<BatterTableProps> = ({batterTable, prevTable, ...props}) => {
+  return (
+    <C.BatterTableProvider batterTable={batterTable} prevTable={prevTable}>
+      <BatterTableView {...props} />
+    </C.BatterTableProvider>
+  )
+}
 
-  const recordArr = isEdit ? draftArr : batterTable.recordArr
-  const desc = isEdit ? draftDesc : batterTable.desc || ''
+const BatterTableView: FC<DivCommonProps> = ({...props}) => {
+  const {batterTable, desc, draftDesc, isEdit, prevTable, recordArr, setDraftDesc} = C.useBatterTableContext()
 
   const onChangeDesc = useCallback((e: React.ChangeEvent<HTMLTextAreaElement>) => {
     e.stopPropagation()
@@ -73,18 +76,8 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
           </tr>
         </thead>
         <tbody>
-          {recordArr.map((record, recordIdx) => (
-            <R.BatterRecordRow
-              dragIdx={dragIdx}
-              isEdit={isEdit}
-              key={recordIdx}
-              record={record}
-              recordArr={recordArr}
-              recordIdx={recordIdx}
-              setDragIdx={setDragIdx}
-              setDraftArr={setDraftArr}
-              tableOId={batterTable.tableOId}
-            />
+          {recordArr.map((_, recordIdx) => (
+            <R.BatterRecordRow key={recordIdx} recordIdx={recordIdx} />
           ))}
         </tbody>
       </table>
@@ -99,18 +92,11 @@ export const BatterTable: FC<BatterTableProps> = ({batterTable, ...props}) => {
 
       {/* 3. 버튼 행 */}
       <div className={`ButtonRow_Table`}>
-        <B.AddBatterButton tableOId={batterTable.tableOId} />
-        <B.ModifyButton
-          batterTable={batterTable}
-          draftArr={draftArr}
-          draftDesc={draftDesc}
-          isEdit={isEdit}
-          setDraftArr={setDraftArr}
-          setDraftDesc={setDraftDesc}
-          setIsEdit={setIsEdit}
-        />
-        {isEdit && <B.CancelButton setIsEdit={setIsEdit} />}
-        <B.DeleteTableButton batterTable={batterTable} />
+        <B.AddBatterButton />
+        <B.ModifyButton />
+        {isEdit && <B.CancelButton />}
+        {prevTable && <B.CompareButton />}
+        <B.DeleteTableButton />
       </div>
     </div>
   )

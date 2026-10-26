@@ -5,14 +5,15 @@ import {useModalActions} from '@redux'
 import type {FC} from 'react'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
+
 import './AddPitcherButton.scss'
 
-type AddPitcherButtonProps = ButtonCommonProps & {
-  tableOId: string
-}
+type AddPitcherButtonProps = ButtonCommonProps
 
-export const AddPitcherButton: FC<AddPitcherButtonProps> = ({tableOId, ...props}) => {
+export const AddPitcherButton: FC<AddPitcherButtonProps> = ({...props}) => {
   const {openAddUltiPitcherModal} = useModalActions()
+  const {pitcherTable} = C.usePitcherTableContext()
 
   const onClickButton = useCallback(
     (tableOId: string) => (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -23,7 +24,7 @@ export const AddPitcherButton: FC<AddPitcherButtonProps> = ({tableOId, ...props}
   )
 
   return (
-    <button className={`AddPitcherButton`} onClick={onClickButton(tableOId)} type="button" {...props}>
+    <button className={`AddPitcherButton`} onClick={onClickButton(pitcherTable.tableOId)} type="button" {...props}>
       투수 추가
     </button>
   )

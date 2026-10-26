@@ -22,8 +22,12 @@ export const PitcherSubpage: FC<PitcherSubpageProps> = ({...props}) => {
 
       {/* 2. 테이블 목록 */}
       <div className={`TableArr_SubPage`}>
-        {pitcherTableArr.map(pitcherTable => (
-          <T.PitcherTable key={pitcherTable.tableOId} pitcherTable={pitcherTable} />
+        {pitcherTableArr.map((pitcherTable, tableIdx) => (
+          <T.PitcherTable
+            key={pitcherTable.tableOId}
+            pitcherTable={pitcherTable}
+            prevTable={pitcherTableArr[tableIdx + 1] || null}
+          />
         ))}
       </div>
     </div>

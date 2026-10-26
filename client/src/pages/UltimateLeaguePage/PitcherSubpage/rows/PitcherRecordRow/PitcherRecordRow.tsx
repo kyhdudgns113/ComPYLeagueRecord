@@ -4,10 +4,10 @@ import {Icon} from '@component'
 import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiPitcherDraftType} from '@localType'
 import type {TableRowCommonProps} from '@prop'
 
 import * as B from '../../buttons'
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 import * as V from '@value'
@@ -15,30 +15,18 @@ import * as V from '@value'
 // 스타일은 상위 컴포넌트인 PitcherTable.scss 에 있다
 
 type PitcherRecordRowProps = TableRowCommonProps & {
-  dragIdx: number | null
-  isEdit: boolean
-  record: OT.UltiPitcherRecordType | UltiPitcherDraftType
-  recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[]
   recordIdx: number
-  setDragIdx: Setter<number | null>
-  setDraftArr: Setter<UltiPitcherDraftType[]>
-  tableOId: string
 }
 
-export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
-  dragIdx,
-  isEdit,
-  record,
-  recordArr,
-  recordIdx,
-  setDragIdx,
-  setDraftArr,
-  tableOId,
-  ...props
-}) => {
+export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({recordIdx, ...props}) => {
   const {openEditUltiRecordDescModal} = useModalActions()
+  const {dragIdx, isEdit, pitcherTable, prevTable, recordArr, setDragIdx, setDraftArr, showCompare} = C.usePitcherTableContext()
+
+  const record = recordArr[recordIdx]
+  const prevRecord = prevTable?.recordArr.find(item => item.name === record.name) || null
   const numericRecord = U.fromUltiPitcherDraft(record)
-  const displayRecord = U.withUltiPitcherCalcRates(numericRecord)
+  const displayRecord = showCompare ? U.diffUltiPitcherRecord(numericRecord, prevRecord) : U.withUltiPitcherCalcRates(numericRecord)
+  const tableOId = pitcherTable.tableOId
 
   const onChangeCell = useCallback(
     (recordIdx: number, key: keyof OT.UltiPitcherRecordType, inputType: 'number' | 'text') => (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -125,24 +113,30 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
       onDrop={isEdit ? onDropRow(dragIdx, recordIdx) : undefined}
       {...props}
     >
-      {V.ULTI_PITCHER_RECORD_CELLS.map(cell => (
-        <td
-          className={`${cell.className} ${cell.isCalc ? '_calc' : ''}`}
-          key={cell.key}
-          onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
-        >
-          {isEdit && !cell.isCalc ? (
-            <input
-              className={`Input_Table`}
-              onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
-              type="text"
-              value={record[cell.key]}
-            />
-          ) : (
-            U.formatCellValue(displayRecord[cell.key], cell.digits, !isEdit && !(cell.showZeroWhenPlayed && record.playNum !== 0))
-          )}
-        </td>
-      ))}
+      {V.ULTI_PITCHER_RECORD_CELLS.map(cell => {
+        const cellValue = displayRecord[cell.key]
+        const rateDiff = showCompare && cell.digits !== undefined && typeof cellValue === 'number' ? cellValue : 0
+        const hideZero = showCompare ? true : !isEdit && !(cell.showZeroWhenPlayed && numericRecord.playNum !== 0)
+
+        return (
+          <td
+            className={`${cell.className} ${cell.isCalc ? '_calc' : ''} ${rateDiff > 0 ? '_diffUp' : ''} ${rateDiff < 0 ? '_diffDown' : ''}`}
+            key={cell.key}
+            onDoubleClick={!isEdit && cell.key === 'name' ? onDoubleClickName(recordIdx, tableOId) : undefined}
+          >
+            {isEdit && !cell.isCalc ? (
+              <input
+                className={`Input_Table`}
+                onChange={onChangeCell(recordIdx, cell.key, cell.inputType)}
+                type="text"
+                value={record[cell.key]}
+              />
+            ) : (
+              U.formatCellValue(cellValue, cell.digits, hideZero)
+            )}
+          </td>
+        )
+      })}
       <td
         className={`td-drag`}
         draggable={isEdit}
@@ -152,13 +146,7 @@ export const PitcherRecordRow: FC<PitcherRecordRowProps> = ({
         {isEdit && <Icon className={`DragIcon_Table`} iconName="drag_indicator" />}
       </td>
       <td className={`td-delete`}>
-        <B.DeletePitcherButton
-          name={record.name}
-          recordArr={recordArr}
-          recordIdx={recordIdx}
-          setDraftArr={setDraftArr}
-          tableOId={tableOId}
-        />
+        <B.DeletePitcherButton recordIdx={recordIdx} />
       </td>
     </tr>
   )

@@ -4,36 +4,21 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiBatterDraftType} from '@localType'
+import type {UltiBatterDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 
 import './ModifyButton.scss'
 
-type ModifyButtonProps = ButtonCommonProps & {
-  batterTable: OT.UltiBatterTableType
-  draftArr: UltiBatterDraftType[]
-  draftDesc: string
-  isEdit: boolean
-  setDraftArr: Setter<UltiBatterDraftType[]>
-  setDraftDesc: Setter<string>
-  setIsEdit: Setter<boolean>
-}
+type ModifyButtonProps = ButtonCommonProps
 
-export const ModifyButton: FC<ModifyButtonProps> = ({
-  batterTable,
-  draftArr,
-  draftDesc,
-  isEdit,
-  setDraftArr,
-  setDraftDesc,
-  setIsEdit,
-  ...props
-}) => {
+export const ModifyButton: FC<ModifyButtonProps> = ({...props}) => {
   const {setBatterTableArr} = useUltimateActions()
   const {updateBatterTable} = useUltimateCallbacksContext()
+  const {batterTable, draftArr, draftDesc, isEdit, setDraftArr, setDraftDesc, setIsEdit} = C.useBatterTableContext()
 
   const onClickButton = useCallback(
     (isEdit: boolean, draftArr: UltiBatterDraftType[], draftDesc: string, batterTable: OT.UltiBatterTableType) =>

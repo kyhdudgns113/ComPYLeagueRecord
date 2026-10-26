@@ -4,25 +4,23 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiPitcherDraftType} from '@localType'
+import type {UltiPitcherDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 
 import './DeletePitcherButton.scss'
 
 type DeletePitcherButtonProps = ButtonCommonProps & {
-  name: string
-  recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[]
   recordIdx: number
-  setDraftArr: Setter<UltiPitcherDraftType[]>
-  tableOId: string
 }
 
-export const DeletePitcherButton: FC<DeletePitcherButtonProps> = ({name, recordArr, recordIdx, setDraftArr, tableOId, ...props}) => {
+export const DeletePitcherButton: FC<DeletePitcherButtonProps> = ({recordIdx, ...props}) => {
   const {setPitcherTableArr} = useUltimateActions()
   const {updatePitcherTable} = useUltimateCallbacksContext()
+  const {pitcherTable, recordArr, setDraftArr} = C.usePitcherTableContext()
 
   const onClickButton = useCallback(
     (name: string, recordArr: (OT.UltiPitcherRecordType | UltiPitcherDraftType)[], recordIdx: number, tableOId: string) =>
@@ -53,7 +51,12 @@ export const DeletePitcherButton: FC<DeletePitcherButtonProps> = ({name, recordA
   )
 
   return (
-    <button className={`DeletePitcherButton`} onClick={onClickButton(name, recordArr, recordIdx, tableOId)} type="button" {...props}>
+    <button
+      className={`DeletePitcherButton`}
+      onClick={onClickButton(recordArr[recordIdx].name, recordArr, recordIdx, pitcherTable.tableOId)}
+      type="button"
+      {...props}
+    >
       삭제
     </button>
   )

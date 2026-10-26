@@ -1,6 +1,7 @@
 export * from './AddPitcherButton'
 export * from './AddPitcherTableButton'
 export * from './CancelButton'
+export * from './CompareButton'
 export * from './DeleteLeagueButton'
 export * from './DeletePitcherButton'
 export * from './DeleteTableButton'

@@ -6,17 +6,17 @@ import {useUltimateActions} from '@redux'
 import type {FC} from 'react'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
 import * as OT from '@objectType'
 
 import './DeleteTableButton.scss'
 
-type DeleteTableButtonProps = ButtonCommonProps & {
-  batterTable: OT.UltiBatterTableType
-}
+type DeleteTableButtonProps = ButtonCommonProps
 
-export const DeleteTableButton: FC<DeleteTableButtonProps> = ({batterTable, ...props}) => {
+export const DeleteTableButton: FC<DeleteTableButtonProps> = ({...props}) => {
   const {setBatterTableArr} = useUltimateActions()
   const {deleteBatterTable} = useUltimateCallbacksContext()
+  const {batterTable} = C.useBatterTableContext()
 
   const onClickButton = useCallback(
     (batterTable: OT.UltiBatterTableType) => (e: React.MouseEvent<HTMLButtonElement>) => {

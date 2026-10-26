@@ -4,25 +4,23 @@ import {useUltimateCallbacksContext} from '@context'
 import {useUltimateActions} from '@redux'
 
 import type {FC} from 'react'
-import type {Setter, UltiBatterDraftType} from '@localType'
+import type {UltiBatterDraftType} from '@localType'
 import type {ButtonCommonProps} from '@prop'
 
+import * as C from '../../bases'
 import * as OT from '@objectType'
 import * as U from '@util'
 
 import './DeleteBatterButton.scss'
 
 type DeleteBatterButtonProps = ButtonCommonProps & {
-  name: string
-  recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[]
   recordIdx: number
-  setDraftArr: Setter<UltiBatterDraftType[]>
-  tableOId: string
 }
 
-export const DeleteBatterButton: FC<DeleteBatterButtonProps> = ({name, recordArr, recordIdx, setDraftArr, tableOId, ...props}) => {
+export const DeleteBatterButton: FC<DeleteBatterButtonProps> = ({recordIdx, ...props}) => {
   const {setBatterTableArr} = useUltimateActions()
   const {updateBatterTable} = useUltimateCallbacksContext()
+  const {batterTable, recordArr, setDraftArr} = C.useBatterTableContext()
 
   const onClickButton = useCallback(
     (name: string, recordArr: (OT.UltiBatterRecordType | UltiBatterDraftType)[], recordIdx: number, tableOId: string) =>
@@ -53,7 +51,12 @@ export const DeleteBatterButton: FC<DeleteBatterButtonProps> = ({name, recordArr
   )
 
   return (
-    <button className={`DeleteBatterButton`} onClick={onClickButton(name, recordArr, recordIdx, tableOId)} type="button" {...props}>
+    <button
+      className={`DeleteBatterButton`}
+      onClick={onClickButton(recordArr[recordIdx].name, recordArr, recordIdx, batterTable.tableOId)}
+      type="button"
+      {...props}
+    >
       삭제
     </button>
   )

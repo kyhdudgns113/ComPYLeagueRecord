@@ -140,6 +140,14 @@
               font-style: italic;
             }
 
+            &._diffUp {
+              color: #cc0000;
+            }
+
+            &._diffDown {
+              color: #0055cc;
+            }
+
             &.td-gameNum {
               border-right-width: 2px;
               // cursor: pointer;
