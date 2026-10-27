@@ -1,18 +1,20 @@
 .Template {
   .MODAL_Contents.EditRecordModal {
     .InfoTab_Modal {
+      align-items: center;
       display: flex;
       flex-direction: column;
       flex-shrink: 0;
       gap: 12px;
       min-height: 0;
-      width: 400px;
+      width: 100%;
 
       .Input_Row_Modal {
         display: flex;
         flex-direction: row;
-        gap: 40px;
-        width: 100%;
+        gap: 60px;
+
+        width: 90%;
 
         .Input_Field_Modal {
           display: flex;

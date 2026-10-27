@@ -6,7 +6,7 @@
       flex-direction: column;
       gap: 8px;
       min-height: 0;
-      width: 400px;
+      width: 100%;
 
       .PrevTitle_Modal {
         flex-shrink: 0;
@@ -43,7 +43,7 @@
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            width: 96px;
+            width: 84px;
           }
 
           .PitchLog_Modal {

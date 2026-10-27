@@ -24,6 +24,10 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
     subBatterArr,
   } = C.useEditRecordModalContext()
 
+  const SPArr = pitcherArr.filter(pitcher => pitcher.pitcherType === '선발')
+  const RPArr = pitcherArr.filter(pitcher => pitcher.pitcherType === '중계')
+  const CPArr = pitcherArr.filter(pitcher => pitcher.pitcherType === '마무리')
+
   return (
     <div className={`InfoTab_Modal`} {...props}>
       {/* 1. 입력행: 투수 / 타자 */}
@@ -31,11 +35,27 @@ export const InfoTabPart: FC<InfoTabPartProps> = ({...props}) => {
         <div className={`Input_Field_Modal`}>
           <p className={`Input_Label_Modal`}>투수</p>
           <select className={`Select_Modal`} onChange={onChangePitcher} value={pitcherName}>
-            {pitcherArr.map(pitcher => (
-              <option key={pitcher.pitcherOId} value={pitcher.name}>
-                {pitcher.name}
-              </option>
-            ))}
+            <optgroup label="선발">
+              {SPArr.map(pitcher => (
+                <option key={pitcher.pitcherOId} value={pitcher.name}>
+                  {pitcher.name}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="중계">
+              {RPArr.map(pitcher => (
+                <option key={pitcher.pitcherOId} value={pitcher.name}>
+                  {pitcher.name}
+                </option>
+              ))}
+            </optgroup>
+            <optgroup label="마무리">
+              {CPArr.map(pitcher => (
+                <option key={pitcher.pitcherOId} value={pitcher.name}>
+                  {pitcher.name}
+                </option>
+              ))}
+            </optgroup>
           </select>
         </div>
         <div className={`Input_Field_Modal`}>
