@@ -1,12 +1,12 @@
-import {useCallback, useEffect, useState} from 'react'
+import {useCallback} from 'react'
 
 import {Modal} from '@component'
-import {useModalActions, useModalStates} from '@redux'
+import {useModalActions} from '@redux'
 
 import type {FC} from 'react'
 import type {ModalCommonProps} from '@prop'
-import type {TabType} from './parts'
 
+import * as C from './bases'
 import * as P from './parts'
 
 import './EditRecordModal.scss'
@@ -14,32 +14,88 @@ import './EditRecordModal.scss'
 type EditRecordModalProps = ModalCommonProps
 
 export const EditRecordModal: FC<EditRecordModalProps> = ({...props}) => {
-  const {editRecord} = useModalStates()
   const {closeModal} = useModalActions()
 
-  const [tab, setTab] = useState<TabType>('기록')
-
-  const onKeyDownModal = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Escape') {
-        closeModal()
-      }
-    },
-    []
-  )
-
-  // 열린 타석이 바뀌면 기록 탭부터 다시 연다
-  useEffect(() => {
-    setTab('기록')
-  }, [editRecord])
+  const onKeyDownModal = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === 'Escape') {
+      closeModal()
+    }
+  }, [])
 
   return (
     <Modal className={`EditRecordModal`} onClose={closeModal} onKeyDown={onKeyDownModal} {...props}>
-      {/* 1. 탭 행 */}
-      <P.TabRowPart setTab={setTab} tab={tab} />
+      <C.EditRecordModalProvider>
+        {/* 1. 타이틀 */}
+        <Title />
 
-      {tab === '기록' && <P.RecordTabPart />}
-      {tab === '정보' && <P.InfoTabPart />}
+        {/* 2. 본문 */}
+        <div className={`Body_Row_Modal`}>
+          <div className={`Body_Left_Modal`}>
+            <P.PrevPitchResultPart />
+            <P.InfoTabPart />
+          </div>
+          <P.RecordTabPart />
+        </div>
+
+        {/* 3. 버튼 행 */}
+        <ButtonRow />
+      </C.EditRecordModalProvider>
     </Modal>
+  )
+}
+
+const Title: FC = () => {
+  const {editRecord, selectedBatter} = C.useEditRecordModalContext()
+
+  const name = selectedBatter?.name || editRecord?.batter.name || ''
+  const rotation = editRecord?.rotation || 0
+  const hasPressure = selectedBatter?.hasPressureSkill ?? !!editRecord?.batter.hasPressureSkill
+  const title = `${name}_${rotation}${hasPressure ? '(위)' : ''}`
+
+  return <p className={`Title_Modal`}>{title}</p>
+}
+
+const ButtonRow: FC = () => {
+  const {
+    editRecord,
+    gameNum,
+    isStealFail,
+    leagueNum,
+    onClickAdd,
+    onClickClose,
+    pitchArr,
+    pitcherName,
+    record,
+    result,
+    selectedBall,
+    selectedBatter,
+    selectedLocation,
+  } = C.useEditRecordModalContext()
+
+  return (
+    <div className={`Button_Row_Modal`}>
+      <button
+        className={`Button_Modal`}
+        onClick={onClickAdd(
+          pitchArr,
+          selectedBall,
+          selectedLocation,
+          editRecord,
+          gameNum,
+          isStealFail,
+          leagueNum,
+          pitcherName,
+          record,
+          result,
+          selectedBatter
+        )}
+        type="button"
+      >
+        추가
+      </button>
+      <button className={`Button_Modal`} onClick={onClickClose} type="button">
+        닫기
+      </button>
+    </div>
   )
 }

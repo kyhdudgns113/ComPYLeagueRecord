@@ -223,7 +223,7 @@ export const Foo: FC<FooProps> = ({...props}) => {
 - `props` 를 루트에 스프레드해서 className/onClick 확장을 연다.
 - 이벤트는 `useCallback`, 안에서 `e.stopPropagation()`
 - JSX 주석으로 구역을 나눈다 (`{/* 1. 타이틀 */}`)
-- 상위 스타일로  sufficed 하면 하위 scss import 를 생략하고 주석으로 이유를 남긴다.
+- 스타일은 가급적 그 컴포넌트 폴더의 scss 에 둔다. **테이블만** 상위 테이블 scss 에서 한 번에 관리하고, 행·칸 컴포넌트는 scss 를 두지 않은 채 주석으로 이유를 남긴다 (`// 스타일은 상위 컴포넌트인 RecordUnit.scss 에 있다`)
 
 컴포넌트 함수 본문 순서. 없는 항목은 생략한다. return(JSX) 은 가급적 맨 마지막.
 
@@ -431,6 +431,9 @@ return F.get(url, null)
 
 ## 12. 스타일
 
+- 가급적 해당 컴포넌트의 스타일은 그 폴더의 `Foo.scss` 에 둔다. 부모가 parts/objects 스타일까지 몰아 쓰지 않는다
+- 부모 scss 는 부모 자신의 레이아웃만 (모달 껍데기, 유닛 배치)
+- **예외: `table`.** `table` / `th` / `td` / 행·칸 클래스는 테이블을 그리는 파일에서 한 번에 관리한다. 예: `RecordUnit.scss`, `BatterTable.scss`, `PitcherTable.scss`. `RecordRow` 같은 행에는 별도 scss 를 만들지 않는다
 - 컴포넌트 scss 는 부모 선택자로 감싼다. 페이지는 `.Template { .SettingPage { ... } }`, 유닛은 `.SettingPage { .LeagueUnit { ... } }`
 - 색/간격 토큰은 `base/styles/values.scss` (`@use '.../values.scss' as v`)
 - 속성 알파벳 순에 가깝게, 빈 줄로 그룹을 나눈다

@@ -1,0 +1,66 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .Zone_Grid_Modal {
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      margin-left: auto;
+      margin-right: auto;
+
+      .Zone_Row_Modal {
+        display: flex;
+        flex-direction: row;
+
+        .Zone_Cell_Modal {
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+          cursor: pointer;
+          font-size: 13px;
+          height: 40px;
+          width: 48px;
+
+          &.ball {
+            background-color: #ececec;
+          }
+
+          &.strike {
+            background-color: #ffffff;
+          }
+
+          &.selected {
+            background-color: #9ec5e8;
+            font-weight: 700;
+          }
+
+          &:hover {
+            filter: brightness(0.97);
+          }
+        }
+      }
+    }
+  }
+}
+
+html._theme-dark {
+  .Template {
+    .MODAL_Contents.EditRecordModal {
+      .Zone_Grid_Modal {
+        .Zone_Row_Modal {
+          .Zone_Cell_Modal {
+            &.ball {
+              background-color: #5c5c5c;
+            }
+
+            &.strike {
+              background-color: #2c2c2c;
+            }
+
+            &.selected {
+              background-color: #9ec5e8;
+            }
+          }
+        }
+      }
+    }
+  }
+}

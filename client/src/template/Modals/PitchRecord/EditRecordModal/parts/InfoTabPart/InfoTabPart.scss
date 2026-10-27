@@ -1,0 +1,102 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .InfoTab_Modal {
+      display: flex;
+      flex-direction: column;
+      flex-shrink: 0;
+      gap: 12px;
+      min-height: 0;
+      width: 400px;
+
+      .Input_Row_Modal {
+        display: flex;
+        flex-direction: row;
+        gap: 40px;
+        width: 100%;
+
+        .Input_Field_Modal {
+          display: flex;
+          flex: 1;
+          flex-direction: column;
+          gap: 8px;
+          min-width: 0;
+        }
+
+        .Input_Label_Modal {
+          font-size: 16px;
+          font-weight: bold;
+        }
+
+        .Select_Modal {
+          background-color: #9c9c9c;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+          color: #000000;
+          height: 40px;
+          padding-left: 8px;
+          padding-right: 8px;
+          width: 100%;
+
+          option,
+          optgroup {
+            background-color: #9c9c9c;
+            color: #000000;
+          }
+        }
+
+        .StealFailToggle_Modal {
+          align-items: center;
+          border: 1px solid #ccc;
+          box-sizing: border-box;
+          cursor: pointer;
+          display: flex;
+          height: 40px;
+          justify-content: center;
+          user-select: none;
+          width: 100%;
+
+          &:disabled {
+            cursor: default;
+            opacity: 0.4;
+          }
+
+          &:hover:not(:disabled) {
+            background-color: #f0f0f0;
+          }
+
+          &._on {
+            background-color: #c8e0ff;
+            font-weight: 700;
+          }
+        }
+      }
+    }
+  }
+}
+
+html._theme-dark {
+  .Template {
+    .MODAL_Contents.EditRecordModal {
+      .InfoTab_Modal {
+        .Input_Row_Modal {
+          .Select_Modal {
+            background-color: #9c9c9c;
+            color: #000000;
+
+            option,
+            optgroup {
+              background-color: #9c9c9c;
+              color: #000000;
+            }
+          }
+
+          .StealFailToggle_Modal {
+            &:hover:not(:disabled) {
+              background-color: #333333;
+            }
+          }
+        }
+      }
+    }
+  }
+}

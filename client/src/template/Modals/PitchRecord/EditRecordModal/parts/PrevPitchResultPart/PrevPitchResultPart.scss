@@ -1,0 +1,69 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .PrevPitchResult_Modal {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      gap: 8px;
+      min-height: 0;
+      width: 400px;
+
+      .PrevTitle_Modal {
+        flex-shrink: 0;
+        font-size: 16px;
+        font-weight: bold;
+        margin: 0;
+      }
+
+      .PrevList_Modal {
+        display: flex;
+        flex: 1;
+        flex-direction: column;
+        gap: 6px;
+        min-height: 0;
+        overflow: auto;
+
+        .Empty_Modal {
+          color: #888888;
+          font-size: 13px;
+          margin: 0;
+        }
+
+        .PrevPitchResult_Row_Modal {
+          align-items: center;
+          display: flex;
+          flex-direction: row;
+          gap: 8px;
+          width: 100%;
+
+          .Name_Modal {
+            flex-shrink: 0;
+            font-size: 13px;
+            font-weight: 700;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            width: 96px;
+          }
+
+          .PitchLog_Modal {
+            flex: 1;
+            font-size: 13px;
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+          }
+
+          .Result_Modal {
+            flex-shrink: 0;
+            font-size: 13px;
+            text-align: right;
+            white-space: nowrap;
+            width: 64px;
+          }
+        }
+      }
+    }
+  }
+}

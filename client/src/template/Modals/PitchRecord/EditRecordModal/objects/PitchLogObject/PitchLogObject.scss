@@ -1,0 +1,62 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .PitchLog_Row_Modal {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      gap: 8px;
+      margin-bottom: 12px;
+      width: 100%;
+
+      .PitchLog_Modal {
+        background-color: #f2f2f2;
+        border: 1px solid #ddd;
+        box-sizing: border-box;
+        flex: 1;
+        font-size: 14px;
+        height: 32px;
+        line-height: 32px;
+        overflow: hidden;
+        padding-left: 8px;
+        padding-right: 8px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .RemoveLast_Modal {
+        border: 1px solid #ccc;
+        cursor: pointer;
+        height: 32px;
+        width: 48px;
+
+        &:disabled {
+          cursor: default;
+          opacity: 0.4;
+        }
+
+        &:hover:not(:disabled) {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+}
+
+html._theme-dark {
+  .Template {
+    .MODAL_Contents.EditRecordModal {
+      .PitchLog_Row_Modal {
+        .PitchLog_Modal {
+          background-color: #1f1f1f;
+          border-color: #555555;
+        }
+
+        .RemoveLast_Modal {
+          &:hover:not(:disabled) {
+            background-color: #333333;
+          }
+        }
+      }
+    }
+  }
+}

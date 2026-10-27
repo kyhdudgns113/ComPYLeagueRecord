@@ -1,0 +1,10 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .RecordTab_Modal {
+      display: flex;
+      flex-direction: column;
+      min-height: 0;
+      width: 280px;
+    }
+  }
+}

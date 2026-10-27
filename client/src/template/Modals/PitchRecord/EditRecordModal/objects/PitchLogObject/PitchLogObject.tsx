@@ -4,7 +4,7 @@ import type {DivCommonProps} from '@prop'
 import * as OT from '@objectType'
 import * as U from '@util'
 
-// 스타일은 상위 컴포넌트인 EditRecordModal.scss 에 있다
+import './PitchLogObject.scss'
 
 type PitchLogObjectProps = DivCommonProps & {
   onClickRemoveLastPitch: (e: React.MouseEvent<HTMLButtonElement>) => void

@@ -43,6 +43,33 @@ export const isRecordedAtBat = (record: OT.RecordElementType | null) => {
   return record.pitchArr.length > 0 || record.result !== null || record.isStealFail
 }
 
+/** 현재 타석보다 앞선, 해당 경기·해당 타자의 기록만 */
+export const getPrevGameRecordArr = (
+  recordArr: OT.RecordElementType[],
+  current: {order: number; rotation: number} | null,
+  gameNum: number | null,
+  batterOId: string
+) => {
+  if (gameNum === null || !batterOId) {
+    return []
+  }
+
+  return recordArr
+    .filter(item => item.gameNum === gameNum && item.batterOId === batterOId && isRecordedAtBat(item))
+    .filter(item => {
+      if (!current) {
+        return true
+      }
+
+      if (item.rotation < current.rotation) {
+        return true
+      }
+
+      return item.rotation === current.rotation && item.order < current.order
+    })
+    .sort((a, b) => a.rotation - b.rotation || a.order - b.order)
+}
+
 export const getRecentPitcherName = (
   recordArr: OT.RecordElementType[],
   current: {order: number; rotation: number} | null,

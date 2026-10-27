@@ -1,0 +1,44 @@
+.Template {
+  .MODAL_Contents.EditRecordModal {
+    .PitchType_Grid_Modal {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      margin-top: 16px;
+      width: 100%;
+
+      .PitchType_Modal {
+        border: 1px solid #ccc;
+        box-sizing: border-box;
+        cursor: pointer;
+        height: 40px;
+        width: calc((100% - 32px) / 5);
+
+        &.selected {
+          background-color: #9ec5e8;
+          font-weight: 700;
+        }
+
+        &:hover:not(.selected) {
+          background-color: #f0f0f0;
+        }
+      }
+    }
+  }
+}
+
+html._theme-dark {
+  .Template {
+    .MODAL_Contents.EditRecordModal {
+      .PitchType_Grid_Modal {
+        .PitchType_Modal {
+          &:hover:not(.selected) {
+            background-color: #333333;
+          }
+        }
+      }
+    }
+  }
+}
