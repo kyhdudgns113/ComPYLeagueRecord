@@ -120,6 +120,7 @@ export class SettingService {
         name: data.name,
         pitcherHand: data.pitcherHand,
         pitcherType: data.pitcherType,
+        pitchTypeArr: data.pitchTypeArr,
         teamName: data.teamName,
       }
 
@@ -187,6 +188,7 @@ export class SettingService {
         name: data.name,
         pitcherHand: data.pitcherHand,
         pitcherOId: data.pitcherOId,
+        pitchTypeArr: data.pitchTypeArr,
       }
 
       const {pitcher} = await this.pitcherDBService.updatePitcher(where, dto)

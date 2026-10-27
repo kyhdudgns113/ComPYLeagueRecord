@@ -37,6 +37,7 @@ export type PitcherType = {
   pitcherHand: CT.Type_PitcherHand
   pitcherOId: string // uniqueId, ObjectId
   pitcherType: CT.Type_Pitcher
+  pitchTypeArr: CT.Type_Pitch[]
   teamName: CT.Type_Team
 }
 

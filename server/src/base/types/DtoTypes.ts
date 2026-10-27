@@ -33,6 +33,7 @@ export type DTO_CreatePitcher = {
   name: string
   pitcherHand: CT.Type_PitcherHand
   pitcherType: CT.Type_Pitcher
+  pitchTypeArr: CT.Type_Pitch[]
   teamName: CT.Type_Team
 }
 
@@ -161,6 +162,7 @@ export type DTO_UpdatePitcher = {
   name: string
   pitcherHand: CT.Type_PitcherHand
   pitcherOId: string
+  pitchTypeArr: CT.Type_Pitch[]
 }
 
 export type DTO_UpdatePitcherArr = {

@@ -27,11 +27,19 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
 
   const [name, setName] = useState<string>('')
   const [pitcherHand, setPitcherHand] = useState<CT.Type_PitcherHand>('우완')
+  const [pitchTypeArr, setPitchTypeArr] = useState<CT.Type_Pitch[]>([])
 
   const teamName = teamIdx === null ? '' : V.TEAM_NAME[teamIdx]
 
   const _submit = useCallback(
-    (leagueNum: LT.LeagueNumType, teamIdx: number | null, name: string, pitcherHand: CT.Type_PitcherHand, pitcherType: CT.Type_Pitcher | null) => {
+    (
+      leagueNum: LT.LeagueNumType,
+      teamIdx: number | null,
+      name: string,
+      pitcherHand: CT.Type_PitcherHand,
+      pitcherType: CT.Type_Pitcher | null,
+      pitchTypeArr: CT.Type_Pitch[]
+    ) => {
       if (pitcherType === null) {
         alert(`[AddPitcherModal] pitcherType is null`)
         return
@@ -54,6 +62,7 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
         name,
         pitcherHand,
         pitcherType,
+        pitchTypeArr,
         teamName,
       }).then(res => {
         if (res.isSuccess) {
@@ -83,21 +92,43 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
     []
   )
 
+  const onClickPitchType = useCallback((ball: CT.Type_Pitch) => (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation()
+    setPitchTypeArr(prev => (prev.includes(ball) ? prev.filter(item => item !== ball) : [...prev, ball]))
+  }, [])
+
   const onClickSubmit = useCallback(
-    (leagueNum: LT.LeagueNumType, teamIdx: number | null, name: string, pitcherHand: CT.Type_PitcherHand, pitcherType: CT.Type_Pitcher | null) =>
+    (
+      leagueNum: LT.LeagueNumType,
+      teamIdx: number | null,
+      name: string,
+      pitcherHand: CT.Type_PitcherHand,
+      pitcherType: CT.Type_Pitcher | null,
+      pitchTypeArr: CT.Type_Pitch[]
+    ) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
-        _submit(leagueNum, teamIdx, name, pitcherHand, pitcherType)
+        _submit(leagueNum, teamIdx, name, pitcherHand, pitcherType, pitchTypeArr)
       },
     []
   )
 
   const onKeyDownModal = useCallback(
-    (leagueNum: LT.LeagueNumType, teamIdx: number | null, name: string, pitcherHand: CT.Type_PitcherHand, pitcherType: CT.Type_Pitcher | null) =>
+    (
+      leagueNum: LT.LeagueNumType,
+      teamIdx: number | null,
+      name: string,
+      pitcherHand: CT.Type_PitcherHand,
+      pitcherType: CT.Type_Pitcher | null,
+      pitchTypeArr: CT.Type_Pitch[]
+    ) =>
       (e: React.KeyboardEvent<HTMLDivElement>) => {
         switch (e.key) {
           case 'Enter':
-            _submit(leagueNum, teamIdx, name, pitcherHand, pitcherType)
+            if ((e.target as HTMLElement).classList.contains('PitchType_Modal')) {
+              return
+            }
+            _submit(leagueNum, teamIdx, name, pitcherHand, pitcherType, pitchTypeArr)
             break
           case 'Escape':
             closeModal()
@@ -111,7 +142,7 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
     <Modal
       className={`AddPitcherModal`}
       onClose={closeModal}
-      onKeyDown={onKeyDownModal(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType)}
+      onKeyDown={onKeyDownModal(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType, pitchTypeArr)}
       {...props}
     >
       {/* 1. 타이틀 */}
@@ -135,9 +166,26 @@ export const AddPitcherModal: FC<AddPitcherModalProps> = ({...props}) => {
         </select>
       </div>
 
-      {/* 4. 버튼 행 */}
+      {/* 4. 입력행: 구종 */}
+      <div className={`Input_Row_Modal`}>
+        <p className={`Input_Label_Modal`}>구종</p>
+        <div className={`PitchType_Grid_Modal`}>
+          {V.PITCH_BTN_ARR.map(item => (
+            <button
+              className={`PitchType_Modal ${pitchTypeArr.includes(item.ball) ? 'selected' : ''}`}
+              key={item.ball}
+              onClick={onClickPitchType(item.ball)}
+              type="button"
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      {/* 5. 버튼 행 */}
       <div className={`Button_Row_Modal`}>
-        <button className={`Button_Modal`} onClick={onClickSubmit(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType)}>
+        <button className={`Button_Modal`} onClick={onClickSubmit(leagueNum, teamIdx, name, pitcherHand, addPitcher_PitcherType, pitchTypeArr)}>
           추가
         </button>
         <button className={`Button_Modal`} onClick={closeModal}>

@@ -29,6 +29,7 @@ export const NULL_PITCHER_OBJ = () => {
     pitcherHand: '우완',
     pitcherOId: '빈 OID',
     pitcherType: '선발',
+    pitchTypeArr: [],
     teamName: 'KT',
     leagueNum: 0,
   }

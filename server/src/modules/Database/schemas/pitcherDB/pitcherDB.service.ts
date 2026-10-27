@@ -15,6 +15,7 @@ const toPitcherType = (pitcher: Pitcher): OT.PitcherType => {
     pitcherHand: pitcher.pitcherHand,
     pitcherOId: pitcher._id.toString(),
     pitcherType: pitcher.pitcherType,
+    pitchTypeArr: pitcher.pitchTypeArr || [],
     teamName: pitcher.teamName,
   }
 }
@@ -35,6 +36,7 @@ export class PitcherDBService {
         name: string
         pitcherHand: OT.PitcherType['pitcherHand']
         pitcherType: OT.PitcherType['pitcherType']
+        pitchTypeArr: OT.PitcherType['pitchTypeArr']
         teamName: OT.PitcherType['teamName']
       }[] = []
 
@@ -47,6 +49,7 @@ export class PitcherDBService {
             name: `${idx + 1}번 선발`,
             pitcherHand: '우완',
             pitcherType: '선발',
+            pitchTypeArr: [],
             teamName,
           })
         })
@@ -57,6 +60,7 @@ export class PitcherDBService {
             name: `${idx + 1}번 중계`,
             pitcherHand: '우완',
             pitcherType: '중계',
+            pitchTypeArr: [],
             teamName,
           })
         })
@@ -66,6 +70,7 @@ export class PitcherDBService {
           name: `1번 마무리`,
           pitcherHand: '우완',
           pitcherType: '마무리',
+          pitchTypeArr: [],
           teamName,
         })
       })
@@ -109,10 +114,10 @@ export class PitcherDBService {
   async createPitcher(where: string, dto: DTO.DTO_CreatePitcher) {
     where = where + '/createPitcher'
 
-    const {leagueNum, name, pitcherHand, pitcherType, teamName} = dto
+    const {leagueNum, name, pitcherHand, pitcherType, pitchTypeArr, teamName} = dto
 
     try {
-      const newPitcher = new this.pitcherDBModel({leagueNum, name, pitcherHand, pitcherType, teamName})
+      const newPitcher = new this.pitcherDBModel({leagueNum, name, pitcherHand, pitcherType, pitchTypeArr, teamName})
       await newPitcher.save()
 
       const pitcherOId = newPitcher._id.toString()
@@ -156,15 +161,7 @@ export class PitcherDBService {
             if (!pitcherDB) {
               return null
             }
-            const pitcher: OT.PitcherType = {
-              leagueNum: pitcherDB.leagueNum,
-              name: pitcherDB.name,
-              pitcherHand: pitcherDB.pitcherHand,
-              pitcherOId: pitcherDB._id.toString(),
-              pitcherType: pitcherDB.pitcherType,
-              teamName: pitcherDB.teamName,
-            }
-            return pitcher
+            return toPitcherType(pitcherDB)
           })
           .filter(pitcher => pitcher !== null) || []
 
@@ -233,10 +230,10 @@ export class PitcherDBService {
   async updatePitcher(where: string, dto: DTO.DTO_UpdatePitcher) {
     where = where + '/updatePitcher'
 
-    const {name, pitcherHand, pitcherOId} = dto
+    const {name, pitcherHand, pitcherOId, pitchTypeArr} = dto
 
     try {
-      const pitcherDB = await this.pitcherDBModel.findByIdAndUpdate(pitcherOId, {$set: {name, pitcherHand}}, {returnDocument: 'after'})
+      const pitcherDB = await this.pitcherDBModel.findByIdAndUpdate(pitcherOId, {$set: {name, pitcherHand, pitchTypeArr}}, {returnDocument: 'after'})
 
       if (!pitcherDB) {
         console.log(`[${where}] 수정이 되지 않았어요`)

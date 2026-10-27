@@ -8,22 +8,28 @@ import './PitchTypeGridObject.scss'
 
 type PitchTypeGridObjectProps = DivCommonProps & {
   onClickBall: (ball: CT.Type_Pitch) => (e: React.MouseEvent<HTMLButtonElement>) => void
+  pitchTypeArr: CT.Type_Pitch[]
   selectedBall: CT.Type_Pitch | null
 }
 
-export const PitchTypeGridObject: FC<PitchTypeGridObjectProps> = ({onClickBall, selectedBall, ...props}) => {
+export const PitchTypeGridObject: FC<PitchTypeGridObjectProps> = ({onClickBall, pitchTypeArr, selectedBall, ...props}) => {
   return (
     <div className={`PitchType_Grid_Modal`} {...props}>
-      {V.PITCH_BTN_ARR.map(item => (
-        <button
-          className={`PitchType_Modal ${selectedBall === item.ball ? 'selected' : ''}`}
-          key={item.ball}
-          onClick={onClickBall(item.ball)}
-          type="button"
-        >
-          {item.label}
-        </button>
-      ))}
+      {V.PITCH_BTN_ARR.map(item => {
+        const canThrow = pitchTypeArr.length === 0 || pitchTypeArr.includes(item.ball)
+
+        return (
+          <button
+            className={`PitchType_Modal ${selectedBall === item.ball ? 'selected' : ''}`}
+            disabled={!canThrow}
+            key={item.ball}
+            onClick={onClickBall(item.ball)}
+            type="button"
+          >
+            {item.label}
+          </button>
+        )
+      })}
     </div>
   )
 }

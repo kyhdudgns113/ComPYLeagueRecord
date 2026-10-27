@@ -17,6 +17,9 @@ export class Pitcher extends Document {
   @Prop({type: String, required: true})
   pitcherType!: CT.Type_Pitcher
 
+  @Prop({type: [String], default: []})
+  pitchTypeArr!: CT.Type_Pitch[]
+
   @Prop({type: String, required: true})
   teamName!: CT.Type_Team
 }

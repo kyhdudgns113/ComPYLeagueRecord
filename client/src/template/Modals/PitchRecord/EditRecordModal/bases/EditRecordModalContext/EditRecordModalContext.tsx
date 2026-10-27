@@ -209,18 +209,18 @@ export const EditRecordModalProvider: FC<PropsWithChildren> = ({children}) => {
 
   const onClickAdd = useCallback(
     (
-      pitchArr: OT.PitchType[],
-      selectedBall: CT.Type_Pitch | null,
-      selectedLocation: CT.Type_Location | null,
-      editRecord: LT.EditRecordPayload | null,
-      gameNum: number | null,
-      isStealFail: boolean,
-      leagueNum: number | null,
-      pitcherName: string,
-      record: OT.RecordElementType | null,
-      result: CT.Type_Result,
-      selectedBatter: OT.BatterType | null
-    ) =>
+        pitchArr: OT.PitchType[],
+        selectedBall: CT.Type_Pitch | null,
+        selectedLocation: CT.Type_Location | null,
+        editRecord: LT.EditRecordPayload | null,
+        gameNum: number | null,
+        isStealFail: boolean,
+        leagueNum: number | null,
+        pitcherName: string,
+        record: OT.RecordElementType | null,
+        result: CT.Type_Result,
+        selectedBatter: OT.BatterType | null
+      ) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
@@ -253,16 +253,16 @@ export const EditRecordModalProvider: FC<PropsWithChildren> = ({children}) => {
 
   const onClickRemoveLastPitch = useCallback(
     (
-      pitchArr: OT.PitchType[],
-      editRecord: LT.EditRecordPayload | null,
-      gameNum: number | null,
-      isStealFail: boolean,
-      leagueNum: number | null,
-      pitcherName: string,
-      record: OT.RecordElementType | null,
-      result: CT.Type_Result,
-      selectedBatter: OT.BatterType | null
-    ) =>
+        pitchArr: OT.PitchType[],
+        editRecord: LT.EditRecordPayload | null,
+        gameNum: number | null,
+        isStealFail: boolean,
+        leagueNum: number | null,
+        pitcherName: string,
+        record: OT.RecordElementType | null,
+        result: CT.Type_Result,
+        selectedBatter: OT.BatterType | null
+      ) =>
       (e: React.MouseEvent<HTMLButtonElement>) => {
         e.stopPropagation()
 
@@ -270,19 +270,7 @@ export const EditRecordModalProvider: FC<PropsWithChildren> = ({children}) => {
           return
         }
 
-        _saveRecord(
-          pitchArr.slice(0, -1),
-          false,
-          false,
-          editRecord,
-          gameNum,
-          isStealFail,
-          leagueNum,
-          pitcherName,
-          record,
-          result,
-          selectedBatter
-        )
+        _saveRecord(pitchArr.slice(0, -1), false, false, editRecord, gameNum, isStealFail, leagueNum, pitcherName, record, result, selectedBatter)
       },
     []
   )
@@ -310,6 +298,7 @@ export const EditRecordModalProvider: FC<PropsWithChildren> = ({children}) => {
 
   const onChangePitcher = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
     setPitcherName(e.target.value)
+    setSelectedBall(null)
   }, [])
 
   const onChangeBatter = useCallback((e: React.ChangeEvent<HTMLSelectElement>) => {
